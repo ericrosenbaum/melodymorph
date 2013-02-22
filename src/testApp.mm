@@ -2,6 +2,7 @@
 //
 // ssh ericr@melodymorph2.xvm.mit.edu
 //
+// now we are on github yay
 
 #ifndef _TESTAPP_ER
 #define _TESTAPP_ER
