@@ -1,0 +1,1055 @@
+<TITLE>
+    <TEXT>Super Mario theme</TEXT>
+</TITLE>
+<AUTHOR>
+    <TEXT></TEXT>
+</AUTHOR>
+<DESCRIPTION>
+    <TEXT></TEXT>
+</DESCRIPTION>
+<THUMBPATH>
+    <SMALL>examples/smallThumbImage_2013-02-09-14-47-50-413.png</SMALL>
+    <LARGE>examples/largeThumbImage_2013-02-09-14-47-50-413.png</LARGE>
+</THUMBPATH>
+<ZOOM>
+    <VALUE>0.936726</VALUE>
+</ZOOM>
+<SCREENPOS>
+    <X>-75.2828</X>
+    <Y>1375.85</Y>
+</SCREENPOS>
+<BELL>
+    <X>610.573</X>
+    <Y>1073.92</Y>
+    <NOTENUM>4</NOTENUM>
+    <OCTAVE>1</OCTAVE>
+    <INSTRUMENT>2</INSTRUMENT>
+</BELL>
+<BELL>
+    <X>403.92</X>
+    <Y>876.434</Y>
+    <NOTENUM>9</NOTENUM>
+    <OCTAVE>1</OCTAVE>
+    <INSTRUMENT>2</INSTRUMENT>
+</BELL>
+<BELL>
+    <X>461.846</X>
+    <Y>997.738</Y>
+    <NOTENUM>4</NOTENUM>
+    <OCTAVE>2</OCTAVE>
+    <INSTRUMENT>2</INSTRUMENT>
+</BELL>
+<BELL>
+    <X>625.372</X>
+    <Y>518.793</Y>
+    <NOTENUM>4</NOTENUM>
+    <OCTAVE>2</OCTAVE>
+    <INSTRUMENT>2</INSTRUMENT>
+</BELL>
+<BELL>
+    <X>454.262</X>
+    <Y>504.63</Y>
+    <NOTENUM>7</NOTENUM>
+    <OCTAVE>1</OCTAVE>
+    <INSTRUMENT>2</INSTRUMENT>
+</BELL>
+<BELL>
+    <X>759.73</X>
+    <Y>1656.88</Y>
+    <NOTENUM>11</NOTENUM>
+    <OCTAVE>1</OCTAVE>
+    <INSTRUMENT>1</INSTRUMENT>
+</BELL>
+<BELL>
+    <X>410.066</X>
+    <Y>750.811</Y>
+    <NOTENUM>12</NOTENUM>
+    <OCTAVE>2</OCTAVE>
+    <INSTRUMENT>2</INSTRUMENT>
+</BELL>
+<RECBELL>
+    <X>817.269</X>
+    <Y>339.773</Y>
+    <NOTE>
+        <TIME>0</TIME>
+        <NOTE>0</NOTE>
+        <OCTAVE>2</OCTAVE>
+        <VELOCITY>0.924444</VELOCITY>
+        <INSTRUMENT>1</INSTRUMENT>
+    </NOTE>
+    <NOTE>
+        <TIME>0.0170898</TIME>
+        <NOTE>4</NOTE>
+        <OCTAVE>1</OCTAVE>
+        <VELOCITY>0.87617</VELOCITY>
+        <INSTRUMENT>1</INSTRUMENT>
+    </NOTE>
+    <NOTE>
+        <TIME>0.467041</TIME>
+        <NOTE>7</NOTE>
+        <OCTAVE>1</OCTAVE>
+        <VELOCITY>0.922848</VELOCITY>
+        <INSTRUMENT>1</INSTRUMENT>
+    </NOTE>
+    <NOTE>
+        <TIME>0.484009</TIME>
+        <NOTE>0</NOTE>
+        <OCTAVE>1</OCTAVE>
+        <VELOCITY>0.888913</VELOCITY>
+        <INSTRUMENT>1</INSTRUMENT>
+    </NOTE>
+    <NOTE>
+        <TIME>1.01807</TIME>
+        <NOTE>5</NOTE>
+        <OCTAVE>0</OCTAVE>
+        <VELOCITY>0.877797</VELOCITY>
+        <INSTRUMENT>1</INSTRUMENT>
+    </NOTE>
+    <NOTE>
+        <TIME>1.03406</TIME>
+        <NOTE>4</NOTE>
+        <OCTAVE>1</OCTAVE>
+        <VELOCITY>1.05751</VELOCITY>
+        <INSTRUMENT>1</INSTRUMENT>
+    </NOTE>
+    <NOTE>
+        <TIME>1.61707</TIME>
+        <NOTE>0</NOTE>
+        <OCTAVE>1</OCTAVE>
+        <VELOCITY>1.01707</VELOCITY>
+        <INSTRUMENT>1</INSTRUMENT>
+    </NOTE>
+    <NOTE>
+        <TIME>1.63403</TIME>
+        <NOTE>9</NOTE>
+        <OCTAVE>1</OCTAVE>
+        <VELOCITY>0.893997</VELOCITY>
+        <INSTRUMENT>1</INSTRUMENT>
+    </NOTE>
+    <NOTE>
+        <TIME>1.93408</TIME>
+        <NOTE>2</NOTE>
+        <OCTAVE>1</OCTAVE>
+        <VELOCITY>1.04047</VELOCITY>
+        <INSTRUMENT>1</INSTRUMENT>
+    </NOTE>
+    <NOTE>
+        <TIME>1.96704</TIME>
+        <NOTE>11</NOTE>
+        <OCTAVE>1</OCTAVE>
+        <VELOCITY>1.04047</VELOCITY>
+        <INSTRUMENT>1</INSTRUMENT>
+    </NOTE>
+    <NOTE>
+        <TIME>2.30005</TIME>
+        <NOTE>9</NOTE>
+        <OCTAVE>1</OCTAVE>
+        <VELOCITY>1.17964</VELOCITY>
+        <INSTRUMENT>1</INSTRUMENT>
+    </NOTE>
+    <NOTE>
+        <TIME>2.31799</TIME>
+        <NOTE>0</NOTE>
+        <OCTAVE>1</OCTAVE>
+        <VELOCITY>1.17964</VELOCITY>
+        <INSTRUMENT>1</INSTRUMENT>
+    </NOTE>
+    <NOTE>
+        <TIME>2.48401</TIME>
+        <NOTE>9</NOTE>
+        <OCTAVE>1</OCTAVE>
+        <VELOCITY>1.115</VELOCITY>
+        <INSTRUMENT>1</INSTRUMENT>
+    </NOTE>
+    <NOTE>
+        <TIME>2.5</TIME>
+        <NOTE>0</NOTE>
+        <OCTAVE>1</OCTAVE>
+        <VELOCITY>1.09729</VELOCITY>
+        <INSTRUMENT>1</INSTRUMENT>
+    </NOTE>
+</RECBELL>
+<BELL>
+    <X>636.323</X>
+    <Y>813.49</Y>
+    <NOTENUM>7</NOTENUM>
+    <OCTAVE>2</OCTAVE>
+    <INSTRUMENT>2</INSTRUMENT>
+</BELL>
+<BELL>
+    <X>537.973</X>
+    <Y>885.857</Y>
+    <NOTENUM>5</NOTENUM>
+    <OCTAVE>2</OCTAVE>
+    <INSTRUMENT>2</INSTRUMENT>
+</BELL>
+<BELL>
+    <X>1667.79</X>
+    <Y>430.075</Y>
+    <NOTENUM>3</NOTENUM>
+    <OCTAVE>2</OCTAVE>
+    <INSTRUMENT>2</INSTRUMENT>
+</BELL>
+<BELL>
+    <X>319.479</X>
+    <Y>531.973</Y>
+    <NOTENUM>0</NOTENUM>
+    <OCTAVE>1</OCTAVE>
+    <INSTRUMENT>2</INSTRUMENT>
+</BELL>
+<BELL>
+    <X>711.854</X>
+    <Y>1008.65</Y>
+    <NOTENUM>0</NOTENUM>
+    <OCTAVE>2</OCTAVE>
+    <INSTRUMENT>2</INSTRUMENT>
+</BELL>
+<BELL>
+    <X>815.622</X>
+    <Y>1054.92</Y>
+    <NOTENUM>2</NOTENUM>
+    <OCTAVE>2</OCTAVE>
+    <INSTRUMENT>2</INSTRUMENT>
+</BELL>
+<BELL>
+    <X>424.698</X>
+    <Y>636.703</Y>
+    <NOTENUM>11</NOTENUM>
+    <OCTAVE>1</OCTAVE>
+    <INSTRUMENT>2</INSTRUMENT>
+</BELL>
+<BELL>
+    <X>537.266</X>
+    <Y>639.41</Y>
+    <NOTENUM>7</NOTENUM>
+    <OCTAVE>2</OCTAVE>
+    <INSTRUMENT>2</INSTRUMENT>
+</BELL>
+<BELL>
+    <X>530.599</X>
+    <Y>753.562</Y>
+    <NOTENUM>11</NOTENUM>
+    <OCTAVE>2</OCTAVE>
+    <INSTRUMENT>2</INSTRUMENT>
+</BELL>
+<BELL>
+    <X>820.471</X>
+    <Y>1213.56</Y>
+    <NOTENUM>2</NOTENUM>
+    <OCTAVE>1</OCTAVE>
+    <INSTRUMENT>2</INSTRUMENT>
+</BELL>
+<BELL>
+    <X>712.021</X>
+    <Y>1133.2</Y>
+    <NOTENUM>5</NOTENUM>
+    <OCTAVE>2</OCTAVE>
+    <INSTRUMENT>2</INSTRUMENT>
+</BELL>
+<BELL>
+    <X>2483.6</X>
+    <Y>1045.36</Y>
+    <NOTENUM>5</NOTENUM>
+    <OCTAVE>1</OCTAVE>
+    <INSTRUMENT>0</INSTRUMENT>
+</BELL>
+<RECBELL>
+    <X>366.181</X>
+    <Y>293.648</Y>
+    <NOTE>
+        <TIME>0</TIME>
+        <NOTE>4</NOTE>
+        <OCTAVE>2</OCTAVE>
+        <VELOCITY>0.990922</VELOCITY>
+        <INSTRUMENT>1</INSTRUMENT>
+    </NOTE>
+    <NOTE>
+        <TIME>0</TIME>
+        <NOTE>5</NOTE>
+        <OCTAVE>1</OCTAVE>
+        <VELOCITY>0.990922</VELOCITY>
+        <INSTRUMENT>1</INSTRUMENT>
+    </NOTE>
+    <NOTE>
+        <TIME>0.166016</TIME>
+        <NOTE>4</NOTE>
+        <OCTAVE>2</OCTAVE>
+        <VELOCITY>0.907982</VELOCITY>
+        <INSTRUMENT>1</INSTRUMENT>
+    </NOTE>
+    <NOTE>
+        <TIME>0.183014</TIME>
+        <NOTE>5</NOTE>
+        <OCTAVE>1</OCTAVE>
+        <VELOCITY>0.907982</VELOCITY>
+        <INSTRUMENT>1</INSTRUMENT>
+    </NOTE>
+    <NOTE>
+        <TIME>0.5</TIME>
+        <NOTE>4</NOTE>
+        <OCTAVE>2</OCTAVE>
+        <VELOCITY>0.943869</VELOCITY>
+        <INSTRUMENT>1</INSTRUMENT>
+    </NOTE>
+    <NOTE>
+        <TIME>0.515991</TIME>
+        <NOTE>5</NOTE>
+        <OCTAVE>1</OCTAVE>
+        <VELOCITY>0.943869</VELOCITY>
+        <INSTRUMENT>1</INSTRUMENT>
+    </NOTE>
+    <NOTE>
+        <TIME>0.850006</TIME>
+        <NOTE>0</NOTE>
+        <OCTAVE>2</OCTAVE>
+        <VELOCITY>0.990623</VELOCITY>
+        <INSTRUMENT>1</INSTRUMENT>
+    </NOTE>
+    <NOTE>
+        <TIME>1.06702</TIME>
+        <NOTE>5</NOTE>
+        <OCTAVE>1</OCTAVE>
+        <VELOCITY>0.993593</VELOCITY>
+        <INSTRUMENT>1</INSTRUMENT>
+    </NOTE>
+    <NOTE>
+        <TIME>1.06702</TIME>
+        <NOTE>4</NOTE>
+        <OCTAVE>2</OCTAVE>
+        <VELOCITY>0.993593</VELOCITY>
+        <INSTRUMENT>1</INSTRUMENT>
+    </NOTE>
+    <NOTE>
+        <TIME>1.41699</TIME>
+        <NOTE>7</NOTE>
+        <OCTAVE>1</OCTAVE>
+        <VELOCITY>1.00006</VELOCITY>
+        <INSTRUMENT>1</INSTRUMENT>
+    </NOTE>
+    <NOTE>
+        <TIME>1.41699</TIME>
+        <NOTE>7</NOTE>
+        <OCTAVE>2</OCTAVE>
+        <VELOCITY>1.00058</VELOCITY>
+        <INSTRUMENT>1</INSTRUMENT>
+    </NOTE>
+    <NOTE>
+        <TIME>2.099</TIME>
+        <NOTE>7</NOTE>
+        <OCTAVE>1</OCTAVE>
+        <VELOCITY>1.01477</VELOCITY>
+        <INSTRUMENT>1</INSTRUMENT>
+    </NOTE>
+</RECBELL>
+<BELL>
+    <X>1961.71</X>
+    <Y>676.359</Y>
+    <NOTENUM>12</NOTENUM>
+    <OCTAVE>2</OCTAVE>
+    <INSTRUMENT>2</INSTRUMENT>
+</BELL>
+<RECBELL>
+    <X>522.552</X>
+    <Y>297.435</Y>
+    <NOTE>
+        <TIME>0</TIME>
+        <NOTE>0</NOTE>
+        <OCTAVE>2</OCTAVE>
+        <VELOCITY>0.924444</VELOCITY>
+        <INSTRUMENT>1</INSTRUMENT>
+    </NOTE>
+    <NOTE>
+        <TIME>0.0169983</TIME>
+        <NOTE>4</NOTE>
+        <OCTAVE>1</OCTAVE>
+        <VELOCITY>0.87617</VELOCITY>
+        <INSTRUMENT>1</INSTRUMENT>
+    </NOTE>
+    <NOTE>
+        <TIME>0.46701</TIME>
+        <NOTE>7</NOTE>
+        <OCTAVE>1</OCTAVE>
+        <VELOCITY>0.922848</VELOCITY>
+        <INSTRUMENT>1</INSTRUMENT>
+    </NOTE>
+    <NOTE>
+        <TIME>0.46701</TIME>
+        <NOTE>0</NOTE>
+        <OCTAVE>1</OCTAVE>
+        <VELOCITY>0.888913</VELOCITY>
+        <INSTRUMENT>1</INSTRUMENT>
+    </NOTE>
+    <NOTE>
+        <TIME>1.017</TIME>
+        <NOTE>5</NOTE>
+        <OCTAVE>0</OCTAVE>
+        <VELOCITY>0.877797</VELOCITY>
+        <INSTRUMENT>1</INSTRUMENT>
+    </NOTE>
+    <NOTE>
+        <TIME>1.017</TIME>
+        <NOTE>4</NOTE>
+        <OCTAVE>1</OCTAVE>
+        <VELOCITY>1.05751</VELOCITY>
+        <INSTRUMENT>1</INSTRUMENT>
+    </NOTE>
+    <NOTE>
+        <TIME>1.617</TIME>
+        <NOTE>0</NOTE>
+        <OCTAVE>1</OCTAVE>
+        <VELOCITY>1.01707</VELOCITY>
+        <INSTRUMENT>1</INSTRUMENT>
+    </NOTE>
+    <NOTE>
+        <TIME>1.617</TIME>
+        <NOTE>9</NOTE>
+        <OCTAVE>1</OCTAVE>
+        <VELOCITY>0.893997</VELOCITY>
+        <INSTRUMENT>1</INSTRUMENT>
+    </NOTE>
+    <NOTE>
+        <TIME>1.93298</TIME>
+        <NOTE>2</NOTE>
+        <OCTAVE>1</OCTAVE>
+        <VELOCITY>1.04047</VELOCITY>
+        <INSTRUMENT>1</INSTRUMENT>
+    </NOTE>
+    <NOTE>
+        <TIME>1.966</TIME>
+        <NOTE>11</NOTE>
+        <OCTAVE>1</OCTAVE>
+        <VELOCITY>1.04047</VELOCITY>
+        <INSTRUMENT>1</INSTRUMENT>
+    </NOTE>
+    <NOTE>
+        <TIME>2.29999</TIME>
+        <NOTE>9</NOTE>
+        <OCTAVE>1</OCTAVE>
+        <VELOCITY>1.17964</VELOCITY>
+        <INSTRUMENT>1</INSTRUMENT>
+    </NOTE>
+    <NOTE>
+        <TIME>2.31699</TIME>
+        <NOTE>0</NOTE>
+        <OCTAVE>1</OCTAVE>
+        <VELOCITY>1.17964</VELOCITY>
+        <INSTRUMENT>1</INSTRUMENT>
+    </NOTE>
+    <NOTE>
+        <TIME>2.48401</TIME>
+        <NOTE>9</NOTE>
+        <OCTAVE>1</OCTAVE>
+        <VELOCITY>1.115</VELOCITY>
+        <INSTRUMENT>1</INSTRUMENT>
+    </NOTE>
+    <NOTE>
+        <TIME>2.48401</TIME>
+        <NOTE>0</NOTE>
+        <OCTAVE>1</OCTAVE>
+        <VELOCITY>1.09729</VELOCITY>
+        <INSTRUMENT>1</INSTRUMENT>
+    </NOTE>
+</RECBELL>
+<BELL>
+    <X>2639.95</X>
+    <Y>488.322</Y>
+    <NOTENUM>2</NOTENUM>
+    <OCTAVE>1</OCTAVE>
+    <INSTRUMENT>2</INSTRUMENT>
+</BELL>
+<RECBELL>
+    <X>667.354</X>
+    <Y>332.812</Y>
+    <NOTE>
+        <TIME>0</TIME>
+        <NOTE>7</NOTE>
+        <OCTAVE>1</OCTAVE>
+        <VELOCITY>0.882053</VELOCITY>
+        <INSTRUMENT>2</INSTRUMENT>
+    </NOTE>
+    <NOTE>
+        <TIME>0.0159912</TIME>
+        <NOTE>0</NOTE>
+        <OCTAVE>1</OCTAVE>
+        <VELOCITY>0.830815</VELOCITY>
+        <INSTRUMENT>2</INSTRUMENT>
+    </NOTE>
+    <NOTE>
+        <TIME>0.200073</TIME>
+        <NOTE>4</NOTE>
+        <OCTAVE>2</OCTAVE>
+        <VELOCITY>0.882053</VELOCITY>
+        <INSTRUMENT>2</INSTRUMENT>
+    </NOTE>
+    <NOTE>
+        <TIME>0.20105</TIME>
+        <NOTE>7</NOTE>
+        <OCTAVE>1</OCTAVE>
+        <VELOCITY>0.862542</VELOCITY>
+        <INSTRUMENT>2</INSTRUMENT>
+    </NOTE>
+    <NOTE>
+        <TIME>0.400024</TIME>
+        <NOTE>7</NOTE>
+        <OCTAVE>2</OCTAVE>
+        <VELOCITY>0.909846</VELOCITY>
+        <INSTRUMENT>2</INSTRUMENT>
+    </NOTE>
+    <NOTE>
+        <TIME>0.416016</TIME>
+        <NOTE>11</NOTE>
+        <OCTAVE>1</OCTAVE>
+        <VELOCITY>0.909846</VELOCITY>
+        <INSTRUMENT>2</INSTRUMENT>
+    </NOTE>
+    <NOTE>
+        <TIME>0.615967</TIME>
+        <NOTE>11</NOTE>
+        <OCTAVE>2</OCTAVE>
+        <VELOCITY>0.915439</VELOCITY>
+        <INSTRUMENT>2</INSTRUMENT>
+    </NOTE>
+    <NOTE>
+        <TIME>0.615967</TIME>
+        <NOTE>12</NOTE>
+        <OCTAVE>2</OCTAVE>
+        <VELOCITY>0.915439</VELOCITY>
+        <INSTRUMENT>2</INSTRUMENT>
+    </NOTE>
+    <NOTE>
+        <TIME>1.01599</TIME>
+        <NOTE>5</NOTE>
+        <OCTAVE>2</OCTAVE>
+        <VELOCITY>0.899618</VELOCITY>
+        <INSTRUMENT>2</INSTRUMENT>
+    </NOTE>
+    <NOTE>
+        <TIME>1.01697</TIME>
+        <NOTE>9</NOTE>
+        <OCTAVE>1</OCTAVE>
+        <VELOCITY>0.903171</VELOCITY>
+        <INSTRUMENT>2</INSTRUMENT>
+    </NOTE>
+    <NOTE>
+        <TIME>1.23206</TIME>
+        <NOTE>11</NOTE>
+        <OCTAVE>2</OCTAVE>
+        <VELOCITY>0.982986</VELOCITY>
+        <INSTRUMENT>2</INSTRUMENT>
+    </NOTE>
+    <NOTE>
+        <TIME>1.25598</TIME>
+        <NOTE>7</NOTE>
+        <OCTAVE>2</OCTAVE>
+        <VELOCITY>0.909435</VELOCITY>
+        <INSTRUMENT>2</INSTRUMENT>
+    </NOTE>
+    <NOTE>
+        <TIME>1.599</TIME>
+        <NOTE>4</NOTE>
+        <OCTAVE>2</OCTAVE>
+        <VELOCITY>0.903171</VELOCITY>
+        <INSTRUMENT>2</INSTRUMENT>
+    </NOTE>
+    <NOTE>
+        <TIME>1.61597</TIME>
+        <NOTE>9</NOTE>
+        <OCTAVE>1</OCTAVE>
+        <VELOCITY>0.958727</VELOCITY>
+        <INSTRUMENT>2</INSTRUMENT>
+    </NOTE>
+    <NOTE>
+        <TIME>1.99902</TIME>
+        <NOTE>4</NOTE>
+        <OCTAVE>1</OCTAVE>
+        <VELOCITY>0.913534</VELOCITY>
+        <INSTRUMENT>2</INSTRUMENT>
+    </NOTE>
+    <NOTE>
+        <TIME>2.01599</TIME>
+        <NOTE>0</NOTE>
+        <OCTAVE>2</OCTAVE>
+        <VELOCITY>0.913534</VELOCITY>
+        <INSTRUMENT>2</INSTRUMENT>
+    </NOTE>
+    <NOTE>
+        <TIME>2.19897</TIME>
+        <NOTE>2</NOTE>
+        <OCTAVE>2</OCTAVE>
+        <VELOCITY>0.922849</VELOCITY>
+        <INSTRUMENT>2</INSTRUMENT>
+    </NOTE>
+    <NOTE>
+        <TIME>2.21606</TIME>
+        <NOTE>5</NOTE>
+        <OCTAVE>2</OCTAVE>
+        <VELOCITY>0.922849</VELOCITY>
+        <INSTRUMENT>2</INSTRUMENT>
+    </NOTE>
+    <NOTE>
+        <TIME>2.41504</TIME>
+        <NOTE>2</NOTE>
+        <OCTAVE>1</OCTAVE>
+        <VELOCITY>0.918893</VELOCITY>
+        <INSTRUMENT>2</INSTRUMENT>
+    </NOTE>
+    <NOTE>
+        <TIME>2.43201</TIME>
+        <NOTE>11</NOTE>
+        <OCTAVE>1</OCTAVE>
+        <VELOCITY>0.918893</VELOCITY>
+        <INSTRUMENT>2</INSTRUMENT>
+    </NOTE>
+</RECBELL>
+<BELL>
+    <X>1528.86</X>
+    <Y>536.574</Y>
+    <NOTENUM>2</NOTENUM>
+    <OCTAVE>2</OCTAVE>
+    <INSTRUMENT>2</INSTRUMENT>
+</BELL>
+<BELL>
+    <X>1956.45</X>
+    <Y>959.94</Y>
+    <NOTENUM>4</NOTENUM>
+    <OCTAVE>2</OCTAVE>
+    <INSTRUMENT>2</INSTRUMENT>
+</BELL>
+<BELL>
+    <X>1232.96</X>
+    <Y>400.523</Y>
+    <NOTENUM>7</NOTENUM>
+    <OCTAVE>2</OCTAVE>
+    <INSTRUMENT>2</INSTRUMENT>
+</BELL>
+<BELL>
+    <X>1382.81</X>
+    <Y>386.948</Y>
+    <NOTENUM>6</NOTENUM>
+    <OCTAVE>2</OCTAVE>
+    <INSTRUMENT>2</INSTRUMENT>
+</BELL>
+<BELL>
+    <X>2768.24</X>
+    <Y>497.889</Y>
+    <NOTENUM>5</NOTENUM>
+    <OCTAVE>1</OCTAVE>
+    <INSTRUMENT>2</INSTRUMENT>
+</BELL>
+<BELL>
+    <X>1668.44</X>
+    <Y>564.079</Y>
+    <NOTENUM>11</NOTENUM>
+    <OCTAVE>1</OCTAVE>
+    <INSTRUMENT>2</INSTRUMENT>
+</BELL>
+<BELL>
+    <X>1369.84</X>
+    <Y>514.798</Y>
+    <NOTENUM>3</NOTENUM>
+    <OCTAVE>2</OCTAVE>
+    <INSTRUMENT>2</INSTRUMENT>
+</BELL>
+<BELL>
+    <X>1814.02</X>
+    <Y>577.233</Y>
+    <NOTENUM>0</NOTENUM>
+    <OCTAVE>2</OCTAVE>
+    <INSTRUMENT>2</INSTRUMENT>
+</BELL>
+<BELL>
+    <X>1231.31</X>
+    <Y>505.46</Y>
+    <NOTENUM>4</NOTENUM>
+    <OCTAVE>2</OCTAVE>
+    <INSTRUMENT>2</INSTRUMENT>
+</BELL>
+<BELL>
+    <X>1529.06</X>
+    <Y>421.599</Y>
+    <NOTENUM>5</NOTENUM>
+    <OCTAVE>2</OCTAVE>
+    <INSTRUMENT>2</INSTRUMENT>
+</BELL>
+<BELL>
+    <X>1812.56</X>
+    <Y>440.694</Y>
+    <NOTENUM>4</NOTENUM>
+    <OCTAVE>2</OCTAVE>
+    <INSTRUMENT>2</INSTRUMENT>
+</BELL>
+<BELL>
+    <X>2021.63</X>
+    <Y>309.456</Y>
+    <NOTENUM>8</NOTENUM>
+    <OCTAVE>1</OCTAVE>
+    <INSTRUMENT>2</INSTRUMENT>
+</BELL>
+<BELL>
+    <X>2276.39</X>
+    <Y>319.776</Y>
+    <NOTENUM>0</NOTENUM>
+    <OCTAVE>2</OCTAVE>
+    <INSTRUMENT>2</INSTRUMENT>
+</BELL>
+<BELL>
+    <X>2144.3</X>
+    <Y>451.949</Y>
+    <NOTENUM>5</NOTENUM>
+    <OCTAVE>1</OCTAVE>
+    <INSTRUMENT>2</INSTRUMENT>
+</BELL>
+<BELL>
+    <X>2010.05</X>
+    <Y>436.996</Y>
+    <NOTENUM>4</NOTENUM>
+    <OCTAVE>1</OCTAVE>
+    <INSTRUMENT>2</INSTRUMENT>
+</BELL>
+<BELL>
+    <X>2280.4</X>
+    <Y>456.114</Y>
+    <NOTENUM>7</NOTENUM>
+    <OCTAVE>1</OCTAVE>
+    <INSTRUMENT>2</INSTRUMENT>
+</BELL>
+<BELL>
+    <X>2493.38</X>
+    <Y>341.392</Y>
+    <NOTENUM>9</NOTENUM>
+    <OCTAVE>1</OCTAVE>
+    <INSTRUMENT>2</INSTRUMENT>
+</BELL>
+<BELL>
+    <X>2132.88</X>
+    <Y>325.269</Y>
+    <NOTENUM>9</NOTENUM>
+    <OCTAVE>1</OCTAVE>
+    <INSTRUMENT>2</INSTRUMENT>
+</BELL>
+<BELL>
+    <X>2495.13</X>
+    <Y>473.059</Y>
+    <NOTENUM>0</NOTENUM>
+    <OCTAVE>1</OCTAVE>
+    <INSTRUMENT>2</INSTRUMENT>
+</BELL>
+<BELL>
+    <X>2757.94</X>
+    <Y>365.21</Y>
+    <NOTENUM>2</NOTENUM>
+    <OCTAVE>2</OCTAVE>
+    <INSTRUMENT>2</INSTRUMENT>
+</BELL>
+<BELL>
+    <X>2332.92</X>
+    <Y>762.932</Y>
+    <NOTENUM>3</NOTENUM>
+    <OCTAVE>2</OCTAVE>
+    <INSTRUMENT>0</INSTRUMENT>
+</BELL>
+<BELL>
+    <X>929.385</X>
+    <Y>1119.98</Y>
+    <NOTENUM>11</NOTENUM>
+    <OCTAVE>1</OCTAVE>
+    <INSTRUMENT>2</INSTRUMENT>
+</BELL>
+<BELL>
+    <X>2621.32</X>
+    <Y>354.658</Y>
+    <NOTENUM>0</NOTENUM>
+    <OCTAVE>2</OCTAVE>
+    <INSTRUMENT>2</INSTRUMENT>
+</BELL>
+<RECBELL>
+    <X>988.417</X>
+    <Y>344.545</Y>
+    <NOTE>
+        <TIME>0</TIME>
+        <NOTE>7</NOTE>
+        <OCTAVE>1</OCTAVE>
+        <VELOCITY>0.882053</VELOCITY>
+        <INSTRUMENT>2</INSTRUMENT>
+    </NOTE>
+    <NOTE>
+        <TIME>0.0169678</TIME>
+        <NOTE>0</NOTE>
+        <OCTAVE>1</OCTAVE>
+        <VELOCITY>0.830815</VELOCITY>
+        <INSTRUMENT>2</INSTRUMENT>
+    </NOTE>
+    <NOTE>
+        <TIME>0.200073</TIME>
+        <NOTE>4</NOTE>
+        <OCTAVE>2</OCTAVE>
+        <VELOCITY>0.882053</VELOCITY>
+        <INSTRUMENT>2</INSTRUMENT>
+    </NOTE>
+    <NOTE>
+        <TIME>0.217041</TIME>
+        <NOTE>7</NOTE>
+        <OCTAVE>1</OCTAVE>
+        <VELOCITY>0.862542</VELOCITY>
+        <INSTRUMENT>2</INSTRUMENT>
+    </NOTE>
+    <NOTE>
+        <TIME>0.400024</TIME>
+        <NOTE>7</NOTE>
+        <OCTAVE>2</OCTAVE>
+        <VELOCITY>0.909846</VELOCITY>
+        <INSTRUMENT>2</INSTRUMENT>
+    </NOTE>
+    <NOTE>
+        <TIME>0.416992</TIME>
+        <NOTE>11</NOTE>
+        <OCTAVE>1</OCTAVE>
+        <VELOCITY>0.909846</VELOCITY>
+        <INSTRUMENT>2</INSTRUMENT>
+    </NOTE>
+    <NOTE>
+        <TIME>0.617065</TIME>
+        <NOTE>11</NOTE>
+        <OCTAVE>2</OCTAVE>
+        <VELOCITY>0.915439</VELOCITY>
+        <INSTRUMENT>2</INSTRUMENT>
+    </NOTE>
+    <NOTE>
+        <TIME>0.633057</TIME>
+        <NOTE>12</NOTE>
+        <OCTAVE>2</OCTAVE>
+        <VELOCITY>0.915439</VELOCITY>
+        <INSTRUMENT>2</INSTRUMENT>
+    </NOTE>
+    <NOTE>
+        <TIME>1.01697</TIME>
+        <NOTE>5</NOTE>
+        <OCTAVE>2</OCTAVE>
+        <VELOCITY>0.899618</VELOCITY>
+        <INSTRUMENT>2</INSTRUMENT>
+    </NOTE>
+    <NOTE>
+        <TIME>1.03296</TIME>
+        <NOTE>9</NOTE>
+        <OCTAVE>1</OCTAVE>
+        <VELOCITY>0.903171</VELOCITY>
+        <INSTRUMENT>2</INSTRUMENT>
+    </NOTE>
+    <NOTE>
+        <TIME>1.23303</TIME>
+        <NOTE>11</NOTE>
+        <OCTAVE>2</OCTAVE>
+        <VELOCITY>0.982986</VELOCITY>
+        <INSTRUMENT>2</INSTRUMENT>
+    </NOTE>
+    <NOTE>
+        <TIME>1.26697</TIME>
+        <NOTE>7</NOTE>
+        <OCTAVE>2</OCTAVE>
+        <VELOCITY>0.909435</VELOCITY>
+        <INSTRUMENT>2</INSTRUMENT>
+    </NOTE>
+    <NOTE>
+        <TIME>1.59998</TIME>
+        <NOTE>4</NOTE>
+        <OCTAVE>2</OCTAVE>
+        <VELOCITY>0.903171</VELOCITY>
+        <INSTRUMENT>2</INSTRUMENT>
+    </NOTE>
+    <NOTE>
+        <TIME>1.61707</TIME>
+        <NOTE>9</NOTE>
+        <OCTAVE>1</OCTAVE>
+        <VELOCITY>0.958727</VELOCITY>
+        <INSTRUMENT>2</INSTRUMENT>
+    </NOTE>
+    <NOTE>
+        <TIME>2</TIME>
+        <NOTE>4</NOTE>
+        <OCTAVE>1</OCTAVE>
+        <VELOCITY>0.913534</VELOCITY>
+        <INSTRUMENT>2</INSTRUMENT>
+    </NOTE>
+    <NOTE>
+        <TIME>2.01697</TIME>
+        <NOTE>0</NOTE>
+        <OCTAVE>2</OCTAVE>
+        <VELOCITY>0.913534</VELOCITY>
+        <INSTRUMENT>2</INSTRUMENT>
+    </NOTE>
+    <NOTE>
+        <TIME>2.20007</TIME>
+        <NOTE>2</NOTE>
+        <OCTAVE>2</OCTAVE>
+        <VELOCITY>0.922849</VELOCITY>
+        <INSTRUMENT>2</INSTRUMENT>
+    </NOTE>
+    <NOTE>
+        <TIME>2.21704</TIME>
+        <NOTE>5</NOTE>
+        <OCTAVE>2</OCTAVE>
+        <VELOCITY>0.922849</VELOCITY>
+        <INSTRUMENT>2</INSTRUMENT>
+    </NOTE>
+    <NOTE>
+        <TIME>2.41699</TIME>
+        <NOTE>2</NOTE>
+        <OCTAVE>1</OCTAVE>
+        <VELOCITY>0.918893</VELOCITY>
+        <INSTRUMENT>2</INSTRUMENT>
+    </NOTE>
+    <NOTE>
+        <TIME>2.43298</TIME>
+        <NOTE>11</NOTE>
+        <OCTAVE>1</OCTAVE>
+        <VELOCITY>0.918893</VELOCITY>
+        <INSTRUMENT>2</INSTRUMENT>
+    </NOTE>
+</RECBELL>
+<BELL>
+    <X>2311.44</X>
+    <Y>943.944</Y>
+    <NOTENUM>8</NOTENUM>
+    <OCTAVE>1</OCTAVE>
+    <INSTRUMENT>0</INSTRUMENT>
+</BELL>
+<BELL>
+    <X>1955.16</X>
+    <Y>809.737</Y>
+    <NOTENUM>5</NOTENUM>
+    <OCTAVE>2</OCTAVE>
+    <INSTRUMENT>2</INSTRUMENT>
+</BELL>
+<BELL>
+    <X>2515.95</X>
+    <Y>852.467</Y>
+    <NOTENUM>2</NOTENUM>
+    <OCTAVE>2</OCTAVE>
+    <INSTRUMENT>0</INSTRUMENT>
+</BELL>
+<BELL>
+    <X>2704.34</X>
+    <Y>1180.57</Y>
+    <NOTENUM>4</NOTENUM>
+    <OCTAVE>1</OCTAVE>
+    <INSTRUMENT>0</INSTRUMENT>
+</BELL>
+<BELL>
+    <X>279.277</X>
+    <Y>2015.08</Y>
+    <NOTENUM>9</NOTENUM>
+    <OCTAVE>1</OCTAVE>
+    <INSTRUMENT>1</INSTRUMENT>
+</BELL>
+<BELL>
+    <X>708.307</X>
+    <Y>2006.88</Y>
+    <NOTENUM>0</NOTENUM>
+    <OCTAVE>2</OCTAVE>
+    <INSTRUMENT>1</INSTRUMENT>
+</BELL>
+<BELL>
+    <X>214.113</X>
+    <Y>1837.26</Y>
+    <NOTENUM>4</NOTENUM>
+    <OCTAVE>2</OCTAVE>
+    <INSTRUMENT>1</INSTRUMENT>
+</BELL>
+<BELL>
+    <X>886.254</X>
+    <Y>1648.28</Y>
+    <NOTENUM>7</NOTENUM>
+    <OCTAVE>2</OCTAVE>
+    <INSTRUMENT>1</INSTRUMENT>
+</BELL>
+<BELL>
+    <X>368.609</X>
+    <Y>1584.22</Y>
+    <NOTENUM>0</NOTENUM>
+    <OCTAVE>2</OCTAVE>
+    <INSTRUMENT>1</INSTRUMENT>
+</BELL>
+<BELL>
+    <X>302.2</X>
+    <Y>1899.19</Y>
+    <NOTENUM>0</NOTENUM>
+    <OCTAVE>2</OCTAVE>
+    <INSTRUMENT>1</INSTRUMENT>
+</BELL>
+<BELL>
+    <X>259.13</X>
+    <Y>1583.9</Y>
+    <NOTENUM>8</NOTENUM>
+    <OCTAVE>1</OCTAVE>
+    <INSTRUMENT>1</INSTRUMENT>
+</BELL>
+<BELL>
+    <X>290.848</X>
+    <Y>1700.51</Y>
+    <NOTENUM>2</NOTENUM>
+    <OCTAVE>2</OCTAVE>
+    <INSTRUMENT>1</INSTRUMENT>
+</BELL>
+<BELL>
+    <X>105.771</X>
+    <Y>1843.13</Y>
+    <NOTENUM>7</NOTENUM>
+    <OCTAVE>1</OCTAVE>
+    <INSTRUMENT>1</INSTRUMENT>
+</BELL>
+<BELL>
+    <X>2708.27</X>
+    <Y>972.739</Y>
+    <NOTENUM>0</NOTENUM>
+    <OCTAVE>2</OCTAVE>
+    <INSTRUMENT>0</INSTRUMENT>
+</BELL>
+<BELL>
+    <X>177.342</X>
+    <Y>1955.41</Y>
+    <NOTENUM>4</NOTENUM>
+    <OCTAVE>1</OCTAVE>
+    <INSTRUMENT>1</INSTRUMENT>
+</BELL>
+<BELL>
+    <X>602.735</X>
+    <Y>1929.16</Y>
+    <NOTENUM>6</NOTENUM>
+    <OCTAVE>1</OCTAVE>
+    <INSTRUMENT>1</INSTRUMENT>
+</BELL>
+<BELL>
+    <X>500.301</X>
+    <Y>2021.98</Y>
+    <NOTENUM>7</NOTENUM>
+    <OCTAVE>1</OCTAVE>
+    <INSTRUMENT>1</INSTRUMENT>
+</BELL>
+<BELL>
+    <X>190.623</X>
+    <Y>1702.12</Y>
+    <NOTENUM>10</NOTENUM>
+    <OCTAVE>1</OCTAVE>
+    <INSTRUMENT>1</INSTRUMENT>
+</BELL>
+<BELL>
+    <X>398.261</X>
+    <Y>2003.83</Y>
+    <NOTENUM>0</NOTENUM>
+    <OCTAVE>1</OCTAVE>
+    <INSTRUMENT>1</INSTRUMENT>
+</BELL>
+<BELL>
+    <X>711.711</X>
+    <Y>1885.04</Y>
+    <NOTENUM>4</NOTENUM>
+    <OCTAVE>2</OCTAVE>
+    <INSTRUMENT>1</INSTRUMENT>
+</BELL>
+<BELL>
+    <X>645.515</X>
+    <Y>1654.68</Y>
+    <NOTENUM>7</NOTENUM>
+    <OCTAVE>1</OCTAVE>
+    <INSTRUMENT>1</INSTRUMENT>
+</BELL>

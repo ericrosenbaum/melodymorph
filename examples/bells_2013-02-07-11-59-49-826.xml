@@ -1,0 +1,27 @@
+<TITLE>
+    <TEXT></TEXT>
+</TITLE>
+<AUTHOR>
+    <TEXT></TEXT>
+</AUTHOR>
+<DESCRIPTION>
+    <TEXT></TEXT>
+</DESCRIPTION>
+<THUMBPATH>
+    <SMALL>examples/smallThumbImage_2013-02-07-11-59-49-826.png</SMALL>
+    <LARGE>examples/largeThumbImage_2013-02-07-11-59-49-826.png</LARGE>
+</THUMBPATH>
+<ZOOM>
+    <VALUE>1</VALUE>
+</ZOOM>
+<SCREENPOS>
+    <X>100</X>
+    <Y>100</Y>
+</SCREENPOS>
+<BELL>
+    <X>574</X>
+    <Y>444.5</Y>
+    <NOTENUM>2</NOTENUM>
+    <OCTAVE>1</OCTAVE>
+    <INSTRUMENT>2</INSTRUMENT>
+</BELL>
