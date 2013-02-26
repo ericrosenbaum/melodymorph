@@ -83,7 +83,10 @@ public:
         img = new ofImage(); 
         img->loadImage(_pathURL);         
     }
-	
+    virtual bool hasLabel()
+    {
+        return false;
+    }
     virtual void setDrawPadding(bool _draw_padded_rect)
 	{
 		draw_padded_rect = _draw_padded_rect; 

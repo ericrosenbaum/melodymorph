@@ -47,6 +47,8 @@ public:
     MorphMetaData getSelectedMorphFromMenuCanvas(int tab);
 
     void loadMenuSwitchToTab(int tab);
+    void setPrevAndNextButtonsFor(ofxUIMorphCanvas *canvas);
+
     void hideAllLoadMenuCanvases();
 
     void buildSaveDialog();

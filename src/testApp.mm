@@ -360,7 +360,6 @@ void testApp::buildLoadMenu() {
         userMorphsMetaData.push_back(morph);
     }
     
-    
     // CREATE A PAGE OF THUMBNAIL BUTTONS FOR EACH TAB
     
     // create canvases for example and user morphs, and
@@ -369,6 +368,18 @@ void testApp::buildLoadMenu() {
     
     loadMenuCanvas = new ofxUICanvas(0, 0, ofGetWidth(), ofGetHeight());
     
+    // prev and next buttons
+    int y = 395;
+    int x = 10;
+    previousButton = new ofxUILabelButton(10, y, 100, false, "Previous");
+    loadMenuCanvas->addWidget(previousButton);
+    nextButton = new ofxUILabelButton(ofGetWidth()-110, y, 100, false, "Next");
+    loadMenuCanvas->addWidget(nextButton);
+    ofxUISpacer *graySpacer = new ofxUISpacer(0, y-10, ofGetWidth(), 50);
+    graySpacer->setColorFill(ofColor(100));
+    loadMenuCanvas->addWidget(graySpacer);
+    
+    // generate pages
     examplesLoadMenuCanvas = canvasForMenuPage(exampleMorphsMetaData, "exampleMorphButton", 1);
     userLoadMenuCanvas = canvasForMenuPage(userMorphsMetaData, "userMorphButton", 1);
 
@@ -404,14 +415,10 @@ void testApp::buildLoadMenu() {
     loadMenuCanvas->addWidget(sharedTabLabelToggle);
     
     currentLoadMenuTab = EXAMPLES_TAB; // this could be loaded from a settings file, and saved between launches
-
+        
     // CREATE METADATA DISPLAY AND BUTTONS AT BOTTOM OF THE SCREEN
-  
-    ofxUIRectangle *rect = examplesLoadMenuCanvas->getPaddingRect();
-    int y = rect->getY();
-    y += rect->getHeight();
-    y += 10;
-    int x = 10;
+    
+    y = graySpacer->getRect()->getY() + graySpacer->getRect()->getHeight() + 10;
     
     largeThumbImageForLoading.allocate(ofGetWidth(), ofGetHeight(), OF_IMAGE_COLOR_ALPHA);
     ofxUIImage *img = new ofxUIImage(x, y, 400, 300, &largeThumbImageForLoading, "");
@@ -432,14 +439,6 @@ void testApp::buildLoadMenu() {
     // open and cancel buttons
     loadMenuCanvas->addWidget(new ofxUILabelButton(420, ofGetHeight() - 40, 100, false, "Open"));
     loadMenuCanvas->addWidget(new ofxUILabelButton(530, ofGetHeight() - 40, 100, false, "Cancel"));
-    
-    // previous and next buttons
-    y = rect->getY() + rect->getHeight() - 40;
-    previousButton = new ofxUILabelButton(10, y, 100, false, "Previous Page");
-    nextButton = new ofxUILabelButton(ofGetWidth() - 110, y, 100, false, "Next Page");
-    loadMenuCanvas->addWidget(previousButton);
-    loadMenuCanvas->addWidget(nextButton);
-
 }
 //--------------------------------------------------------------
 MorphMetaData testApp::loadMorphMetaData(string xmlPath) {
@@ -460,24 +459,37 @@ MorphMetaData testApp::loadMorphMetaData(string xmlPath) {
 ofxUIMorphCanvas* testApp::canvasForMenuPage(vector<MorphMetaData> morphs, string tag, int pageNum) {
     // height of the labelbuttons being used for tabs is 35, plus 10 padding on top
     // so we position the menu page canvases at y = 45
-    // the height is 3 rows of 100px + 4 x padding 10px = 340 + 50 more for prev/next btns = 390
+    // the height is 3 rows of 100px + 4 x padding 10px = 340
     int top = 45;
-    int height = 390;
+    int height = 340;
     ofxUIMorphCanvas *newCanvas = new ofxUIMorphCanvas(0, top, ofGetWidth(), height);
+    
+    newCanvas->setPageNum(pageNum);
+    
+    bool nextButtonNeeded = false;
+    bool prevButtonNeeded = false;
+
+    if (pageNum > 1) {
+        prevButtonNeeded = true;
+    }
     
     // grab a page worth of morphs
     int morphsPerRow = 7;
     int numRows = 3;
     int morphsPerPage = morphsPerRow * numRows;
+    
     int startIndex = (pageNum - 1) * morphsPerPage; //page nums are one-indexed (like in django pagination)
     
     if (startIndex >= morphs.size()) { // if pagenum is too high, just get first page
         startIndex = 0;
+        prevButtonNeeded = false;
     }
     
     int numToAdd = morphsPerPage;
     if ((startIndex + numToAdd) > morphs.size()) {     // if we have less than a page
         numToAdd = morphs.size() - startIndex;
+    } else {
+        nextButtonNeeded = true;
     }
     
     // add buttons to canvas in rows of 7
@@ -486,14 +498,21 @@ ofxUIMorphCanvas* testApp::canvasForMenuPage(vector<MorphMetaData> morphs, strin
         ofxUIImageButton *btn = new ofxUIImageButton(133, 100, true, path, tag);
         btn->setColorPadded(ofColor(255,255,255));
         btn->setDrawPadding(false);
-        btn->setID(startIndex + i); // this is the actual index of the morph in the morphmetadata vector
+        btn->setID(startIndex + i); // this should be the actual index of the morph in the morphmetadata vector
+                                    // there is a bug that makes these start at 0 on each page though
+        
         if ((i % morphsPerRow) == 0) {
             newCanvas->addWidgetDown(btn);
         } else {
             newCanvas->addWidgetRight(btn);
         }
-    }
         
+    }
+    
+    // previous page and next page buttons    
+    newCanvas->prevButtonVisible = prevButtonNeeded;
+    newCanvas->nextButtonVisible = nextButtonNeeded;
+
     newCanvas->setName(tag+"MenuPage");
     
     newCanvas->setVisible(false);
@@ -534,23 +553,30 @@ void testApp::loadMenuSwitchToTab(int tab) {
         case EXAMPLES_TAB:
             examplesTabLabelToggle->setValue(true);
             examplesLoadMenuCanvas->setVisible(true);
+            setPrevAndNextButtonsFor(examplesLoadMenuCanvas);
             break;
         case USER_TAB:
             userTabLabelToggle->setValue(true);
             userLoadMenuCanvas->setVisible(true);
+            setPrevAndNextButtonsFor(userLoadMenuCanvas);
             break;
         case SHARED_TAB:
             sharedTabLabelToggle->setValue(true);
             userLoadMenuCanvas->setVisible(false);
+            setPrevAndNextButtonsFor(userLoadMenuCanvas);
             break;
         default:
             break;
     }
     
-    // and load up the meta data for the currently selected morph
+    // and load up the meta data for the currently selected morph ?
 
 }
-
+//--------------------------------------------------------------
+void testApp::setPrevAndNextButtonsFor(ofxUIMorphCanvas *canvas) {
+    previousButton->setVisible(canvas->prevButtonVisible);
+    nextButton->setVisible(canvas->nextButtonVisible);
+}
 //--------------------------------------------------------------
 void testApp::buildSaveDialog() {
     
@@ -1500,9 +1526,10 @@ void testApp::guiEvent(ofxUIEventArgs &e)
         ofxUIImageButton *btn = (ofxUIImageButton *) e.widget;
         if (!btn->getValue()) { // touch up
             if (btn->isHit(touchUpX, touchUpY)) { // prevent triggering on touch up outside
-                int morphNum = e.widget->getID();
-                //loadCanvas(userMorphsMetaData[morphNum].xmlFilePath);
-                //enterUIMode(PLAY_MODE);
+                int pageNum = userLoadMenuCanvas->getPageNum();
+                int morphNum = btn->getID() + ((pageNum - 1) * 21);
+                
+                cout << morphNum << endl;
                 
                 userLoadMenuCanvas->setDrawWidgetPadding(false);
                 btn->setDrawPadding(true);
@@ -1580,21 +1607,21 @@ void testApp::guiEvent(ofxUIEventArgs &e)
         ofxUILabelButton *btn = (ofxUILabelButton *) e.widget;
         if (!btn->getValue()) { // touch up
             if (btn->isHit(touchUpX, touchUpY)) { // prevent triggering on touch up outside
-                MorphMetaData morph;
-                morph = getSelectedMorphFromMenuCanvas(currentLoadMenuTab);
+                MorphMetaData morph = getSelectedMorphFromMenuCanvas(currentLoadMenuTab);
                 loadCanvas(morph.xmlFilePath);
                 enterUIMode(PLAY_MODE);
             }
         }
     }
     
-    if (name == "Next Page") {
+    if (name == "Next") {
         ofxUILabelButton *btn = (ofxUILabelButton *) e.widget;
         if (!btn->getValue()) { // touch up
             if (btn->isHit(touchUpX, touchUpY)) { // prevent triggering on touch up outside
                 if (currentLoadMenuTab == USER_TAB) {
+                    int pageNum = userLoadMenuCanvas->getPageNum();
                     loadMenuCanvas->removeWidget(userLoadMenuCanvas);
-                    userLoadMenuCanvas = canvasForMenuPage(userMorphsMetaData, "userMorphButton", 2);
+                    userLoadMenuCanvas = canvasForMenuPage(userMorphsMetaData, "userMorphButton", pageNum + 1);
                     loadMenuCanvas->addWidget(userLoadMenuCanvas);
                     ofAddListener(userLoadMenuCanvas->newGUIEvent, this, &testApp::guiEvent);
                     loadMenuSwitchToTab(USER_TAB);
@@ -1603,12 +1630,17 @@ void testApp::guiEvent(ofxUIEventArgs &e)
             }
         }
     }
-    if (name == "Previous Page") {
+    if (name == "Previous") {
         ofxUILabelButton *btn = (ofxUILabelButton *) e.widget;
         if (!btn->getValue()) { // touch up
             if (btn->isHit(touchUpX, touchUpY)) { // prevent triggering on touch up outside
                 if (currentLoadMenuTab == USER_TAB) {
-                    userLoadMenuCanvas = canvasForMenuPage(userMorphsMetaData, "userMorphButton", 1);
+                    int pageNum = userLoadMenuCanvas->getPageNum();
+                    loadMenuCanvas->removeWidget(userLoadMenuCanvas);
+                    userLoadMenuCanvas = canvasForMenuPage(userMorphsMetaData, "userMorphButton", pageNum - 1);
+                    loadMenuCanvas->addWidget(userLoadMenuCanvas);
+                    ofAddListener(userLoadMenuCanvas->newGUIEvent, this, &testApp::guiEvent);
+                    loadMenuSwitchToTab(USER_TAB);
                 }
             }
         }

@@ -1102,9 +1102,9 @@ public:
     
     void removeWidget(ofxUIWidget *widget)
     {
-//        cout << endl; 
-//        cout << "Widget to find: " << widget->getName() << endl; 
-//        cout << endl; 
+//        cout << endl;
+//        cout << "Widget to find: " << widget->getName() << endl;
+//        cout << endl;
         
         //for the map
         map<string, ofxUIWidget*>::iterator it;        
@@ -1112,7 +1112,7 @@ public:
         if(it != widgets_map.end())
         {
 //            cout << "FOUND IT IN MAP, DELETING" << endl;
-            widgets_map.erase(it);     
+            widgets_map.erase(it);
         }
         
         //for the widgets with state         
@@ -1122,7 +1122,7 @@ public:
             if(widget->getName() == other->getName())
             {
 //                cout << "FOUND IT IN WIDGETS WITH STATE, DELETING" << endl;
-                widgetsWithState.erase(widgetsWithState.begin()+i);                
+                widgetsWithState.erase(widgetsWithState.begin()+i);
                 break; 
             }
         }
@@ -1131,19 +1131,19 @@ public:
         for(wit=widgets.begin(); wit != widgets.end(); wit++)
         {
             ofxUIWidget *other = *wit;
-//            cout << other->getName() << endl;                     
+//            cout << other->getName() << endl;
             if(widget->getName() == other->getName())
             {
-//                cout << "FOUND IT\t" << other->getName() << " " << widget->getName() << endl; 
-                widgets.erase(wit);                             
+//                cout << "FOUND IT\t" << other->getName() << " " << widget->getName() << endl;
+                widgets.erase(wit);
                 break; 
             }
         }
         
         if(widget->hasLabel())
         {
-//            cout << "HAS LABEL" << endl;
-            ofxUIWidgetWithLabel *wwl = (ofxUIWidgetWithLabel *) widget; 
+//           cout << "HAS LABEL" << endl;
+            ofxUIWidgetWithLabel *wwl = (ofxUIWidgetWithLabel *) widget;
             ofxUILabel *label = wwl->getLabelWidget();
             removeWidget(label);
         }        

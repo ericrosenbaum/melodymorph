@@ -13,6 +13,12 @@
 class ofxUIMorphCanvas : public ofxUICanvas
 {
 public:
+    MorphMetaData morph;
+    int pageNum;
+    
+    bool prevButtonVisible;
+    bool nextButtonVisible;
+
     ofxUIMorphCanvas(int x,int y,int w,int h) : ofxUICanvas(x,y,w,h)
     {
         
@@ -25,9 +31,15 @@ public:
         return(morph);
     }
     
+    void setPageNum(int _pageNum) {
+        pageNum = _pageNum;
+    }
+    int getPageNum(){
+        return pageNum;
+    }
     
-protected:
-    MorphMetaData morph;
+    
+    
 };
 
 #endif
