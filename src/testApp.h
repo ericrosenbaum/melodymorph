@@ -45,6 +45,9 @@ public:
     MorphMetaData loadMorphMetaData(string xmlPath);
     ofxUIMorphCanvas *canvasForMenuPage(vector<MorphMetaData> morphs, string tag, int pageNum);
     MorphMetaData getSelectedMorphFromMenuCanvas(int tab);
+    void updateSharedLoadMenuCanvas();
+    vector<MorphMetaData> downloadPageOfSharedMorphs(int pageNum);
+
 
     void loadMenuSwitchToTab(int tab);
     void setPrevAndNextButtonsFor(ofxUIMorphCanvas *canvas);

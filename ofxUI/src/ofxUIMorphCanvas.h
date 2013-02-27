@@ -23,6 +23,9 @@ public:
     {
         
     }
+    ofxUIMorphCanvas() : ofxUICanvas()
+    {
+    }
     
     void setMorph(MorphMetaData _morph) {
         morph = _morph;

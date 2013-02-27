@@ -382,12 +382,15 @@ void testApp::buildLoadMenu() {
     // generate pages
     examplesLoadMenuCanvas = canvasForMenuPage(exampleMorphsMetaData, "exampleMorphButton", 1);
     userLoadMenuCanvas = canvasForMenuPage(userMorphsMetaData, "userMorphButton", 1);
+    sharedLoadMenuCanvas = new ofxUIMorphCanvas(); // defer downloading until first view
 
     loadMenuCanvas->addWidget(examplesLoadMenuCanvas);
     loadMenuCanvas->addWidget(userLoadMenuCanvas);
+    loadMenuCanvas->addWidget(sharedLoadMenuCanvas);
         
     ofAddListener(examplesLoadMenuCanvas->newGUIEvent, this, &testApp::guiEvent);
     ofAddListener(userLoadMenuCanvas->newGUIEvent, this, &testApp::guiEvent);
+    ofAddListener(sharedLoadMenuCanvas->newGUIEvent, this, &testApp::guiEvent);
     ofAddListener(loadMenuCanvas->newGUIEvent, this, &testApp::guiEvent);
     
     loadMenuCanvas->setVisible(false);
@@ -486,7 +489,7 @@ ofxUIMorphCanvas* testApp::canvasForMenuPage(vector<MorphMetaData> morphs, strin
     }
     
     int numToAdd = morphsPerPage;
-    if ((startIndex + numToAdd) > morphs.size()) {     // if we have less than a page
+    if ((startIndex + numToAdd) >= morphs.size()) {     // if we have less than a page (or exactly one page)
         numToAdd = morphs.size() - startIndex;
     } else {
         nextButtonNeeded = true;
@@ -530,11 +533,15 @@ MorphMetaData testApp::getSelectedMorphFromMenuCanvas(int tab) {
     if (tab == USER_TAB) {
         return userLoadMenuCanvas->getMorph();
     }
+    if (tab == SHARED_TAB) {
+        return sharedLoadMenuCanvas->getMorph();
+    }
 }
 //--------------------------------------------------------------
 void testApp::hideAllLoadMenuCanvases() {
     examplesLoadMenuCanvas->setVisible(false);
     userLoadMenuCanvas->setVisible(false);
+    sharedLoadMenuCanvas->setVisible(false);
 }
 
 //--------------------------------------------------------------
@@ -561,16 +568,14 @@ void testApp::loadMenuSwitchToTab(int tab) {
             setPrevAndNextButtonsFor(userLoadMenuCanvas);
             break;
         case SHARED_TAB:
+            updateSharedLoadMenuCanvas();
+            setPrevAndNextButtonsFor(sharedLoadMenuCanvas);
             sharedTabLabelToggle->setValue(true);
-            userLoadMenuCanvas->setVisible(false);
-            setPrevAndNextButtonsFor(userLoadMenuCanvas);
+            sharedLoadMenuCanvas->setVisible(true);
             break;
         default:
             break;
     }
-    
-    // and load up the meta data for the currently selected morph ?
-
 }
 //--------------------------------------------------------------
 void testApp::setPrevAndNextButtonsFor(ofxUIMorphCanvas *canvas) {
@@ -992,7 +997,74 @@ void testApp::browseServer(){
         }
     }
 }
+//--------------------------------------------------------------
+void testApp::updateSharedLoadMenuCanvas() {
+    sharedMorphsMetaData = downloadPageOfSharedMorphs(1);
+    sharedLoadMenuCanvas = canvasForMenuPage(sharedMorphsMetaData, "sharedMorphButton", 1);
+}
+//--------------------------------------------------------------
+vector<MorphMetaData> testApp::downloadPageOfSharedMorphs(int pageNum){
+    ofHttpResponse response = ofLoadURL(ofToString(BROWSE_URL) + "?page=" + ofToString(pageNum));
 
+//    cout << "response to browse request:" << endl;
+//    cout << response.data.getText() << endl;
+
+    vector<MorphMetaData> morphs;
+    
+    XML.loadFromBuffer(response.data.getText());
+    XML.pushTag("django-objects");
+    int numMorphs = XML.getNumTags("object");
+    if (numMorphs > 0) {
+        for (int i=0; i<numMorphs; i++) {
+            
+            MorphMetaData morph;
+            
+            XML.pushTag("object", i);
+            int numFields = XML.getNumTags("field");
+            for (int j=0; j<numFields; j++) {
+                string name = XML.getAttribute("field", "name", "default", j);
+                if (name == "authorName"){
+                    morph.author = XML.getValue("field", "", j);
+                }
+                if (name == "morphName"){
+                    morph.title = XML.getValue("field", "", j);
+                }
+                if (name == "description"){
+                    morph.description = XML.getValue("field", "", j);
+                }
+                if (name == "smallThumb"){
+                    morph.smallThumbFilePath = XML.getValue("field", "", j);
+                }
+                if (name == "largeThumb"){
+                    morph.largeThumbFilePath = XML.getValue("field", "", j);
+                }
+                if (name == "xmlFile"){
+                    morph.xmlFilePath = XML.getValue("field", "", j);
+                }
+            }
+            
+            morphs.push_back(morph);
+            XML.popTag();
+        }
+        
+        // we also need to download all of the small thumbnails
+        // initially the morph meta data has in it the server path information
+        // we use that to download the image, and then in the morph meta data, replace
+        // it with the local file path
+        for (int i=0; i<numMorphs; i++) {
+            string timestamp = ofGetTimestampString();
+            string localPath = ofxiPhoneGetDocumentsDirectory() + "smallThumbImage_" + timestamp + ".png";
+            string imageURL = ofToString(MEDIA_URL) + "/" + ofToString(morphs[i].smallThumbFilePath);
+            
+            // check if we already have this image first??
+            
+            ofSaveURLTo(imageURL, localPath);
+            morphs[i].smallThumbFilePath = localPath;
+        }
+    }
+    
+    return morphs;
+}
 //--------------------------------------------------------------
 void testApp::uploadMorph(MorphMetaData morph){
     
@@ -1018,6 +1090,8 @@ void testApp::uploadMorph(MorphMetaData morph){
     form->addFile("largeThumb", morph.largeThumbFilePath);
     form->addFile("xmlFile",morph.xmlFilePath);
     
+    form->setTimeout(10000);
+    
     try {
         form->post();
     }
@@ -1026,17 +1100,36 @@ void testApp::uploadMorph(MorphMetaData morph){
         cout << "OOPS.. something went wrong while posting" << endl;
     }
     
-    // Do something with the response from the post.
-    // another alert box for failures
+    // get the response from the post.
     vector<char> response_buf = form->getPostResponseAsBuffer();
     string response_str = form->getPostResponseAsString();
+    
     cout << "Response string:" << endl;
     cout << response_str <<endl;
     cout << "-----------------" << endl;
     
+    // create an alert box to report success or failure
+    string ofMessage;
+    if (response_str == "success") {
+        ofMessage = "Your Morph was successfully shared. Press the Open button and go to the Shared tab to see all the shared Morphs.";
+    } else {
+        ofMessage = "Something went wrong and I couldn't upload your Morph, sorry. Maybe check your internet connection?";
+    }
+    NSString *objcMessage = [NSString stringWithCString:ofMessage.c_str()
+                                              encoding:[NSString defaultCStringEncoding]];
+    UIAlertView *alertUploadComplete = [[UIAlertView alloc] initWithTitle:@""
+													message:objcMessage
+												   delegate:nil
+										  cancelButtonTitle:@"Okay"
+                                            otherButtonTitles:nil, nil];
+	[alertUploadComplete show];
+	[alertUploadComplete release];
+    
     // Cleanup
     delete form;
 }
+
+
 
 
 //--------------------------------------------------------------
@@ -1528,9 +1621,7 @@ void testApp::guiEvent(ofxUIEventArgs &e)
             if (btn->isHit(touchUpX, touchUpY)) { // prevent triggering on touch up outside
                 int pageNum = userLoadMenuCanvas->getPageNum();
                 int morphNum = btn->getID() + ((pageNum - 1) * 21);
-                
-                cout << morphNum << endl;
-                
+                                
                 userLoadMenuCanvas->setDrawWidgetPadding(false);
                 btn->setDrawPadding(true);
                 
@@ -1552,8 +1643,6 @@ void testApp::guiEvent(ofxUIEventArgs &e)
         if (!btn->getValue()) { // touch up
             if (btn->isHit(touchUpX, touchUpY)) { // prevent triggering on touch up outside
                 int morphNum = e.widget->getID();
-                //loadCanvas(exampleMorphsMetaData[morphNum].xmlFilePath);
-                //enterUIMode(PLAY_MODE);
                 
                 examplesLoadMenuCanvas->setDrawWidgetPadding(false);
                 btn->setDrawPadding(true);
