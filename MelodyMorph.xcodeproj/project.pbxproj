@@ -70,6 +70,14 @@
 		49E0BD1115E822FA00B7E5CC /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 49E0BCED15E822FA00B7E5CC /* Icon.png */; };
 		49E0BD1415E822FA00B7E5CC /* piano_sample.wav in Resources */ = {isa = PBXBuildFile; fileRef = 49E0BCF015E822FA00B7E5CC /* piano_sample.wav */; };
 		49E0BD1B15E822FA00B7E5CC /* vibe_sample.wav in Resources */ = {isa = PBXBuildFile; fileRef = 49E0BCF715E822FA00B7E5CC /* vibe_sample.wav */; };
+		49E1CFA316EA720D0024CA52 /* 1_piano_C1.wav in Resources */ = {isa = PBXBuildFile; fileRef = 49E1CF9D16EA720D0024CA52 /* 1_piano_C1.wav */; };
+		49E1CFA416EA720D0024CA52 /* 2_piano_G1.wav in Resources */ = {isa = PBXBuildFile; fileRef = 49E1CF9E16EA720D0024CA52 /* 2_piano_G1.wav */; };
+		49E1CFA516EA720D0024CA52 /* 3_piano_C2.wav in Resources */ = {isa = PBXBuildFile; fileRef = 49E1CF9F16EA720D0024CA52 /* 3_piano_C2.wav */; };
+		49E1CFA616EA720D0024CA52 /* 4_piano_G2.wav in Resources */ = {isa = PBXBuildFile; fileRef = 49E1CFA016EA720D0024CA52 /* 4_piano_G2.wav */; };
+		49E1CFA716EA720D0024CA52 /* 5_piano_C3.wav in Resources */ = {isa = PBXBuildFile; fileRef = 49E1CFA116EA720D0024CA52 /* 5_piano_C3.wav */; };
+		49E1CFA816EA720D0024CA52 /* 6_piano_G3.wav in Resources */ = {isa = PBXBuildFile; fileRef = 49E1CFA216EA720D0024CA52 /* 6_piano_G3.wav */; };
+		49FE3CA316E3A80E0084638B /* BrowserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 49FE3CA116E3A80E0084638B /* BrowserViewController.m */; };
+		49FE3CA416E3A80E0084638B /* BrowserViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 49FE3CA216E3A80E0084638B /* BrowserViewController.xib */; };
 		5326AEA810A23A0500278DE6 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5326AEA710A23A0500278DE6 /* CoreLocation.framework */; };
 		53F323EB10A20EDB00E0DAE4 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 53F323EA10A20EDB00E0DAE4 /* OpenAL.framework */; };
 		BB16EBD20F2B2A9500518274 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BB16EBD10F2B2A9500518274 /* OpenGLES.framework */; };
@@ -239,6 +247,17 @@
 		49E0BCED15E822FA00B7E5CC /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
 		49E0BCF015E822FA00B7E5CC /* piano_sample.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = piano_sample.wav; sourceTree = "<group>"; };
 		49E0BCF715E822FA00B7E5CC /* vibe_sample.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = vibe_sample.wav; sourceTree = "<group>"; };
+		49E1CF8B16E910310024CA52 /* MultiSampledSoundPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MultiSampledSoundPlayer.h; sourceTree = "<group>"; };
+		49E1CF9D16EA720D0024CA52 /* 1_piano_C1.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = 1_piano_C1.wav; sourceTree = "<group>"; };
+		49E1CF9E16EA720D0024CA52 /* 2_piano_G1.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = 2_piano_G1.wav; sourceTree = "<group>"; };
+		49E1CF9F16EA720D0024CA52 /* 3_piano_C2.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = 3_piano_C2.wav; sourceTree = "<group>"; };
+		49E1CFA016EA720D0024CA52 /* 4_piano_G2.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = 4_piano_G2.wav; sourceTree = "<group>"; };
+		49E1CFA116EA720D0024CA52 /* 5_piano_C3.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = 5_piano_C3.wav; sourceTree = "<group>"; };
+		49E1CFA216EA720D0024CA52 /* 6_piano_G3.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = 6_piano_G3.wav; sourceTree = "<group>"; };
+		49FE3CA016E3A80D0084638B /* BrowserViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BrowserViewController.h; sourceTree = "<group>"; };
+		49FE3CA116E3A80E0084638B /* BrowserViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BrowserViewController.m; sourceTree = "<group>"; };
+		49FE3CA216E3A80E0084638B /* BrowserViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BrowserViewController.xib; sourceTree = "<group>"; };
+		49FE3CA516E3B4EE0084638B /* QuasiModeSelectorCanvas.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QuasiModeSelectorCanvas.h; sourceTree = "<group>"; };
 		5326AEA710A23A0500278DE6 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		53F323EA10A20EDB00E0DAE4 /* OpenAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenAL.framework; path = System/Library/Frameworks/OpenAL.framework; sourceTree = SDKROOT; };
 		BB16EBD10F2B2A9500518274 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
@@ -328,6 +347,7 @@
 		4932CFB915EA07E400D9B5C2 /* data */ = {
 			isa = PBXGroup;
 			children = (
+				49E1CF9C16EA720D0024CA52 /* piano */,
 				4932CFBB15EA07E400D9B5C2 /* GUI */,
 			);
 			name = data;
@@ -583,6 +603,19 @@
 			path = data;
 			sourceTree = "<group>";
 		};
+		49E1CF9C16EA720D0024CA52 /* piano */ = {
+			isa = PBXGroup;
+			children = (
+				49E1CF9D16EA720D0024CA52 /* 1_piano_C1.wav */,
+				49E1CF9E16EA720D0024CA52 /* 2_piano_G1.wav */,
+				49E1CF9F16EA720D0024CA52 /* 3_piano_C2.wav */,
+				49E1CFA016EA720D0024CA52 /* 4_piano_G2.wav */,
+				49E1CFA116EA720D0024CA52 /* 5_piano_C3.wav */,
+				49E1CFA216EA720D0024CA52 /* 6_piano_G3.wav */,
+			);
+			path = piano;
+			sourceTree = "<group>";
+		};
 		BB16E9930F2B1E5900518274 /* libs */ = {
 			isa = PBXGroup;
 			children = (
@@ -635,6 +668,7 @@
 			isa = PBXGroup;
 			children = (
 				49280A5716C37B32003C99FD /* ofxUIMorphCanvas.h */,
+				49FE3CA516E3B4EE0084638B /* QuasiModeSelectorCanvas.h */,
 				49E0BCD215E822FA00B7E5CC /* data */,
 				49E0B91515E7FEC200B7E5CC /* DrawingLine.cpp */,
 				4993E7C51627A57B0030510D /* DrawingToggle.h */,
@@ -662,9 +696,13 @@
 				49E0B92F15E7FEC200B7E5CC /* Note.cpp */,
 				49E0B93015E7FEC200B7E5CC /* main.mm */,
 				49E0B93115E7FEC200B7E5CC /* testApp.mm */,
+				49E1CF8B16E910310024CA52 /* MultiSampledSoundPlayer.h */,
 				497C489C16CA3ACA0083E763 /* SegmentedControl.h */,
 				49E0B93215E7FEC200B7E5CC /* testApp.h */,
 				49E0B93315E7FEC200B7E5CC /* BrowserTest.h */,
+				49FE3CA016E3A80D0084638B /* BrowserViewController.h */,
+				49FE3CA116E3A80E0084638B /* BrowserViewController.m */,
+				49FE3CA216E3A80E0084638B /* BrowserViewController.xib */,
 				49E0B93415E7FEC200B7E5CC /* BrowserTest.m */,
 				49E0B93515E7FEC200B7E5CC /* BrowserTest.xib */,
 				49E0B93615E7FEC200B7E5CC /* LoadFileViewController.h */,
@@ -775,6 +813,13 @@
 				4993E7EC162A4BEF0030510D /* control_panel_back.png in Resources */,
 				4993E7EE162A4C080030510D /* button2.png in Resources */,
 				49778C1D169647F3009AB6FC /* README.txt in Resources */,
+				49FE3CA416E3A80E0084638B /* BrowserViewController.xib in Resources */,
+				49E1CFA316EA720D0024CA52 /* 1_piano_C1.wav in Resources */,
+				49E1CFA416EA720D0024CA52 /* 2_piano_G1.wav in Resources */,
+				49E1CFA516EA720D0024CA52 /* 3_piano_C2.wav in Resources */,
+				49E1CFA616EA720D0024CA52 /* 4_piano_G2.wav in Resources */,
+				49E1CFA716EA720D0024CA52 /* 5_piano_C3.wav in Resources */,
+				49E1CFA816EA720D0024CA52 /* 6_piano_G3.wav in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -828,6 +873,7 @@
 				49778C23169647F3009AB6FC /* ofxCurlFormTypeFile.cpp in Sources */,
 				49778C24169647F3009AB6FC /* ofxCurlFormTypeInput.cpp in Sources */,
 				496D86B116C0CD0900F746FA /* ofxTextBlock.cpp in Sources */,
+				49FE3CA316E3A80E0084638B /* BrowserViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

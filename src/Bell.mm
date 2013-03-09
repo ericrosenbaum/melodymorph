@@ -16,6 +16,7 @@
 #include "utils.h"
 #include "Note.cpp"
 //#import "PGMidi.h"
+#include "MultiSampledSoundPlayer.h"
 
 class Bell {
 		
@@ -51,6 +52,7 @@ public:
     bool slideFlags[MAXTOUCHES]; 
     //PGMidi	*midi;
     //int midiNoteNum;
+    MultiSampledSoundPlayer player;
 	
 	bool touchMovedFlag;
     	
@@ -113,6 +115,8 @@ public:
         }
         
         //midiNoteNum = noteNum + ((octave + 3) * 12);
+        
+        player.loadSamples("piano");
 	};
 	
 	Bell() {
@@ -139,6 +143,7 @@ public:
 				float vol = ofMap(force, 0, 0.5, 0.8, 1);
 				voices[myChannel].setVolume(vol);
 				velocity = vol;
+                player.setVolume(vol);
 
                 // reset MIDI pitch bend
 //                const UInt8 status = 0xE0 + instrument;
@@ -205,13 +210,15 @@ public:
 //        midi = _midi;
 //    }
 	virtual void playNote() {
+        player.playNote(noteNum, octave);
+        
 		*currentChannel += 1;
 		*currentChannel %= NUMVOICES;
 		
 		myChannel = *currentChannel;
 				
 		voices[myChannel].setPitch(ratio);
-		voices[myChannel].play();
+		//voices[myChannel].play();
 		
 		currentRadius = BELLRADIUS + 25;
         

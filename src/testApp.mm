@@ -4,6 +4,52 @@
 //
 // now we are on github yay
 
+/*
+ 
+ app
+ 
+ timestamp.xml
+ smallThumbImage_timestamp.png
+ largeThumbImage_timestamp.png
+
+ server
+ 
+ xmlfiles/uuid.xml
+ small-thumbs/sm_uuid.xml
+ large-thumbs/lg_uuid.xml
+ 
+ app shared dir
+ 
+ uuid.xml
+ sm_uuid.xml
+ lg_uuid.xml
+ 
+ 
+SHOULD BE THIS
+ 
+ sorting will work
+ no more renaming in the app
+ one thumbnail only
+ 
+ app
+ 
+ local-timestamp.xml
+ local-timestamp.png
+ 
+ server
+ 
+ server-timestamp.xml
+ server-timestamp.png
+ 
+ shared
+ 
+ server-timestamp.xml
+ server-timestamp.png
+ 
+ 
+ 
+*/
+
 #ifndef _TESTAPP_ER
 #define _TESTAPP_ER
 
@@ -17,6 +63,8 @@
 #include "controlPanelToggle.h"
 #include "DrawingToggle.h"
 #include "utils.h"
+#include "BrowserViewController.h"
+#include "QuasiModeSelectorCanvas.h"
 
 vector<Bell*> bells;
 ofxOpenALSoundPlayer voices[3][NUMVOICES];
@@ -82,6 +130,10 @@ vector<MorphMetaData> exampleMorphsMetaData;
 vector<MorphMetaData> userMorphsMetaData;
 vector<MorphMetaData> sharedMorphsMetaData;
 
+// play mode widgets
+
+QuasiModeSelectorCanvas *quasiModeSelectorCanvas;
+
 // load menu
 
 ofxUICanvas *loadMenuCanvas;
@@ -123,6 +175,7 @@ ControlPanelToggle *controlPanelToggle;
 RecorderBellMaker *recorderBellMaker;
 LoadFileViewController *loadView;
 DrawingToggle *drawingToggle;
+BrowserViewController *browser;
 
 // UI mode
 // current mode of the UI (#defines are in config.h):
@@ -133,6 +186,10 @@ int UIMode;
 // which of the tabs in the load menu is currently open:
 // EXAMPLES_TAB, USER_TAB, SHARED_TAB
 int currentLoadMenuTab;
+
+////////////////
+// OF events
+////////////////
 
 //--------------------------------------------------------------
 void testApp::setup(){
@@ -231,7 +288,9 @@ void testApp::setup(){
 //     [midi enableNetwork:YES];
 //    )
     
-     
+    
+    // native UI components
+    
      // control panel
      controlPanel = [[ControlPanel alloc] initWithNibName:@"ControlPanel" bundle:nil];
      [[[UIApplication sharedApplication] keyWindow] addSubview:controlPanel.view];
@@ -249,11 +308,11 @@ void testApp::setup(){
      controlPanelToggle.view.frame = r;
      
      //  drawing toggle
-     drawingToggle = [[DrawingToggle alloc] initWithNibName:@"DrawingToggle" bundle:nil];
-     [[[UIApplication sharedApplication] keyWindow] addSubview:drawingToggle.view];
-     r = CGRectMake(90, ofGetWidth()-100, 300, 100);
-     drawingToggle.view.frame = r;
-     
+//     drawingToggle = [[DrawingToggle alloc] initWithNibName:@"DrawingToggle" bundle:nil];
+//     [[[UIApplication sharedApplication] keyWindow] addSubview:drawingToggle.view];
+//     r = CGRectMake(90, ofGetWidth()-100, 300, 100);
+//     drawingToggle.view.frame = r;
+    
      // recorder bell maker
      recorderBellMaker = [[RecorderBellMaker alloc] initWithNibName:@"RecorderBellMaker" bundle:nil];
      //[ofxiPhoneGetGLView() addSubview:recorderBellMaker.view];
@@ -272,6 +331,18 @@ void testApp::setup(){
     
      r = CGRectMake(0, 0, 768, 1024);
      topButtons.view.frame = r;
+    
+    
+    // web view
+    
+//    browser = [[BrowserViewController alloc] initWithNibName:@"BrowserViewController" bundle:nil];
+//    [[[UIApplication sharedApplication] keyWindow] addSubview:browser.view];
+    
+    // play mode widgets
+    
+    quasiModeSelectorCanvas = new QuasiModeSelectorCanvas(0, 100, 100, 400);
+    
+    
 }
 
 //--------------------------------------------------------------
@@ -322,397 +393,6 @@ void testApp::draw(){
     }
 }
 
-//--------------------------------------------------------------
-void testApp::buildLoadMenu() {
-    
-    // LOAD METADATA FROM XML FILES
-    
-    // load XML files of examples and user morphs, and populate vectors of morph metadata
-    // the metadata will be used to generate menu items
-    
-    ofDirectory exampleXmlPaths;
-    exampleXmlPaths = *new ofDirectory();
-    exampleXmlPaths.allowExt("xml");
-    int numExampleMorphs = exampleXmlPaths.listDir("examples");
-    exampleXmlPaths.sort();
-    
-    ofDirectory userXmlPaths;
-    userXmlPaths = *new ofDirectory();
-    userXmlPaths.allowExt("xml");
-    int numUserMorphs = userXmlPaths.listDir(ofxiPhoneGetDocumentsDirectory());
-    userXmlPaths.sort();
-
-    // the example morphs are manually named in the order they should appear in the menu
-    // so results of the ofDirectory sort are fine
-    exampleMorphsMetaData.clear();
-    for(int i = 0; i < numExampleMorphs; i++){
-        MorphMetaData morph = loadMorphMetaData(exampleXmlPaths.getPath(i));
-        exampleMorphsMetaData.push_back(morph);
-    }
-    
-    // the user morphs are in ascending order of time since the filenames use timestamps
-    // but we want them in reverse time order (newest first) in the menu
-    // ofDirectory doesn't seem to have reverse sort, so we'll load them into the
-    // metadata vector in reverse
-    userMorphsMetaData.clear();
-    for (int i = numUserMorphs - 1; i >= 0; i--) {
-        MorphMetaData morph = loadMorphMetaData(userXmlPaths.getPath(i));
-        userMorphsMetaData.push_back(morph);
-    }
-    
-    // CREATE A PAGE OF THUMBNAIL BUTTONS FOR EACH TAB
-    
-    // create canvases for example and user morphs, and
-    // put the first page of buttons to load the morphs on them
-    // colorfill of these tabs matches colorback of the canvases, to get the visual effect of tabs
-    
-    loadMenuCanvas = new ofxUICanvas(0, 0, ofGetWidth(), ofGetHeight());
-    
-    // prev and next buttons
-    int y = 395;
-    int x = 10;
-    previousButton = new ofxUILabelButton(10, y, 100, false, "Previous");
-    loadMenuCanvas->addWidget(previousButton);
-    nextButton = new ofxUILabelButton(ofGetWidth()-110, y, 100, false, "Next");
-    loadMenuCanvas->addWidget(nextButton);
-    ofxUISpacer *graySpacer = new ofxUISpacer(0, y-10, ofGetWidth(), 50);
-    graySpacer->setColorFill(ofColor(100));
-    loadMenuCanvas->addWidget(graySpacer);
-    
-    // generate pages
-    examplesLoadMenuCanvas = canvasForMenuPage(exampleMorphsMetaData, "exampleMorphButton", 1);
-    userLoadMenuCanvas = canvasForMenuPage(userMorphsMetaData, "userMorphButton", 1);
-    sharedLoadMenuCanvas = new ofxUIMorphCanvas(); // defer downloading until first view
-
-    loadMenuCanvas->addWidget(examplesLoadMenuCanvas);
-    loadMenuCanvas->addWidget(userLoadMenuCanvas);
-    loadMenuCanvas->addWidget(sharedLoadMenuCanvas);
-        
-    ofAddListener(examplesLoadMenuCanvas->newGUIEvent, this, &testApp::guiEvent);
-    ofAddListener(userLoadMenuCanvas->newGUIEvent, this, &testApp::guiEvent);
-    ofAddListener(sharedLoadMenuCanvas->newGUIEvent, this, &testApp::guiEvent);
-    ofAddListener(loadMenuCanvas->newGUIEvent, this, &testApp::guiEvent);
-    
-    loadMenuCanvas->setVisible(false);
-    
-    // CREATE TAB BUTTONS
-    
-    // tabs at the top for examples, my stuff, shared (made using label toggles)
-    int buttonWidth = 100;
-    int spacer = 10;
-    int left = (ofGetWidth() / 2) - ((3 * buttonWidth + 2 * spacer) / 2);
-
-    examplesTabLabelToggle = new ofxUILabelToggle(left, 10, buttonWidth, 35, false, "Examples");
-    examplesTabLabelToggle->setColorFill(100);
-    examplesTabLabelToggle->setColorBack(10);
-    loadMenuCanvas->addWidget(examplesTabLabelToggle);
-    
-    userTabLabelToggle = new ofxUILabelToggle(left + buttonWidth + spacer, 10, buttonWidth, 35, false, "My Stuff");
-    userTabLabelToggle->setColorFill(100);
-    userTabLabelToggle->setColorBack(10);
-    loadMenuCanvas->addWidget(userTabLabelToggle);
-    
-    sharedTabLabelToggle = new ofxUILabelToggle(left + 2 * (buttonWidth + spacer), 10, buttonWidth, 35, false, "Shared");
-    sharedTabLabelToggle->setColorFill(100);
-    sharedTabLabelToggle->setColorBack(10);
-    loadMenuCanvas->addWidget(sharedTabLabelToggle);
-    
-    currentLoadMenuTab = EXAMPLES_TAB; // this could be loaded from a settings file, and saved between launches
-        
-    // CREATE METADATA DISPLAY AND BUTTONS AT BOTTOM OF THE SCREEN
-    
-    y = graySpacer->getRect()->getY() + graySpacer->getRect()->getHeight() + 10;
-    
-    largeThumbImageForLoading.allocate(ofGetWidth(), ofGetHeight(), OF_IMAGE_COLOR_ALPHA);
-    ofxUIImage *img = new ofxUIImage(x, y, 400, 300, &largeThumbImageForLoading, "");
-    loadMenuCanvas->addWidget(img);
-
-    // text labels for the fields that display metadata
-    // (the actual text fields displaying it are in the draw function, because they are rendered by ofxTextSuite
-    // because ofxUI does not have multiline text fields)
-    loadMenuCanvas->addWidget(new ofxUILabelButton(420, y, false, "Title"));
-    loadMenuCanvas->addWidgetSouthOf(new ofxUILabelButton(false, "Author"), "Title");
-    descriptionLabel = new ofxUILabelButton(100, false, "Description");
-    loadMenuCanvas->addWidgetSouthOf(descriptionLabel, "Author");
-    
-    descriptionTextView.init("NewMedia Fett.ttf", 12);
-    authorTextView.init("NewMedia Fett.ttf", 12);
-    titleTextView.init("NewMedia Fett.ttf", 12);
-
-    // open and cancel buttons
-    loadMenuCanvas->addWidget(new ofxUILabelButton(420, ofGetHeight() - 40, 100, false, "Open"));
-    loadMenuCanvas->addWidget(new ofxUILabelButton(530, ofGetHeight() - 40, 100, false, "Cancel"));
-}
-//--------------------------------------------------------------
-MorphMetaData testApp::loadMorphMetaData(string xmlPath) {
-    
-    MorphMetaData morph;
-    morph.xmlFilePath = xmlPath;
-    
-    XML.loadFile(morph.xmlFilePath);
-    morph.title = ofToString(XML.getValue("TITLE:TEXT", "-", 0));
-    morph.author = ofToString(XML.getValue("AUTHOR:TEXT", "-", 0));
-    morph.description = ofToString(XML.getValue("DESCRIPTION:TEXT", "-", 0));
-    morph.smallThumbFilePath = ofToString(XML.getValue("THUMBPATH:SMALL", "", 0));
-    morph.largeThumbFilePath = ofToString(XML.getValue("THUMBPATH:LARGE", "", 0));
-    
-    return(morph);
-}
-//--------------------------------------------------------------
-ofxUIMorphCanvas* testApp::canvasForMenuPage(vector<MorphMetaData> morphs, string tag, int pageNum) {
-    // height of the labelbuttons being used for tabs is 35, plus 10 padding on top
-    // so we position the menu page canvases at y = 45
-    // the height is 3 rows of 100px + 4 x padding 10px = 340
-    int top = 45;
-    int height = 340;
-    ofxUIMorphCanvas *newCanvas = new ofxUIMorphCanvas(0, top, ofGetWidth(), height);
-    
-    newCanvas->setPageNum(pageNum);
-    
-    bool nextButtonNeeded = false;
-    bool prevButtonNeeded = false;
-
-    if (pageNum > 1) {
-        prevButtonNeeded = true;
-    }
-    
-    // grab a page worth of morphs
-    int morphsPerRow = 7;
-    int numRows = 3;
-    int morphsPerPage = morphsPerRow * numRows;
-    
-    int startIndex = (pageNum - 1) * morphsPerPage; //page nums are one-indexed (like in django pagination)
-    
-    if (startIndex >= morphs.size()) { // if pagenum is too high, just get first page
-        startIndex = 0;
-        prevButtonNeeded = false;
-    }
-    
-    int numToAdd = morphsPerPage;
-    if ((startIndex + numToAdd) >= morphs.size()) {     // if we have less than a page (or exactly one page)
-        numToAdd = morphs.size() - startIndex;
-    } else {
-        nextButtonNeeded = true;
-    }
-    
-    // add buttons to canvas in rows of 7
-    for(int i = 0; i < numToAdd; i++){
-        string path = morphs[startIndex + i].smallThumbFilePath;
-        ofxUIImageButton *btn = new ofxUIImageButton(133, 100, true, path, tag);
-        btn->setColorPadded(ofColor(255,255,255));
-        btn->setDrawPadding(false);
-        btn->setID(startIndex + i); // this should be the actual index of the morph in the morphmetadata vector
-                                    // there is a bug that makes these start at 0 on each page though
-        
-        if ((i % morphsPerRow) == 0) {
-            newCanvas->addWidgetDown(btn);
-        } else {
-            newCanvas->addWidgetRight(btn);
-        }
-        
-    }
-    
-    // previous page and next page buttons    
-    newCanvas->prevButtonVisible = prevButtonNeeded;
-    newCanvas->nextButtonVisible = nextButtonNeeded;
-
-    newCanvas->setName(tag+"MenuPage");
-    
-    newCanvas->setVisible(false);
-    newCanvas->setDrawBack(true);
-    newCanvas->setColorBack(ofColor(100));
-    
-    return newCanvas;
-}
-//--------------------------------------------------------------
-MorphMetaData testApp::getSelectedMorphFromMenuCanvas(int tab) {
-
-    if (tab == EXAMPLES_TAB) {
-        return examplesLoadMenuCanvas->getMorph();
-    }
-    if (tab == USER_TAB) {
-        return userLoadMenuCanvas->getMorph();
-    }
-    if (tab == SHARED_TAB) {
-        return sharedLoadMenuCanvas->getMorph();
-    }
-}
-//--------------------------------------------------------------
-void testApp::hideAllLoadMenuCanvases() {
-    examplesLoadMenuCanvas->setVisible(false);
-    userLoadMenuCanvas->setVisible(false);
-    sharedLoadMenuCanvas->setVisible(false);
-}
-
-//--------------------------------------------------------------
-void testApp::loadMenuSwitchToTab(int tab) {
-    
-    currentLoadMenuTab = tab;
-    
-    hideAllLoadMenuCanvases();
-    
-    // turn off all the toggles so we end up with just one lit
-    examplesTabLabelToggle->setValue(false);
-    userTabLabelToggle->setValue(false);
-    sharedTabLabelToggle->setValue(false);
-    
-    switch (tab) {
-        case EXAMPLES_TAB:
-            examplesTabLabelToggle->setValue(true);
-            examplesLoadMenuCanvas->setVisible(true);
-            setPrevAndNextButtonsFor(examplesLoadMenuCanvas);
-            break;
-        case USER_TAB:
-            userTabLabelToggle->setValue(true);
-            userLoadMenuCanvas->setVisible(true);
-            setPrevAndNextButtonsFor(userLoadMenuCanvas);
-            break;
-        case SHARED_TAB:
-            updateSharedLoadMenuCanvas();
-            setPrevAndNextButtonsFor(sharedLoadMenuCanvas);
-            sharedTabLabelToggle->setValue(true);
-            sharedLoadMenuCanvas->setVisible(true);
-            break;
-        default:
-            break;
-    }
-}
-//--------------------------------------------------------------
-void testApp::setPrevAndNextButtonsFor(ofxUIMorphCanvas *canvas) {
-    previousButton->setVisible(canvas->prevButtonVisible);
-    nextButton->setVisible(canvas->nextButtonVisible);
-}
-//--------------------------------------------------------------
-void testApp::buildSaveDialog() {
-    
-    int xOffset = 20;
-    int yOffset = 20;
-    int ySpacing = 40;
-    
-    saveDialogCanvas = new ofxUICanvas(0,0,ofGetWidth(), ofGetHeight());
-    saveDialogCanvas->setVisible(false);
-    saveDialogCanvas->setDrawBack(true);
-    saveDialogCanvas->setColorBack(ofColor(0,0,0));
-
-  
-    // these are labelbuttons being used as text labels... ofxUILabel causes a crash for some reason
-    saveDialogCanvas->addWidget(new ofxUILabelButton(xOffset, yOffset, false, "Title"));
-    saveDialogCanvas->addWidget(new ofxUILabelButton(xOffset, yOffset+ySpacing, false, "Author"));
-    saveDialogCanvas->addWidget(new ofxUILabelButton(xOffset, yOffset+ySpacing*2, false, "Description"));
-    
-    // keyboard text input boxes
-    // each text input area is a separate ofxiPhoneKeyboard object
-    
-    xOffset = 140;
-    int textHeight = 25;
-    int textWidth = 300;
-    
-    titleKeyboard = new ofxiPhoneKeyboard(xOffset, yOffset, textWidth, textHeight);
-	titleKeyboard->setVisible(false);
-	titleKeyboard->setBgColor(255, 255, 255, 255);
-	titleKeyboard->setFontColor(0,0,0, 255);
-	titleKeyboard->setFontSize(18);
-    
-    authorKeyboard = new ofxiPhoneKeyboard(xOffset, yOffset+ySpacing, textWidth, textHeight);
-	authorKeyboard->setVisible(false);
-	authorKeyboard->setBgColor(255, 255, 255, 255);
-	authorKeyboard->setFontColor(0,0,0, 255);
-	authorKeyboard->setFontSize(18);
-
-    // Two hacks were required to make the description field work:
-    // to get the text to wrap, we need to use UITextView instead of UITextField
-    // so I created a modified class called ofxiPhoneKeyboardWrapping that uses UITextView
-    // also, the UITextView wrapping seems to be off by 90 degrees (sigh), even though the
-    // actual box is drawn correctly- it uses the height to set the width at which the text wraps
-    // so... it's fine as long as it's a square
-    descriptionKeyboard = new ofxiPhoneKeyboardWrapping(xOffset, yOffset+ySpacing*2, textWidth, textWidth);
-	descriptionKeyboard->setVisible(false);
-	descriptionKeyboard->setBgColor(255, 255, 255, 255);
-	descriptionKeyboard->setFontColor(0,0,0, 255);
-	descriptionKeyboard->setFontSize(18);
-    
-    // large thumbnail
-    int thumbX = xOffset + textWidth + 20;
-    int thumbWidth = 400;
-    int thumbHeight = 300;
-    largeThumbImageForSaving.allocate(ofGetWidth(), ofGetHeight(), OF_IMAGE_COLOR_ALPHA);
-    saveDialogCanvas->addWidget(new ofxUIImage(thumbX, yOffset, thumbWidth, thumbHeight, &largeThumbImageForSaving, ""));
-    
-    // buttons
-    int buttonY = yOffset + thumbHeight + 20;
-    saveDialogCanvas->addWidget(new ofxUILabelButton(thumbX, buttonY, 100, false, "Share"));
-    saveDialogCanvas->addWidget(new ofxUILabelButton(thumbX + 110, buttonY, 100, false, "Cancel"));
-    saveDialogCanvas->addWidget(new ofxUILabelButton(thumbX + 220, buttonY, 100, false, "Save"));
-    
-    ofAddListener(saveDialogCanvas->newGUIEvent, this, &testApp::guiEvent);
-
-}
-//--------------------------------------------------------------
-void testApp::enterUIMode(int mode){
-    
-    UIMode = mode;
-    
-    hideAllUIModes();
-    
-    switch (mode) {
-        case PLAY_MODE:
-            playModeSetVisible(true);
-            break;
-        case PRE_SAVE_MODE:
-            playModeSetVisible(true);
-            break;
-        case SAVE_DIALOG_MODE:
-            saveDialogModeSetVisible(true);
-            break;
-        case LOAD_MENU_MODE:
-            loadMenuModeSetVisible(true);
-            loadMenuSwitchToTab(currentLoadMenuTab);
-            break;
-        default:
-            break;
-    }
-}
-//--------------------------------------------------------------
-void testApp::hideAllUIModes(){
-    loadMenuModeSetVisible(false);
-    playModeSetVisible(false);
-    saveDialogModeSetVisible(false);
-}
-//--------------------------------------------------------------
-void testApp::loadMenuModeSetVisible(bool visible) {
-    
-    hideAllLoadMenuCanvases();
-    loadMenuCanvas->setVisible(visible);
-}
-//--------------------------------------------------------------
-void testApp::playModeSetVisible(bool visible) {
-    
-    // show or hide the native UI components
-    // note we have to use setHidden here, so we set it to the inverse of visible
-    [topButtons.view setHidden:!visible];
-    [controlPanelToggle.view setHidden:!visible];
-    [recorderBellMaker.view setHidden:!visible];
-    [drawingToggle.view setHidden:!visible];
-    
-    //special case- we close the control panel when returning to play mode
-    [controlPanel.view setHidden:YES];
-    
-}
-//--------------------------------------------------------------
-void testApp::saveDialogModeSetVisible(bool visible) {
-    
-    saveDialogCanvas->setVisible(visible);
-
-    // show or hide keyboard widget and open it if necessary
-    authorKeyboard->setVisible(visible);
-    titleKeyboard->setVisible(visible);
-    descriptionKeyboard->setVisible(visible);
-
-    if (visible) {
-        titleKeyboard->openKeyboard();
-    }
-    
-}
 //--------------------------------------------------------------
 float testApp::bend(){
 	float yForce = ofxAccelerometer.getForce().y;
@@ -873,13 +553,6 @@ string testApp::paddedNumberString(int num) {
 }
 //--------------------------------------------------------------
 void testApp::saveCanvas(bool saveToServer){
-        
-    // generate a number for the file by incrementing the number of the last one in the dir
-    // assuming the number is left padded with zeros to four places
-//    string lastPath = userMorphsMetaData.back().xmlFilePath;
-//    int len = lastPath.length();
-//    string fileName = lastPath.substr(len - 8, 4);
-//    int canvasNum = ofToInt(fileName) + 1;
 
     string timestamp = ofGetTimestampString();
     
@@ -976,8 +649,8 @@ void testApp::browseServer(){
 //    loadCanvas(p);
     
     ofHttpResponse response = ofLoadURL(ofToString(BROWSE_URL) + "?page=1");
-    cout << "response to browse request:" << endl;
-    cout << response.data.getText() << endl;
+    //cout << "response to browse request:" << endl;
+    //cout << response.data.getText() << endl;
     
     // right now this just pulls out file names of thumbs
     XML.loadFromBuffer(response.data.getText());
@@ -1001,16 +674,21 @@ void testApp::browseServer(){
 void testApp::updateSharedLoadMenuCanvas() {
     sharedMorphsMetaData = downloadPageOfSharedMorphs(1);
     sharedLoadMenuCanvas = canvasForMenuPage(sharedMorphsMetaData, "sharedMorphButton", 1);
+    loadMenuCanvas->addWidget(sharedLoadMenuCanvas);
+    ofAddListener(sharedLoadMenuCanvas->newGUIEvent, this, &testApp::guiEvent);
+    
 }
 //--------------------------------------------------------------
 vector<MorphMetaData> testApp::downloadPageOfSharedMorphs(int pageNum){
     ofHttpResponse response = ofLoadURL(ofToString(BROWSE_URL) + "?page=" + ofToString(pageNum));
 
-//    cout << "response to browse request:" << endl;
-//    cout << response.data.getText() << endl;
+    //cout << "response to browse request:" << endl;
+    //cout << response.data.getText() << endl;
 
     vector<MorphMetaData> morphs;
     
+    
+    XML.clear();
     XML.loadFromBuffer(response.data.getText());
     XML.pushTag("django-objects");
     int numMorphs = XML.getNumTags("object");
@@ -1051,19 +729,34 @@ vector<MorphMetaData> testApp::downloadPageOfSharedMorphs(int pageNum){
         // initially the morph meta data has in it the server path information
         // we use that to download the image, and then in the morph meta data, replace
         // it with the local file path
+                
         for (int i=0; i<numMorphs; i++) {
-            string timestamp = ofGetTimestampString();
-            string localPath = ofxiPhoneGetDocumentsDirectory() + "smallThumbImage_" + timestamp + ".png";
-            string imageURL = ofToString(MEDIA_URL) + "/" + ofToString(morphs[i].smallThumbFilePath);
-            
-            // check if we already have this image first??
-            
-            ofSaveURLTo(imageURL, localPath);
+            string remotePath = ofToString(morphs[i].smallThumbFilePath);
+            string localPath = downloadFile(remotePath);
             morphs[i].smallThumbFilePath = localPath;
         }
     }
-    
+     
     return morphs;
+}
+//--------------------------------------------------------------
+string testApp::downloadFile(string remotePath){
+    string sharedDirPath = ofxiPhoneGetDocumentsDirectory() + "sharedMorphs/";
+    if (!ofDirectory::doesDirectoryExist(sharedDirPath)){
+        ofDirectory::createDirectory(sharedDirPath);
+    }
+    vector<string> s = ofSplitString(remotePath, "/");
+    string fileName = s[1];
+    string localPath = sharedDirPath + fileName;
+    
+    // check if we already have this image locally, if not, download it
+    if (!ofFile::doesFileExist(localPath)) {
+        string fileURL = ofToString(MEDIA_URL) + "/" + remotePath;
+        ofSaveURLTo(fileURL, localPath);
+        cout << "downloaded: " + fileName << endl;
+    }
+    return localPath;
+
 }
 //--------------------------------------------------------------
 void testApp::uploadMorph(MorphMetaData morph){
@@ -1113,7 +806,7 @@ void testApp::uploadMorph(MorphMetaData morph){
     if (response_str == "success") {
         ofMessage = "Your Morph was successfully shared. Press the Open button and go to the Shared tab to see all the shared Morphs.";
     } else {
-        ofMessage = "Something went wrong and I couldn't upload your Morph, sorry. Maybe check your internet connection?";
+        ofMessage = "Something went wrong and I couldn't upload your Morph, sorry. Try checking your internet connection.";
     }
     NSString *objcMessage = [NSString stringWithCString:ofMessage.c_str()
                                               encoding:[NSString defaultCStringEncoding]];
@@ -1128,16 +821,22 @@ void testApp::uploadMorph(MorphMetaData morph){
     // Cleanup
     delete form;
 }
-
-
-
-
 //--------------------------------------------------------------
-void testApp::loadCanvas(string path){
-		
+void testApp::loadCanvas(MorphMetaData morph){
+    
 	clearCanvas();
     
-    XML.loadFile(path);
+    bool loaded = XML.loadFile(morph.xmlFilePath);
+
+    if (!loaded) {
+        string remotePath = ofToString(morph.xmlFilePath);
+        string localPath = downloadFile(remotePath);
+        morph.xmlFilePath = localPath;
+        loaded = XML.loadFile(morph.xmlFilePath);
+        if (!loaded) {
+            return;
+        }
+    }
     
 	int numBells = XML.getNumTags("BELL");
 	if (numBells > 0) {
@@ -1368,6 +1067,401 @@ void testApp::makeRecBell(vector<Note*> notes){
 
 }
 
+
+
+//--------------------------------------------------------------
+void testApp::buildLoadMenu() {
+    
+    // LOAD METADATA FROM XML FILES
+    
+    // load XML files of examples and user morphs, and populate vectors of morph metadata
+    // the metadata will be used to generate menu items
+    
+    ofDirectory exampleXmlPaths;
+    exampleXmlPaths = *new ofDirectory();
+    exampleXmlPaths.allowExt("xml");
+    int numExampleMorphs = exampleXmlPaths.listDir("examples");
+    exampleXmlPaths.sort();
+    
+    ofDirectory userXmlPaths;
+    userXmlPaths = *new ofDirectory();
+    userXmlPaths.allowExt("xml");
+    int numUserMorphs = userXmlPaths.listDir(ofxiPhoneGetDocumentsDirectory());
+    userXmlPaths.sort();
+    
+    // the example morphs are manually named in the order they should appear in the menu
+    // so results of the ofDirectory sort are fine
+    exampleMorphsMetaData.clear();
+    for(int i = 0; i < numExampleMorphs; i++){
+        MorphMetaData morph = loadMorphMetaData(exampleXmlPaths.getPath(i));
+        exampleMorphsMetaData.push_back(morph);
+    }
+    
+    // the user morphs are in ascending order of time since the filenames use timestamps
+    // but we want them in reverse time order (newest first) in the menu
+    // ofDirectory doesn't seem to have reverse sort, so we'll load them into the
+    // metadata vector in reverse
+    userMorphsMetaData.clear();
+    for (int i = numUserMorphs - 1; i >= 0; i--) {
+        MorphMetaData morph = loadMorphMetaData(userXmlPaths.getPath(i));
+        userMorphsMetaData.push_back(morph);
+    }
+    
+    // CREATE A PAGE OF THUMBNAIL BUTTONS FOR EACH TAB
+    
+    // create canvases for example and user morphs, and
+    // put the first page of buttons to load the morphs on them
+    // colorfill of these tabs matches colorback of the canvases, to get the visual effect of tabs
+    
+    loadMenuCanvas = new ofxUICanvas(0, 0, ofGetWidth(), ofGetHeight());
+    
+    // prev and next buttons
+    int y = 395;
+    int x = 10;
+    previousButton = new ofxUILabelButton(10, y, 100, false, "Previous");
+    loadMenuCanvas->addWidget(previousButton);
+    nextButton = new ofxUILabelButton(ofGetWidth()-110, y, 100, false, "Next");
+    loadMenuCanvas->addWidget(nextButton);
+    ofxUISpacer *graySpacer = new ofxUISpacer(0, y-10, ofGetWidth(), 50);
+    graySpacer->setColorFill(ofColor(100));
+    loadMenuCanvas->addWidget(graySpacer);
+    
+    // generate pages
+    examplesLoadMenuCanvas = canvasForMenuPage(exampleMorphsMetaData, "exampleMorphButton", 1);
+    userLoadMenuCanvas = canvasForMenuPage(userMorphsMetaData, "userMorphButton", 1);
+    sharedLoadMenuCanvas = new ofxUIMorphCanvas(); // defer downloading until first view
+    
+    loadMenuCanvas->addWidget(examplesLoadMenuCanvas);
+    loadMenuCanvas->addWidget(userLoadMenuCanvas);
+    loadMenuCanvas->addWidget(sharedLoadMenuCanvas);
+    
+    ofAddListener(examplesLoadMenuCanvas->newGUIEvent, this, &testApp::guiEvent);
+    ofAddListener(userLoadMenuCanvas->newGUIEvent, this, &testApp::guiEvent);
+    ofAddListener(sharedLoadMenuCanvas->newGUIEvent, this, &testApp::guiEvent);
+    ofAddListener(loadMenuCanvas->newGUIEvent, this, &testApp::guiEvent);
+    
+    loadMenuCanvas->setVisible(false);
+    
+    // CREATE TAB BUTTONS
+    
+    // tabs at the top for examples, my stuff, shared (made using label toggles)
+    int buttonWidth = 100;
+    int spacer = 10;
+    int left = (ofGetWidth() / 2) - ((3 * buttonWidth + 2 * spacer) / 2);
+    
+    examplesTabLabelToggle = new ofxUILabelToggle(left, 10, buttonWidth, 35, false, "Examples");
+    examplesTabLabelToggle->setColorFill(100);
+    examplesTabLabelToggle->setColorBack(10);
+    loadMenuCanvas->addWidget(examplesTabLabelToggle);
+    
+    userTabLabelToggle = new ofxUILabelToggle(left + buttonWidth + spacer, 10, buttonWidth, 35, false, "My Stuff");
+    userTabLabelToggle->setColorFill(100);
+    userTabLabelToggle->setColorBack(10);
+    loadMenuCanvas->addWidget(userTabLabelToggle);
+    
+    sharedTabLabelToggle = new ofxUILabelToggle(left + 2 * (buttonWidth + spacer), 10, buttonWidth, 35, false, "Shared");
+    sharedTabLabelToggle->setColorFill(100);
+    sharedTabLabelToggle->setColorBack(10);
+    loadMenuCanvas->addWidget(sharedTabLabelToggle);
+    
+    currentLoadMenuTab = EXAMPLES_TAB; // this could be loaded from a settings file, and saved between launches
+    
+    // CREATE METADATA DISPLAY AND BUTTONS AT BOTTOM OF THE SCREEN
+    
+    y = graySpacer->getRect()->getY() + graySpacer->getRect()->getHeight() + 10;
+    
+    largeThumbImageForLoading.allocate(ofGetWidth(), ofGetHeight(), OF_IMAGE_COLOR_ALPHA);
+    ofxUIImage *img = new ofxUIImage(x, y, 400, 300, &largeThumbImageForLoading, "");
+    loadMenuCanvas->addWidget(img);
+    
+    // text labels for the fields that display metadata
+    // (the actual text fields displaying it are in the draw function, because they are rendered by ofxTextSuite
+    // because ofxUI does not have multiline text fields)
+    loadMenuCanvas->addWidget(new ofxUILabelButton(420, y, false, "Title"));
+    loadMenuCanvas->addWidgetSouthOf(new ofxUILabelButton(false, "Author"), "Title");
+    descriptionLabel = new ofxUILabelButton(100, false, "Description");
+    loadMenuCanvas->addWidgetSouthOf(descriptionLabel, "Author");
+    
+    descriptionTextView.init("NewMedia Fett.ttf", 12);
+    authorTextView.init("NewMedia Fett.ttf", 12);
+    titleTextView.init("NewMedia Fett.ttf", 12);
+    
+    // open and cancel buttons
+    loadMenuCanvas->addWidget(new ofxUILabelButton(420, ofGetHeight() - 40, 100, false, "Open"));
+    loadMenuCanvas->addWidget(new ofxUILabelButton(530, ofGetHeight() - 40, 100, false, "Cancel"));
+}
+//--------------------------------------------------------------
+MorphMetaData testApp::loadMorphMetaData(string xmlPath) {
+    
+    MorphMetaData morph;
+    morph.xmlFilePath = xmlPath;
+    
+    XML.loadFile(morph.xmlFilePath);
+    morph.title = ofToString(XML.getValue("TITLE:TEXT", "-", 0));
+    morph.author = ofToString(XML.getValue("AUTHOR:TEXT", "-", 0));
+    morph.description = ofToString(XML.getValue("DESCRIPTION:TEXT", "-", 0));
+    morph.smallThumbFilePath = ofToString(XML.getValue("THUMBPATH:SMALL", "", 0));
+    morph.largeThumbFilePath = ofToString(XML.getValue("THUMBPATH:LARGE", "", 0));
+    
+    return(morph);
+}
+//--------------------------------------------------------------
+ofxUIMorphCanvas* testApp::canvasForMenuPage(vector<MorphMetaData> morphs, string tag, int pageNum) {
+    // height of the labelbuttons being used for tabs is 35, plus 10 padding on top
+    // so we position the menu page canvases at y = 45
+    // the height is 3 rows of 100px + 4 x padding 10px = 340
+    int top = 45;
+    int height = 340;
+    ofxUIMorphCanvas *newCanvas = new ofxUIMorphCanvas(0, top, ofGetWidth(), height);
+    newCanvas->setMorphs(morphs);
+    
+    newCanvas->setPageNum(pageNum);
+    
+    bool nextButtonNeeded = false;
+    bool prevButtonNeeded = false;
+    
+    if (pageNum > 1) {
+        prevButtonNeeded = true;
+    }
+    
+    // grab a page worth of morphs to make the buttons
+    int morphsPerRow = 7;
+    int numRows = 3;
+    int morphsPerPage = morphsPerRow * numRows;
+    
+    int startIndex = (pageNum - 1) * morphsPerPage; //page nums are one-indexed (like in django pagination)
+    
+    if (startIndex >= morphs.size()) { // if pagenum is too high, just get first page
+        startIndex = 0;
+        prevButtonNeeded = false;
+    }
+    
+    int numToAdd = morphsPerPage;
+    if ((startIndex + numToAdd) >= morphs.size()) {     // if we have less than a page (or exactly one page)
+        numToAdd = morphs.size() - startIndex;
+    } else {
+        nextButtonNeeded = true;
+    }
+    
+    // add buttons to canvas in rows of 7
+    for(int i = 0; i < numToAdd; i++){
+        string path = morphs[startIndex + i].smallThumbFilePath;
+        ofxUIImageButton *btn = new ofxUIImageButton(133, 100, true, path, tag);
+        btn->setColorPadded(ofColor(255,255,255));
+        btn->setDrawPadding(false);
+        btn->setID(i);
+        
+        if ((i % morphsPerRow) == 0) {
+            newCanvas->addWidgetDown(btn);
+        } else {
+            newCanvas->addWidgetRight(btn);
+        }
+    }
+    
+    // previous page and next page buttons
+    newCanvas->prevButtonVisible = prevButtonNeeded;
+    newCanvas->nextButtonVisible = nextButtonNeeded;
+    
+    newCanvas->setName(tag+"MenuPage");
+    
+    newCanvas->setVisible(false);
+    newCanvas->setDrawBack(true);
+    newCanvas->setColorBack(ofColor(100));
+    
+    return newCanvas;
+}
+//--------------------------------------------------------------
+MorphMetaData testApp::getSelectedMorphFromMenuCanvas(int tab) {
+    
+    if (tab == EXAMPLES_TAB) {
+        return examplesLoadMenuCanvas->getSelectedMorph();
+    }
+    if (tab == USER_TAB) {
+        return userLoadMenuCanvas->getSelectedMorph();
+    }
+    if (tab == SHARED_TAB) {
+        return sharedLoadMenuCanvas->getSelectedMorph();
+    }
+}
+//--------------------------------------------------------------
+void testApp::hideAllLoadMenuCanvases() {
+    examplesLoadMenuCanvas->setVisible(false);
+    userLoadMenuCanvas->setVisible(false);
+    sharedLoadMenuCanvas->setVisible(false);
+}
+
+//--------------------------------------------------------------
+void testApp::loadMenuSwitchToTab(int tab) {
+    
+    currentLoadMenuTab = tab;
+    
+    hideAllLoadMenuCanvases();
+    
+    // turn off all the toggles so we end up with just one lit
+    examplesTabLabelToggle->setValue(false);
+    userTabLabelToggle->setValue(false);
+    sharedTabLabelToggle->setValue(false);
+    
+    switch (tab) {
+        case EXAMPLES_TAB:
+            examplesTabLabelToggle->setValue(true);
+            examplesLoadMenuCanvas->setVisible(true);
+            setPrevAndNextButtonsFor(examplesLoadMenuCanvas);
+            break;
+        case USER_TAB:
+            userTabLabelToggle->setValue(true);
+            userLoadMenuCanvas->setVisible(true);
+            setPrevAndNextButtonsFor(userLoadMenuCanvas);
+            break;
+        case SHARED_TAB:
+            updateSharedLoadMenuCanvas();
+            setPrevAndNextButtonsFor(sharedLoadMenuCanvas);
+            sharedTabLabelToggle->setValue(true);
+            sharedLoadMenuCanvas->setVisible(true);
+            break;
+        default:
+            break;
+    }
+}
+//--------------------------------------------------------------
+void testApp::setPrevAndNextButtonsFor(ofxUIMorphCanvas *canvas) {
+    previousButton->setVisible(canvas->prevButtonVisible);
+    nextButton->setVisible(canvas->nextButtonVisible);
+}
+//--------------------------------------------------------------
+void testApp::buildSaveDialog() {
+    
+    int xOffset = 20;
+    int yOffset = 20;
+    int ySpacing = 40;
+    
+    saveDialogCanvas = new ofxUICanvas(0,0,ofGetWidth(), ofGetHeight());
+    saveDialogCanvas->setVisible(false);
+    saveDialogCanvas->setDrawBack(true);
+    saveDialogCanvas->setColorBack(ofColor(0,0,0));
+    
+    
+    // these are labelbuttons being used as text labels... ofxUILabel causes a crash for some reason
+    saveDialogCanvas->addWidget(new ofxUILabelButton(xOffset, yOffset, false, "Title"));
+    saveDialogCanvas->addWidget(new ofxUILabelButton(xOffset, yOffset+ySpacing, false, "Author"));
+    saveDialogCanvas->addWidget(new ofxUILabelButton(xOffset, yOffset+ySpacing*2, false, "Description"));
+    
+    // keyboard text input boxes
+    // each text input area is a separate ofxiPhoneKeyboard object
+    
+    xOffset = 140;
+    int textHeight = 25;
+    int textWidth = 300;
+    
+    titleKeyboard = new ofxiPhoneKeyboard(xOffset, yOffset, textWidth, textHeight);
+	titleKeyboard->setVisible(false);
+	titleKeyboard->setBgColor(255, 255, 255, 255);
+	titleKeyboard->setFontColor(0,0,0, 255);
+	titleKeyboard->setFontSize(18);
+    
+    authorKeyboard = new ofxiPhoneKeyboard(xOffset, yOffset+ySpacing, textWidth, textHeight);
+	authorKeyboard->setVisible(false);
+	authorKeyboard->setBgColor(255, 255, 255, 255);
+	authorKeyboard->setFontColor(0,0,0, 255);
+	authorKeyboard->setFontSize(18);
+    
+    // Two hacks were required to make the description field work:
+    // to get the text to wrap, we need to use UITextView instead of UITextField
+    // so I created a modified class called ofxiPhoneKeyboardWrapping that uses UITextView
+    // also, the UITextView wrapping seems to be off by 90 degrees (sigh), even though the
+    // actual box is drawn correctly- it uses the height to set the width at which the text wraps
+    // so... it's fine as long as it's a square
+    descriptionKeyboard = new ofxiPhoneKeyboardWrapping(xOffset, yOffset+ySpacing*2, textWidth, textWidth);
+	descriptionKeyboard->setVisible(false);
+	descriptionKeyboard->setBgColor(255, 255, 255, 255);
+	descriptionKeyboard->setFontColor(0,0,0, 255);
+	descriptionKeyboard->setFontSize(18);
+    
+    // large thumbnail
+    int thumbX = xOffset + textWidth + 20;
+    int thumbWidth = 400;
+    int thumbHeight = 300;
+    largeThumbImageForSaving.allocate(ofGetWidth(), ofGetHeight(), OF_IMAGE_COLOR_ALPHA);
+    saveDialogCanvas->addWidget(new ofxUIImage(thumbX, yOffset, thumbWidth, thumbHeight, &largeThumbImageForSaving, ""));
+    
+    // buttons
+    int buttonY = yOffset + thumbHeight + 20;
+    saveDialogCanvas->addWidget(new ofxUILabelButton(thumbX, buttonY, 100, false, "Share"));
+    saveDialogCanvas->addWidget(new ofxUILabelButton(thumbX + 110, buttonY, 100, false, "Cancel"));
+    saveDialogCanvas->addWidget(new ofxUILabelButton(thumbX + 220, buttonY, 100, false, "Save"));
+    
+    ofAddListener(saveDialogCanvas->newGUIEvent, this, &testApp::guiEvent);
+    
+}
+//--------------------------------------------------------------
+void testApp::enterUIMode(int mode){
+    
+    UIMode = mode;
+    
+    hideAllUIModes();
+    
+    switch (mode) {
+        case PLAY_MODE:
+            playModeSetVisible(true);
+            break;
+        case PRE_SAVE_MODE:
+            playModeSetVisible(true);
+            break;
+        case SAVE_DIALOG_MODE:
+            saveDialogModeSetVisible(true);
+            break;
+        case LOAD_MENU_MODE:
+            loadMenuModeSetVisible(true);
+            loadMenuSwitchToTab(currentLoadMenuTab);
+            break;
+        default:
+            break;
+    }
+}
+//--------------------------------------------------------------
+void testApp::hideAllUIModes(){
+    loadMenuModeSetVisible(false);
+    playModeSetVisible(false);
+    saveDialogModeSetVisible(false);
+}
+//--------------------------------------------------------------
+void testApp::loadMenuModeSetVisible(bool visible) {
+    
+    hideAllLoadMenuCanvases();
+    loadMenuCanvas->setVisible(visible);
+}
+//--------------------------------------------------------------
+void testApp::playModeSetVisible(bool visible) {
+    
+    // show or hide the native UI components
+    // note we have to use setHidden here, so we set it to the inverse of visible
+    [topButtons.view setHidden:!visible];
+    [controlPanelToggle.view setHidden:!visible];
+    [recorderBellMaker.view setHidden:!visible];
+    [drawingToggle.view setHidden:!visible];
+    
+    //special case- we close the control panel when returning to play mode
+    [controlPanel.view setHidden:YES];
+    
+}
+//--------------------------------------------------------------
+void testApp::saveDialogModeSetVisible(bool visible) {
+    
+    saveDialogCanvas->setVisible(visible);
+    
+    // show or hide keyboard widget and open it if necessary
+    authorKeyboard->setVisible(visible);
+    titleKeyboard->setVisible(visible);
+    descriptionKeyboard->setVisible(visible);
+    
+    if (visible) {
+        titleKeyboard->openKeyboard();
+    }
+    
+}
+
+
+
 //--------------------------------------------------------------
 void testApp::touchDown(ofTouchEventArgs &touch){
     
@@ -1396,25 +1490,17 @@ void testApp::touchDown(ofTouchEventArgs &touch){
             }
             return;
         }
-        // minimap
-    //	if ((touch.y > mapYOffset) && (touch.x > mapXOffset)) {
-    //		touchPrevX = touch.x;
-    //		touchPrevY = touch.y;
-    //		draggingMinimap = true;
-    //		draggingMinimapId = touch.id;
-    //		return;
-    //	}
-        
+
         // drawing and erasing
-        if (touch.id == 0) { // changed from 1 in of 71 not sure why
-            if (drawingOn) {
+        if (touch.id == 1) { 
+            if (quasiModeSelectorCanvas->getCurrentMode() == DRAW_MODE) {
                 drawingLines.push_back(new DrawingLine());
                 int canvasX = int (screenPosX + (touch.x / zoom));
                 int canvasY = int (screenPosY + (touch.y / zoom));
                 drawingLines.back()->addPoint(canvasX, canvasY);
                 return;
             }
-            if (erasingOn) {
+            if (quasiModeSelectorCanvas->getCurrentMode() == ERASE_MODE) {
                 int canvasX = int (screenPosX + (touch.x / zoom));
                 int canvasY = int (screenPosY + (touch.y / zoom));
                 eraseLine(canvasX, canvasY);
@@ -1433,10 +1519,11 @@ void testApp::touchDown(ofTouchEventArgs &touch){
                 // put the touched bell at the end of the list so it draws last (in front)
                 std::swap(bells[i], bells.back());
                 return; // return so we don't play multiple bells if they are overlapping
+                        // this also prevents overlapping bells from dragging together (they get stuck together)
             }
         }
         // zooming
-        if (numTouches == 2 && !drawingOn) {
+        if (numTouches == 2 && (quasiModeSelectorCanvas->getCurrentMode() == NONE)) {
             zooming = true;
             zoomBegun = false;
             pinchStartDist = pinchDist();
@@ -1446,11 +1533,13 @@ void testApp::touchDown(ofTouchEventArgs &touch){
         
         // dragging the screen over the canvas
         // (if we make it here, we are not touching a bell or the palette or minimap or zooming)
-        if (!draggingCanvas && !drawingOn && !erasingOn) {
-            touchPrevX = touch.x;
-            touchPrevY = touch.y;
-            draggingCanvas = true;
-            draggingCanvasId = touch.id;
+        if (!draggingCanvas) {
+            if (quasiModeSelectorCanvas->getCurrentMode() == NONE) {
+                touchPrevX = touch.x;
+                touchPrevY = touch.y;
+                draggingCanvas = true;
+                draggingCanvasId = touch.id;
+            }
         }
     }
 }
@@ -1466,14 +1555,14 @@ void testApp::touchMoved(ofTouchEventArgs &touch){
         touchesY[touch.id] = touch.y;
         
         // drawing
-        if (touch.id == 0) { //changed from 1 in of 71 not sure why
-            if (drawingOn) {
+        if (touch.id == 1) { 
+            if (quasiModeSelectorCanvas->getCurrentMode() == DRAW_MODE) {
                 int canvasX = int (screenPosX + (touch.x / zoom));
                 int canvasY = int (screenPosY + (touch.y / zoom));
                 drawingLines.back()->addPoint(canvasX, canvasY);
                 return;
             }
-            if (erasingOn) {
+            if (quasiModeSelectorCanvas->getCurrentMode() == ERASE_MODE) {
                 int canvasX = int (screenPosX + (touch.x / zoom));
                 int canvasY = int (screenPosY + (touch.y / zoom));
                 eraseLine(canvasX, canvasY);
@@ -1482,7 +1571,7 @@ void testApp::touchMoved(ofTouchEventArgs &touch){
         }
         
         // slide mode
-        if (slideModeOn) {
+        if (quasiModeSelectorCanvas->getCurrentMode() == SLIDE_MODE) {
             for (int i=0; i<bells.size(); i++) {
                 bool played = bells[i]->slide(touch.x, touch.y, touch.id);
                 if (played) {
@@ -1505,46 +1594,42 @@ void testApp::touchMoved(ofTouchEventArgs &touch){
             }
         }
         // pinch zoom
-        if (zooming && numDragging == 0 && numTouches == 2) {
-            
-            float dist = pinchDist();
-            
-            if (!zoomBegun) {
-                if (absf(dist - pinchStartDist) > MINPINCHZOOMDIST) {  // hm this threshold still causes a jump when you start zooming
-                    zoomBegun = true;
+        if (quasiModeSelectorCanvas->getCurrentMode() == NONE) {
+            if (zooming && numDragging == 0 && numTouches == 2) {
+                
+                float dist = pinchDist();
+                
+                if (!zoomBegun) {
+                    if (absf(dist - pinchStartDist) > MINPINCHZOOMDIST) {  // hm this threshold still causes a jump when you start zooming
+                        zoomBegun = true;
+                    }
                 }
+                    
+                if (zoomBegun) {
+                    float prevZoom = zoom;
+                    zoom = zoomStart + ((dist - pinchStartDist) / 400.0f);
+                    zoom = ofClamp(zoom, MINZOOM, MAXZOOM);
+                    
+                    float screenCenterX = screenPosX + ((ofGetWidth() / 2.0) / prevZoom);
+                    float screenCenterY = screenPosY + ((ofGetHeight() / 2.0) / prevZoom);
+                    
+                    float newWidth = (ofGetWidth() / 2.0) / zoom;
+                    float newHeight = (ofGetHeight() / 2.0) / zoom;
+                    
+                    screenPosX = screenCenterX - newWidth;
+                    screenPosY = screenCenterY - newHeight;
+                }
+                return;
             }
-                
-            if (zoomBegun) {
-                float prevZoom = zoom;
-                zoom = zoomStart + ((dist - pinchStartDist) / 400.0f);
-                zoom = ofClamp(zoom, MINZOOM, MAXZOOM);
-                
-                float screenCenterX = screenPosX + ((ofGetWidth() / 2.0) / prevZoom);
-                float screenCenterY = screenPosY + ((ofGetHeight() / 2.0) / prevZoom);
-                
-                float newWidth = (ofGetWidth() / 2.0) / zoom;
-                float newHeight = (ofGetHeight() / 2.0) / zoom;
-                
-                screenPosX = screenCenterX - newWidth;
-                screenPosY = screenCenterY - newHeight;
-            }
-            return;
         }
-        // drag the minimap
-    //	if (draggingMinimap && touch.id == draggingMinimapId) {
-    //		screenPosX -= (touchPrevX - touch.x) / MINIMAPSCALE;
-    //		screenPosY -= (touchPrevY - touch.y) / MINIMAPSCALE;
-    //		touchPrevX = touch.x;
-    //		touchPrevY = touch.y;		
-    //		return;
-    //	}
         // drag the canvas
-        if (draggingCanvas && touch.id == draggingCanvasId) {
-            screenPosX += (touchPrevX - touch.x) / zoom;
-            screenPosY += (touchPrevY - touch.y) / zoom;
-            touchPrevX = touch.x;
-            touchPrevY = touch.y;
+        if (quasiModeSelectorCanvas->getCurrentMode() == NONE) {
+            if (draggingCanvas && touch.id == draggingCanvasId) {
+                screenPosX += (touchPrevX - touch.x) / zoom;
+                screenPosY += (touchPrevY - touch.y) / zoom;
+                touchPrevX = touch.x;
+                touchPrevY = touch.y;
+            }
         }
     }
 }
@@ -1577,9 +1662,6 @@ void testApp::touchUp(ofTouchEventArgs &touch){
         if (touch.id == draggingCanvasId) {
             draggingCanvas = false;
         }
-    //	if (touch.id == draggingMinimapId) {
-    //		draggingMinimap = false;
-    //	}
         if (numTouches < 2) {
             zooming = false;
             zoomBegun = false;
@@ -1609,6 +1691,34 @@ void testApp::exit() {
     // there should probably be some stuff here?
 }
 
+void testApp::selectMorph(ofxUIMorphCanvas *canvas, int num) {
+    
+    int morphNum = num + (canvas->getPageNum() - 1) * 21;
+    vector <MorphMetaData> morphs = canvas->getMorphs();
+    MorphMetaData morph = morphs[morphNum];
+    
+    canvas->setSelectedMorph(morph);
+    canvas->highlightButton(num);
+    
+    populateMetaDataViews(&morph);
+}
+
+void testApp::populateMetaDataViews(MorphMetaData *morph) {
+    descriptionTextView.setText(morph->description);
+    descriptionTextView.wrapTextX(300);
+    authorTextView.setText(morph->author);
+    titleTextView.setText(morph->title);
+    
+    bool loaded = largeThumbImageForLoading.loadImage(morph->largeThumbFilePath);
+
+    if (!loaded) {
+        string remotePath = ofToString(morph->largeThumbFilePath);
+        string localPath = downloadFile(remotePath);
+        morph->largeThumbFilePath = localPath;
+        largeThumbImageForLoading.loadImage(morph->largeThumbFilePath);
+    }
+}
+
 void testApp::guiEvent(ofxUIEventArgs &e)
 {
 
@@ -1619,22 +1729,7 @@ void testApp::guiEvent(ofxUIEventArgs &e)
         ofxUIImageButton *btn = (ofxUIImageButton *) e.widget;
         if (!btn->getValue()) { // touch up
             if (btn->isHit(touchUpX, touchUpY)) { // prevent triggering on touch up outside
-                int pageNum = userLoadMenuCanvas->getPageNum();
-                int morphNum = btn->getID() + ((pageNum - 1) * 21);
-                                
-                userLoadMenuCanvas->setDrawWidgetPadding(false);
-                btn->setDrawPadding(true);
-                
-                MorphMetaData morph = userMorphsMetaData[morphNum];
-                
-                userLoadMenuCanvas->setMorph(morph);
-                
-                largeThumbImageForLoading.loadImage(morph.largeThumbFilePath);
-                descriptionTextView.setText(morph.description);
-                descriptionTextView.wrapTextX(300);
-                authorTextView.setText(morph.author);
-                titleTextView.setText(morph.title);
-
+                selectMorph(userLoadMenuCanvas, btn->getID());
             }
         }
     }
@@ -1642,21 +1737,15 @@ void testApp::guiEvent(ofxUIEventArgs &e)
         ofxUIImageButton *btn = (ofxUIImageButton *) e.widget;
         if (!btn->getValue()) { // touch up
             if (btn->isHit(touchUpX, touchUpY)) { // prevent triggering on touch up outside
-                int morphNum = e.widget->getID();
-                
-                examplesLoadMenuCanvas->setDrawWidgetPadding(false);
-                btn->setDrawPadding(true);
-                
-                MorphMetaData morph = exampleMorphsMetaData[morphNum];
-                
-                examplesLoadMenuCanvas->setMorph(morph);
-                
-                largeThumbImageForLoading.loadImage(morph.largeThumbFilePath);
-                descriptionTextView.setText(morph.description);
-                descriptionTextView.wrapTextX(300);
-                authorTextView.setText(morph.author);
-                titleTextView.setText(morph.title);
-
+                selectMorph(examplesLoadMenuCanvas, btn->getID());
+            }
+        }
+    }
+    if (name == "sharedMorphButton") {
+        ofxUIImageButton *btn = (ofxUIImageButton *) e.widget;
+        if (!btn->getValue()) { // touch up
+            if (btn->isHit(touchUpX, touchUpY)) { // prevent triggering on touch up outside
+                selectMorph(sharedLoadMenuCanvas, btn->getID());
             }
         }
     }
@@ -1697,7 +1786,7 @@ void testApp::guiEvent(ofxUIEventArgs &e)
         if (!btn->getValue()) { // touch up
             if (btn->isHit(touchUpX, touchUpY)) { // prevent triggering on touch up outside
                 MorphMetaData morph = getSelectedMorphFromMenuCanvas(currentLoadMenuTab);
-                loadCanvas(morph.xmlFilePath);
+                loadCanvas(morph);
                 enterUIMode(PLAY_MODE);
             }
         }

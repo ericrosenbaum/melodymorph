@@ -13,7 +13,8 @@
 class ofxUIMorphCanvas : public ofxUICanvas
 {
 public:
-    MorphMetaData morph;
+    MorphMetaData selectedMorph;
+    vector<MorphMetaData> morphs;
     int pageNum;
     
     bool prevButtonVisible;
@@ -27,13 +28,31 @@ public:
     {
     }
     
-    void setMorph(MorphMetaData _morph) {
-        morph = _morph;
-    }
-    MorphMetaData getMorph() {
-        return(morph);
+    void highlightButton(int num) {
+        setDrawWidgetPadding(false); // turn off all button highlights
+        
+        // highlight the one with the id num
+        vector <ofxUIWidget *> widgets = getWidgets();
+        for (int i=0; i<widgets.size(); i++) {
+            if (widgets[i]->getID() == num) {
+                widgets[i]->setDrawPadding(true);
+                return;
+            }
+        }
     }
     
+    void setSelectedMorph(MorphMetaData _morph) {
+        selectedMorph = _morph;
+    }
+    MorphMetaData getSelectedMorph() {
+        return(selectedMorph);
+    }
+    void setMorphs(vector<MorphMetaData> _morphs) {
+        morphs = _morphs;
+    }
+    vector<MorphMetaData> getMorphs() {
+        return morphs;
+    }
     void setPageNum(int _pageNum) {
         pageNum = _pageNum;
     }

@@ -162,7 +162,7 @@ public:
                 break;
             case OFX_UI_STATE_DOWN:
             {
-//                draw_fill_highlight = true;            
+                //draw_fill_highlight = true;
                 draw_fill_highlight = false;  // hack by ericr
                 draw_outline_highlight = false;
             }

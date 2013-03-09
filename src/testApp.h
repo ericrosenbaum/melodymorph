@@ -47,7 +47,10 @@ public:
     MorphMetaData getSelectedMorphFromMenuCanvas(int tab);
     void updateSharedLoadMenuCanvas();
     vector<MorphMetaData> downloadPageOfSharedMorphs(int pageNum);
+    string downloadFile(string remotePath);
 
+    void selectMorph(ofxUIMorphCanvas *canvas, int num);
+    void populateMetaDataViews(MorphMetaData *morph);
 
     void loadMenuSwitchToTab(int tab);
     void setPrevAndNextButtonsFor(ofxUIMorphCanvas *canvas);
@@ -64,7 +67,7 @@ public:
     void saveDialogModeSetVisible(bool visible);
   
 	void saveCanvas(bool saveToServer);
-	void loadCanvas(string path);
+	void loadCanvas(MorphMetaData morph);
 	void clearCanvas();
     string paddedNumberString(int num);
 	

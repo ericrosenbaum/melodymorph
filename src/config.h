@@ -50,11 +50,13 @@
 #define BROWSE_URL					"http://melodymorph2.xvm.mit.edu:8080/browse"
 #define MEDIA_URL                   "http://melodymorph2.xvm.mit.edu:8080/media"
 
+// UI modes
 #define PLAY_MODE                   1
 #define LOAD_MENU_MODE              2
 #define PRE_SAVE_MODE               3
 #define SAVE_DIALOG_MODE            4
 
+// load menu tabs
 #define EXAMPLES_TAB                1
 #define USER_TAB                    2
 #define SHARED_TAB                  3
