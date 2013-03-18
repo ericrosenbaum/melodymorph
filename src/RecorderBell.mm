@@ -22,17 +22,17 @@ class RecorderBell : public Bell {
 	float startTime;
 	RecorderBellMaker *maker;
 	
-	RecorderBell(int _canvasX, int _canvasY, vector<Note*> _notes, ofxOpenALSoundPlayer (&_voices)[3][NUMVOICES], int(&_currentChannel)[3], ofImage recBellImage,RecorderBellMaker *_maker) { // PGMidi	*_midi
+	RecorderBell(int _canvasX, int _canvasY, vector<Note*> _notes, ofImage recBellImage, RecorderBellMaker *_maker) { // PGMidi	*_midi
 		canvasX = _canvasX;
 		canvasY = _canvasY;
 		
 		notes = _notes;
 		
-		allVoices[0] = _voices[0];
-		allVoices[1] = _voices[1];
-		allVoices[2] = _voices[2];
-		
-		currentChannel = _currentChannel;
+//		allVoices[0] = _voices[0];
+//		allVoices[1] = _voices[1];
+//		allVoices[2] = _voices[2];
+//		
+//		currentChannel = _currentChannel;
 
 		currentRadius = RECBELLRADIUS;
 		targetRadius = RECBELLRADIUS;
@@ -127,13 +127,13 @@ class RecorderBell : public Bell {
 			}
             
             // openAL
-			int inst = n->instrument;
-			currentChannel[inst] += 1;
-			currentChannel[inst] %= NUMVOICES;
-			int myChannel = currentChannel[inst];
-			allVoices[inst][myChannel].setPitch(getRatio(n->note, n->octave));
-			allVoices[inst][myChannel].setVolume(n->velocity);
-			allVoices[inst][myChannel].play();
+//			int inst = n->instrument;
+//			currentChannel[inst] += 1;
+//			currentChannel[inst] %= NUMVOICES;
+//			int myChannel = currentChannel[inst];
+//			allVoices[inst][myChannel].setPitch(getRatio(n->note, n->octave));
+//			allVoices[inst][myChannel].setVolume(n->velocity);
+//			allVoices[inst][myChannel].play();
 			
             // MIDI
 //            int noteNum = n->note + ((n->octave + 3) * 12);

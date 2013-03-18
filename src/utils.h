@@ -8,7 +8,6 @@ struct MorphMetaData {
     string title;
     string description;
     string xmlFilePath;
-    string smallThumbFilePath;
     string largeThumbFilePath;
 };
 

@@ -10,12 +10,14 @@
 #ifndef MelodyMorph_QuasiModeSelectorCanvas_h
 #define MelodyMorph_QuasiModeSelectorCanvas_h
 
+#define NUM_MODES                   3
+
 // quasi modes
 #define NONE                        0
 #define DRAW_MODE                   1
 #define ERASE_MODE                  2
 #define SLIDE_MODE                  3
-#define SELECT_MODE                 4
+//#define SELECT_MODE                 4
 
 class QuasiModeSelectorCanvas : public ofxUICanvas {
 
@@ -29,19 +31,19 @@ public:
     ofxUIImageButton *slideButton;
     ofxUIImageButton *selectButton;
     
+    string names[3] = {"pencil_button", "eraser_button", "slide_button"};
+    
     QuasiModeSelectorCanvas(int x,int y,int w,int h) : ofxUICanvas(x,y,w,h)
     {
         currentMode = NONE;
         
-        drawButton = new ofxUIImageButton(100, 100, true, "GUI/pencil_button.png", "drawButton");
-        addWidgetDown(drawButton);
-        eraseButton = new ofxUIImageButton(100, 100, true, "GUI/eraser_button.png", "eraseButton");
-        addWidgetDown(eraseButton);
-        slideButton = new ofxUIImageButton(100, 100, true, "GUI/slide_button.png", "slideButton");
-        addWidgetDown(slideButton);
-        selectButton = new ofxUIImageButton(100, 100, true, "GUI/slide_button.png", "selectButton");
-        addWidgetDown(selectButton);
-        
+        for (int i=0; i<3; i++) {
+            ofxUIImageButton *b = new ofxUIImageButton(100, 100, false, "GUI/" + names[i] + ".png", names[i]);
+            b->setColorFillHighlight(127);    // down
+            b->setColorBack(255);             // false
+            addWidgetDown(b);
+        }
+                
         setDrawBack(false);
         
         ofAddListener(newGUIEvent, this, &QuasiModeSelectorCanvas::guiEvent);
@@ -58,39 +60,16 @@ public:
     void guiEvent(ofxUIEventArgs &e) {
         string name = e.widget->getName();
         
-        if (name == "drawButton") {
-            ofxUIImageButton *btn = (ofxUIImageButton *) e.widget;
-            if (btn->getValue()) { // touch down
-                currentMode = DRAW_MODE;
-            } else {
-                resetMode();
+        for (int i=0; i<NUM_MODES; i++) {
+            if (name == names[i]) {
+                ofxUIImageButton *btn = (ofxUIImageButton *) e.widget;
+                if (btn->getValue()) { // touch down
+                    currentMode = i+1;
+                } else {
+                    resetMode();
+                }
             }
         }
-        if (name == "eraseButton") {
-            ofxUIImageButton *btn = (ofxUIImageButton *) e.widget;
-            if (btn->getValue()) { // touch down
-                currentMode = ERASE_MODE;
-            } else {
-                resetMode();
-            }
-        }
-        if (name == "slideButton") {
-            ofxUIImageButton *btn = (ofxUIImageButton *) e.widget;
-            if (btn->getValue()) { // touch down
-                currentMode = SLIDE_MODE;
-            } else {
-                resetMode();
-            }
-        }
-        if (name == "selectButton") {
-            ofxUIImageButton *btn = (ofxUIImageButton *) e.widget;
-            if (btn->getValue()) { // touch down
-                currentMode = SELECT_MODE;
-            } else {
-                resetMode();
-            }
-        }
-
     }
 };
 

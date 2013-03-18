@@ -149,8 +149,8 @@ public:
         switch (state) {
             case OFX_UI_STATE_NORMAL:
             {            
-                //draw_fill_highlight = false;
-                draw_fill_highlight = true; // hack by ericr
+                draw_fill_highlight = false;
+                //draw_fill_highlight = true; // hack by ericr
                 draw_outline_highlight = false;
             }
                 break;
@@ -162,8 +162,8 @@ public:
                 break;
             case OFX_UI_STATE_DOWN:
             {
-                //draw_fill_highlight = true;
-                draw_fill_highlight = false;  // hack by ericr
+                draw_fill_highlight = true;
+                //draw_fill_highlight = false;  // hack by ericr
                 draw_outline_highlight = false;
             }
                 break;

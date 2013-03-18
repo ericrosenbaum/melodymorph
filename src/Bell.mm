@@ -52,11 +52,11 @@ public:
     bool slideFlags[MAXTOUCHES]; 
     //PGMidi	*midi;
     //int midiNoteNum;
-    MultiSampledSoundPlayer player;
+    MultiSampledSoundPlayer *player;
 	
 	bool touchMovedFlag;
     	
-	Bell(int _canvasX, int _canvasY, int _noteNum, int _octave, int _inst, ofxOpenALSoundPlayer (&_voices)[NUMVOICES], int *_currentChannel, ofImage(&_bellImages)[3]) {
+	Bell(int _canvasX, int _canvasY, int _noteNum, int _octave, vector<ofImage> bellImages) {
 			
 //		myApp = (testApp*)ofGetAppPtr();
 		
@@ -78,13 +78,13 @@ public:
 		
 		noteNum = _noteNum;
 		octave = _octave;
-		instrument = _inst;
+		//instrument = _inst;
 		velocity = 1;
 		
-		voices = _voices;
-		currentChannel = _currentChannel;
-		myChannel = 0;
-		voices[myChannel].setVolume(1);
+//		voices = _voices;
+//		currentChannel = _currentChannel;
+//		myChannel = 0;
+//		voices[myChannel].setVolume(1);
 		
 		canvasX = _canvasX;
 		canvasY = _canvasY;
@@ -105,7 +105,7 @@ public:
 		downCount = 0;
 
 		int function = noteFunctions[noteNum];
-		img = _bellImages[function];
+		img = bellImages[function];
 		img.setAnchorPercent(0.5, 0.5);
 		
 		touchMovedFlag = false;
@@ -116,11 +116,15 @@ public:
         
         //midiNoteNum = noteNum + ((octave + 3) * 12);
         
-        player.loadSamples("piano");
+        //player.loadSamples("pluck");
 	};
 	
 	Bell() {
 	}
+    
+    void setPlayer(MultiSampledSoundPlayer *p) {
+        player = p;
+    }
 	
 	virtual void draw(float screenPosX, float screenPosY, float _zoom, float force, float _bend, bool showNoteNames) {
 
@@ -141,9 +145,9 @@ public:
 			downCount++;
 			if (downCount < 10) {
 				float vol = ofMap(force, 0, 0.5, 0.8, 1);
-				voices[myChannel].setVolume(vol);
+//				voices[myChannel].setVolume(vol);
 				velocity = vol;
-                player.setVolume(vol);
+                player->setVolume(vol);
 
                 // reset MIDI pitch bend
 //                const UInt8 status = 0xE0 + instrument;
@@ -154,7 +158,7 @@ public:
                 bendStart = bend;
             }
 			if (downCount > 10 && ((downCount % 10) == 0) ) {
-				voices[myChannel].setPitch(ratio+(bend - bendStart));
+//				voices[myChannel].setPitch(ratio+(bend - bendStart));
                 
                 // MIDI pitch bend
 //                const UInt8 status = 0xE0 + instrument;
@@ -210,14 +214,14 @@ public:
 //        midi = _midi;
 //    }
 	virtual void playNote() {
-        player.playNote(noteNum, octave);
+        player->playNote(noteNum, octave);
         
-		*currentChannel += 1;
-		*currentChannel %= NUMVOICES;
-		
-		myChannel = *currentChannel;
-				
-		voices[myChannel].setPitch(ratio);
+//		*currentChannel += 1;
+//		*currentChannel %= NUMVOICES;
+//		
+//		myChannel = *currentChannel;
+//				
+//		voices[myChannel].setPitch(ratio);
 		//voices[myChannel].play();
 		
 		currentRadius = BELLRADIUS + 25;

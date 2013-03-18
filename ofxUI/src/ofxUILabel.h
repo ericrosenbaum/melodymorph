@@ -175,7 +175,7 @@ public:
     
     void setLabel(string _label)
 	{
-		label = _label; 		
+		label = _label;
         if(autoSize)
         {
             float w = font->stringWidth(label); 

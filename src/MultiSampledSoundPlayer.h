@@ -11,14 +11,19 @@
 
 #include "ofMain.h"
 
-#define NUM_SAMPLES 6
+#define MULTI_SAMPLES_NUM 6
 
 class MultiSampledSoundPlayer {
     
 public:
     
-    ofSoundPlayer players[NUM_SAMPLES];
-    float ratios[7] = {1, 1.05946309, 1.12246205, 1.18920712, 1.25992105, 1.33483985, 1.41421356};
+    bool multiSample;   // we have either one sample (false), or MULTI_SAMPLES_NUM samples (true)
+    
+    ofSoundPlayer myPlayer;                       // for instruments with one sample
+    ofSoundPlayer myPlayers[MULTI_SAMPLES_NUM];   // for multisample instruments
+    
+    float ratios[13] = {1, 1.05946309, 1.12246205, 1.18920712, 1.25992105, 1.33483985, 1.41421356, 1.49830708, 1.58740105, 1.68179283, 1.78179744, 1.88774863, 2};
+    
     
     MultiSampledSoundPlayer() {
         
@@ -30,39 +35,72 @@ public:
         int numSamples = samplePaths.listDir(directoryName);
         samplePaths.sort();
         
-        if (numSamples != NUM_SAMPLES) {
-            cout << "expected " + ofToString(NUM_SAMPLES) + " in " + directoryName + " but found " + ofToString(numSamples) << endl;
+        
+        if (numSamples == MULTI_SAMPLES_NUM) {
+            multiSample = true;
+        } else if (numSamples == 1) {
+            multiSample = false;
+        } else {
+            cout << "loaded " + directoryName + " with " + ofToString(numSamples) + " samples" << endl;
+            cout << "expected " << ofToString(MULTI_SAMPLES_NUM) << " or 1" << endl;
             return;
         }
         
-        for (int i=0; i<numSamples; i++) {
-            players[i].loadSound(samplePaths.getPath(i));
-            //            cout << "loaded " << samplePaths.getPath(i) << endl;
-            players[i].setMultiPlay(true);
+        if (multiSample) {
+            for (int i=0; i<numSamples; i++) {
+                myPlayers[i].loadSound(samplePaths.getPath(i));
+                myPlayers[i].setMultiPlay(true);
+            }
+        } else {
+            myPlayer.loadSound(samplePaths.getPath(0));
+            myPlayer.setMultiPlay(true);
         }
     }
     
     void setVolume(float vol) {
-        for (int i=0; i<NUM_SAMPLES; i++) {
-            players[i].setVolume(vol);
+        if (multiSample) {
+            for (int i=0; i<MULTI_SAMPLES_NUM; i++) {
+                myPlayers[i].setVolume(vol);
+            }
+        } else {
+            myPlayer.setVolume(vol);
         }
     }
     
     void playNote(int num, int octave) {
         
-        int sampleNum;
-        int diff;
+        if (multiSample) {
         
-        if (num < 7) {
-            sampleNum = octave * 2; // samples 0,2,4 are C
-            diff = num;
+            // choose a sample (there are two per octave)
+            // and the interval to lower it by to get the desired pitch
+            
+            int sampleNum;
+            int interval;
+            
+            if (num < 7) {
+                sampleNum = octave * 2; // samples 0,2,4 are F#
+                interval = (6 - num);
+            } else {
+                sampleNum = 1 + (octave * 2); // samples 1,3,5 are C
+                interval = 6 - (num - 6);
+            }
+            
+            myPlayers[sampleNum].play();
+            myPlayers[sampleNum].setSpeed(1/ratios[interval]); // inverse ratio lowers the pitch
+            
         } else {
-            sampleNum = 1 + (octave * 2); // samples 1,3,5 are G
-            diff = num - 7;
+            
+            myPlayer.play();
+            float myRatio = ratios[num];
+            if (octave == 2) {
+                myRatio *= 2;
+            }
+            if (octave == 0) {
+                myRatio /= 2;
+            }
+            myPlayer.setSpeed(myRatio);
         }
-        
-        players[sampleNum].play();
-        players[sampleNum].setSpeed(1/ratios[diff]);
+
     }
 };
 

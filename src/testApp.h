@@ -36,6 +36,9 @@ public:
 	void setupMiniMap();
 	
 	void drawPalette();
+    void roundedRect(float x, float y, float w, float h, float r);
+    void quadraticBezierVertex(float cpx, float cpy, float x, float y, float prevX, float prevY);
+
 	void drawMiniMap();
 	
 	void calculateForce();
@@ -47,7 +50,7 @@ public:
     MorphMetaData getSelectedMorphFromMenuCanvas(int tab);
     void updateSharedLoadMenuCanvas();
     vector<MorphMetaData> downloadPageOfSharedMorphs(int pageNum);
-    string downloadFile(string remotePath);
+    void downloadFile(string remotePath);
 
     void selectMorph(ofxUIMorphCanvas *canvas, int num);
     void populateMetaDataViews(MorphMetaData *morph);
@@ -80,6 +83,7 @@ public:
 	float pinchDist();
 	int getPaletteNote(int x);
 
+    void setupInstruments();
 	void setOctave(int oct);
 	void setInstrument(int inst);
 	
@@ -104,9 +108,11 @@ public:
 	
     void exit();
     void guiEvent(ofxUIEventArgs &e);
-    
+    void gotMessage(ofMessage msg);
+
     void allCanvasesSetVisible(bool visible);
     bool noCanvasIsHit(int x, int y);
 
+    void loadBellImages();
 };
 

@@ -10,12 +10,8 @@
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
 		288765FD0DF74451002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765FC0DF74451002DB57D /* CoreGraphics.framework */; };
-		4932CFC615EA07E400D9B5C2 /* button_left.png in Resources */ = {isa = PBXBuildFile; fileRef = 4932CFBC15EA07E400D9B5C2 /* button_left.png */; };
-		4932CFC715EA07E400D9B5C2 /* App.png in Resources */ = {isa = PBXBuildFile; fileRef = 4932CFBE15EA07E400D9B5C2 /* App.png */; };
-		4932CFC815EA07E400D9B5C2 /* Preview.png in Resources */ = {isa = PBXBuildFile; fileRef = 4932CFBF15EA07E400D9B5C2 /* Preview.png */; };
-		4932CFC915EA07E400D9B5C2 /* NewMedia Fett.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4932CFC015EA07E400D9B5C2 /* NewMedia Fett.ttf */; };
+		495099CB16F445AC00A16519 /* GUI in Resources */ = {isa = PBXBuildFile; fileRef = 495099CA16F445AC00A16519 /* GUI */; };
 		495B260715F165CC00290967 /* examples in Resources */ = {isa = PBXBuildFile; fileRef = 495B260515F165CC00290967 /* examples */; };
-		495B260815F165CC00290967 /* images in Resources */ = {isa = PBXBuildFile; fileRef = 495B260615F165CC00290967 /* images */; };
 		496D86B116C0CD0900F746FA /* ofxTextBlock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 496D86AE16C0CD0900F746FA /* ofxTextBlock.cpp */; };
 		49778C18169647F3009AB6FC /* libcurl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 49778BD6169647F3009AB6FC /* libcurl.a */; };
 		49778C1D169647F3009AB6FC /* README.txt in Resources */ = {isa = PBXBuildFile; fileRef = 49778BDD169647F3009AB6FC /* README.txt */; };
@@ -38,13 +34,7 @@
 		4993E7DB1627A6180030510D /* RecorderBellMaker.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4993E7D81627A6180030510D /* RecorderBellMaker.xib */; };
 		4993E7EC162A4BEF0030510D /* control_panel_back.png in Resources */ = {isa = PBXBuildFile; fileRef = 4993E7EB162A4BEF0030510D /* control_panel_back.png */; };
 		4993E7EE162A4C080030510D /* button2.png in Resources */ = {isa = PBXBuildFile; fileRef = 4993E7ED162A4C080030510D /* button2.png */; };
-		499451CC15F7C30500D5149D /* button_right.png in Resources */ = {isa = PBXBuildFile; fileRef = 499451C315F7C30500D5149D /* button_right.png */; };
-		499451CD15F7C30500D5149D /* eraser_button.png in Resources */ = {isa = PBXBuildFile; fileRef = 499451C415F7C30500D5149D /* eraser_button.png */; };
-		499451CE15F7C30500D5149D /* gear.png in Resources */ = {isa = PBXBuildFile; fileRef = 499451C515F7C30500D5149D /* gear.png */; };
-		499451D115F7C30500D5149D /* pencil_button.png in Resources */ = {isa = PBXBuildFile; fileRef = 499451C815F7C30500D5149D /* pencil_button.png */; };
-		499451D215F7C30500D5149D /* rec_bell_maker_active.png in Resources */ = {isa = PBXBuildFile; fileRef = 499451C915F7C30500D5149D /* rec_bell_maker_active.png */; };
-		499451D315F7C30500D5149D /* rec_bell_maker.png in Resources */ = {isa = PBXBuildFile; fileRef = 499451CA15F7C30500D5149D /* rec_bell_maker.png */; };
-		499451D415F7C30500D5149D /* slide_button.png in Resources */ = {isa = PBXBuildFile; fileRef = 499451CB15F7C30500D5149D /* slide_button.png */; };
+		49A4F6A516EDA68F006AD5DD /* instruments in Resources */ = {isa = PBXBuildFile; fileRef = 49A4F6A416EDA68F006AD5DD /* instruments */; };
 		49E0B93915E7FEC200B7E5CC /* DrawingLine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 49E0B91515E7FEC200B7E5CC /* DrawingLine.cpp */; };
 		49E0B93A15E7FEC200B7E5CC /* Point2D.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 49E0B91615E7FEC200B7E5CC /* Point2D.cpp */; };
 		49E0B94315E7FEC200B7E5CC /* Thumb.m in Sources */ = {isa = PBXBuildFile; fileRef = 49E0B92415E7FEC200B7E5CC /* Thumb.m */; };
@@ -69,13 +59,8 @@
 		49E0BD0715E822FA00B7E5CC /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 49E0BCE115E822FA00B7E5CC /* Default.png */; };
 		49E0BD1115E822FA00B7E5CC /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 49E0BCED15E822FA00B7E5CC /* Icon.png */; };
 		49E0BD1415E822FA00B7E5CC /* piano_sample.wav in Resources */ = {isa = PBXBuildFile; fileRef = 49E0BCF015E822FA00B7E5CC /* piano_sample.wav */; };
-		49E0BD1B15E822FA00B7E5CC /* vibe_sample.wav in Resources */ = {isa = PBXBuildFile; fileRef = 49E0BCF715E822FA00B7E5CC /* vibe_sample.wav */; };
-		49E1CFA316EA720D0024CA52 /* 1_piano_C1.wav in Resources */ = {isa = PBXBuildFile; fileRef = 49E1CF9D16EA720D0024CA52 /* 1_piano_C1.wav */; };
-		49E1CFA416EA720D0024CA52 /* 2_piano_G1.wav in Resources */ = {isa = PBXBuildFile; fileRef = 49E1CF9E16EA720D0024CA52 /* 2_piano_G1.wav */; };
-		49E1CFA516EA720D0024CA52 /* 3_piano_C2.wav in Resources */ = {isa = PBXBuildFile; fileRef = 49E1CF9F16EA720D0024CA52 /* 3_piano_C2.wav */; };
-		49E1CFA616EA720D0024CA52 /* 4_piano_G2.wav in Resources */ = {isa = PBXBuildFile; fileRef = 49E1CFA016EA720D0024CA52 /* 4_piano_G2.wav */; };
-		49E1CFA716EA720D0024CA52 /* 5_piano_C3.wav in Resources */ = {isa = PBXBuildFile; fileRef = 49E1CFA116EA720D0024CA52 /* 5_piano_C3.wav */; };
-		49E1CFA816EA720D0024CA52 /* 6_piano_G3.wav in Resources */ = {isa = PBXBuildFile; fileRef = 49E1CFA216EA720D0024CA52 /* 6_piano_G3.wav */; };
+		49E250E016F04CC70090CB7C /* bell-images in Resources */ = {isa = PBXBuildFile; fileRef = 49E250DF16F04CC70090CB7C /* bell-images */; };
+		49E250E216F052430090CB7C /* rec-bell-image in Resources */ = {isa = PBXBuildFile; fileRef = 49E250E116F052430090CB7C /* rec-bell-image */; };
 		49FE3CA316E3A80E0084638B /* BrowserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 49FE3CA116E3A80E0084638B /* BrowserViewController.m */; };
 		49FE3CA416E3A80E0084638B /* BrowserViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 49FE3CA216E3A80E0084638B /* BrowserViewController.xib */; };
 		5326AEA810A23A0500278DE6 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5326AEA710A23A0500278DE6 /* CoreLocation.framework */; };
@@ -114,12 +99,8 @@
 		288765FC0DF74451002DB57D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		32CA4F630368D1EE00C91783 /* iPhone_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iPhone_Prefix.pch; sourceTree = "<group>"; };
 		49280A5716C37B32003C99FD /* ofxUIMorphCanvas.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ofxUIMorphCanvas.h; path = ../ofxUI/src/ofxUIMorphCanvas.h; sourceTree = "<group>"; };
-		4932CFBC15EA07E400D9B5C2 /* button_left.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button_left.png; sourceTree = "<group>"; };
-		4932CFBE15EA07E400D9B5C2 /* App.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = App.png; sourceTree = "<group>"; };
-		4932CFBF15EA07E400D9B5C2 /* Preview.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Preview.png; sourceTree = "<group>"; };
-		4932CFC015EA07E400D9B5C2 /* NewMedia Fett.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NewMedia Fett.ttf"; sourceTree = "<group>"; };
+		495099CA16F445AC00A16519 /* GUI */ = {isa = PBXFileReference; lastKnownFileType = folder; path = GUI; sourceTree = "<group>"; };
 		495B260515F165CC00290967 /* examples */ = {isa = PBXFileReference; lastKnownFileType = folder; path = examples; sourceTree = "<group>"; };
-		495B260615F165CC00290967 /* images */ = {isa = PBXFileReference; lastKnownFileType = folder; path = images; sourceTree = "<group>"; };
 		496D86AE16C0CD0900F746FA /* ofxTextBlock.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxTextBlock.cpp; sourceTree = "<group>"; };
 		496D86AF16C0CD0900F746FA /* ofxTextBlock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxTextBlock.h; sourceTree = "<group>"; };
 		496D86B016C0CD0900F746FA /* ofxTextSuite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxTextSuite.h; sourceTree = "<group>"; };
@@ -151,6 +132,7 @@
 		49778C0F169647F3009AB6FC /* ofxCurlFormTypeInput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxCurlFormTypeInput.h; sourceTree = "<group>"; };
 		49778C271696A0F4009AB6FC /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		497C489C16CA3ACA0083E763 /* SegmentedControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SegmentedControl.h; sourceTree = "<group>"; };
+		498F8AA716F36F2E00CC9F7C /* OctaveButtons.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OctaveButtons.h; sourceTree = "<group>"; };
 		4993E7C51627A57B0030510D /* DrawingToggle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DrawingToggle.h; sourceTree = "<group>"; };
 		4993E7C61627A57B0030510D /* DrawingToggle.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = DrawingToggle.mm; sourceTree = "<group>"; };
 		4993E7C71627A57B0030510D /* DrawingToggle.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DrawingToggle.xib; sourceTree = "<group>"; };
@@ -167,13 +149,7 @@
 		4993E7D81627A6180030510D /* RecorderBellMaker.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RecorderBellMaker.xib; sourceTree = "<group>"; };
 		4993E7EB162A4BEF0030510D /* control_panel_back.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = control_panel_back.png; sourceTree = "<group>"; };
 		4993E7ED162A4C080030510D /* button2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button2.png; sourceTree = "<group>"; };
-		499451C315F7C30500D5149D /* button_right.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button_right.png; sourceTree = "<group>"; };
-		499451C415F7C30500D5149D /* eraser_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = eraser_button.png; sourceTree = "<group>"; };
-		499451C515F7C30500D5149D /* gear.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gear.png; sourceTree = "<group>"; };
-		499451C815F7C30500D5149D /* pencil_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pencil_button.png; sourceTree = "<group>"; };
-		499451C915F7C30500D5149D /* rec_bell_maker_active.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = rec_bell_maker_active.png; sourceTree = "<group>"; };
-		499451CA15F7C30500D5149D /* rec_bell_maker.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = rec_bell_maker.png; sourceTree = "<group>"; };
-		499451CB15F7C30500D5149D /* slide_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = slide_button.png; sourceTree = "<group>"; };
+		49A4F6A416EDA68F006AD5DD /* instruments */ = {isa = PBXFileReference; lastKnownFileType = folder; path = instruments; sourceTree = "<group>"; };
 		49E0B91515E7FEC200B7E5CC /* DrawingLine.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DrawingLine.cpp; sourceTree = "<group>"; };
 		49E0B91615E7FEC200B7E5CC /* Point2D.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Point2D.cpp; sourceTree = "<group>"; };
 		49E0B92315E7FEC200B7E5CC /* Thumb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Thumb.h; sourceTree = "<group>"; };
@@ -246,14 +222,9 @@
 		49E0BCE115E822FA00B7E5CC /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		49E0BCED15E822FA00B7E5CC /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
 		49E0BCF015E822FA00B7E5CC /* piano_sample.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = piano_sample.wav; sourceTree = "<group>"; };
-		49E0BCF715E822FA00B7E5CC /* vibe_sample.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = vibe_sample.wav; sourceTree = "<group>"; };
 		49E1CF8B16E910310024CA52 /* MultiSampledSoundPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MultiSampledSoundPlayer.h; sourceTree = "<group>"; };
-		49E1CF9D16EA720D0024CA52 /* 1_piano_C1.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = 1_piano_C1.wav; sourceTree = "<group>"; };
-		49E1CF9E16EA720D0024CA52 /* 2_piano_G1.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = 2_piano_G1.wav; sourceTree = "<group>"; };
-		49E1CF9F16EA720D0024CA52 /* 3_piano_C2.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = 3_piano_C2.wav; sourceTree = "<group>"; };
-		49E1CFA016EA720D0024CA52 /* 4_piano_G2.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = 4_piano_G2.wav; sourceTree = "<group>"; };
-		49E1CFA116EA720D0024CA52 /* 5_piano_C3.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = 5_piano_C3.wav; sourceTree = "<group>"; };
-		49E1CFA216EA720D0024CA52 /* 6_piano_G3.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = 6_piano_G3.wav; sourceTree = "<group>"; };
+		49E250DF16F04CC70090CB7C /* bell-images */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "bell-images"; sourceTree = "<group>"; };
+		49E250E116F052430090CB7C /* rec-bell-image */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "rec-bell-image"; sourceTree = "<group>"; };
 		49FE3CA016E3A80D0084638B /* BrowserViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BrowserViewController.h; sourceTree = "<group>"; };
 		49FE3CA116E3A80E0084638B /* BrowserViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BrowserViewController.m; sourceTree = "<group>"; };
 		49FE3CA216E3A80E0084638B /* BrowserViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BrowserViewController.xib; sourceTree = "<group>"; };
@@ -313,7 +284,6 @@
 			children = (
 				49778C271696A0F4009AB6FC /* Security.framework */,
 				495B260515F165CC00290967 /* examples */,
-				495B260615F165CC00290967 /* images */,
 				4932CFB915EA07E400D9B5C2 /* data */,
 				E4D8936A11527B74007E1F53 /* src */,
 				BB24E1F710DAA51900E9C588 /* openFrameworks */,
@@ -347,37 +317,13 @@
 		4932CFB915EA07E400D9B5C2 /* data */ = {
 			isa = PBXGroup;
 			children = (
-				49E1CF9C16EA720D0024CA52 /* piano */,
-				4932CFBB15EA07E400D9B5C2 /* GUI */,
+				49E250E116F052430090CB7C /* rec-bell-image */,
+				49E250DF16F04CC70090CB7C /* bell-images */,
+				49A4F6A416EDA68F006AD5DD /* instruments */,
+				495099CA16F445AC00A16519 /* GUI */,
 			);
 			name = data;
 			path = bin/data;
-			sourceTree = "<group>";
-		};
-		4932CFBB15EA07E400D9B5C2 /* GUI */ = {
-			isa = PBXGroup;
-			children = (
-				499451C315F7C30500D5149D /* button_right.png */,
-				499451C415F7C30500D5149D /* eraser_button.png */,
-				499451C515F7C30500D5149D /* gear.png */,
-				499451C815F7C30500D5149D /* pencil_button.png */,
-				499451C915F7C30500D5149D /* rec_bell_maker_active.png */,
-				499451CA15F7C30500D5149D /* rec_bell_maker.png */,
-				499451CB15F7C30500D5149D /* slide_button.png */,
-				4932CFBC15EA07E400D9B5C2 /* button_left.png */,
-				4932CFBD15EA07E400D9B5C2 /* images */,
-				4932CFC015EA07E400D9B5C2 /* NewMedia Fett.ttf */,
-			);
-			path = GUI;
-			sourceTree = "<group>";
-		};
-		4932CFBD15EA07E400D9B5C2 /* images */ = {
-			isa = PBXGroup;
-			children = (
-				4932CFBE15EA07E400D9B5C2 /* App.png */,
-				4932CFBF15EA07E400D9B5C2 /* Preview.png */,
-			);
-			path = images;
 			sourceTree = "<group>";
 		};
 		496D86AD16C0CD0900F746FA /* ofxTextSuite */ = {
@@ -598,22 +544,8 @@
 				49E0BCE115E822FA00B7E5CC /* Default.png */,
 				49E0BCED15E822FA00B7E5CC /* Icon.png */,
 				49E0BCF015E822FA00B7E5CC /* piano_sample.wav */,
-				49E0BCF715E822FA00B7E5CC /* vibe_sample.wav */,
 			);
 			path = data;
-			sourceTree = "<group>";
-		};
-		49E1CF9C16EA720D0024CA52 /* piano */ = {
-			isa = PBXGroup;
-			children = (
-				49E1CF9D16EA720D0024CA52 /* 1_piano_C1.wav */,
-				49E1CF9E16EA720D0024CA52 /* 2_piano_G1.wav */,
-				49E1CF9F16EA720D0024CA52 /* 3_piano_C2.wav */,
-				49E1CFA016EA720D0024CA52 /* 4_piano_G2.wav */,
-				49E1CFA116EA720D0024CA52 /* 5_piano_C3.wav */,
-				49E1CFA216EA720D0024CA52 /* 6_piano_G3.wav */,
-			);
-			path = piano;
 			sourceTree = "<group>";
 		};
 		BB16E9930F2B1E5900518274 /* libs */ = {
@@ -696,9 +628,10 @@
 				49E0B92F15E7FEC200B7E5CC /* Note.cpp */,
 				49E0B93015E7FEC200B7E5CC /* main.mm */,
 				49E0B93115E7FEC200B7E5CC /* testApp.mm */,
+				49E0B93215E7FEC200B7E5CC /* testApp.h */,
 				49E1CF8B16E910310024CA52 /* MultiSampledSoundPlayer.h */,
 				497C489C16CA3ACA0083E763 /* SegmentedControl.h */,
-				49E0B93215E7FEC200B7E5CC /* testApp.h */,
+				498F8AA716F36F2E00CC9F7C /* OctaveButtons.h */,
 				49E0B93315E7FEC200B7E5CC /* BrowserTest.h */,
 				49FE3CA016E3A80D0084638B /* BrowserViewController.h */,
 				49FE3CA116E3A80E0084638B /* BrowserViewController.m */,
@@ -791,20 +724,7 @@
 				49E0BD0715E822FA00B7E5CC /* Default.png in Resources */,
 				49E0BD1115E822FA00B7E5CC /* Icon.png in Resources */,
 				49E0BD1415E822FA00B7E5CC /* piano_sample.wav in Resources */,
-				49E0BD1B15E822FA00B7E5CC /* vibe_sample.wav in Resources */,
-				4932CFC615EA07E400D9B5C2 /* button_left.png in Resources */,
-				4932CFC715EA07E400D9B5C2 /* App.png in Resources */,
-				4932CFC815EA07E400D9B5C2 /* Preview.png in Resources */,
-				4932CFC915EA07E400D9B5C2 /* NewMedia Fett.ttf in Resources */,
 				495B260715F165CC00290967 /* examples in Resources */,
-				495B260815F165CC00290967 /* images in Resources */,
-				499451CC15F7C30500D5149D /* button_right.png in Resources */,
-				499451CD15F7C30500D5149D /* eraser_button.png in Resources */,
-				499451CE15F7C30500D5149D /* gear.png in Resources */,
-				499451D115F7C30500D5149D /* pencil_button.png in Resources */,
-				499451D215F7C30500D5149D /* rec_bell_maker_active.png in Resources */,
-				499451D315F7C30500D5149D /* rec_bell_maker.png in Resources */,
-				499451D415F7C30500D5149D /* slide_button.png in Resources */,
 				4993E7C91627A57C0030510D /* DrawingToggle.xib in Resources */,
 				4993E7D11627A5AB0030510D /* ControlPanel.xib in Resources */,
 				4993E7D31627A5AB0030510D /* ControlPanelToggle.xib in Resources */,
@@ -814,12 +734,10 @@
 				4993E7EE162A4C080030510D /* button2.png in Resources */,
 				49778C1D169647F3009AB6FC /* README.txt in Resources */,
 				49FE3CA416E3A80E0084638B /* BrowserViewController.xib in Resources */,
-				49E1CFA316EA720D0024CA52 /* 1_piano_C1.wav in Resources */,
-				49E1CFA416EA720D0024CA52 /* 2_piano_G1.wav in Resources */,
-				49E1CFA516EA720D0024CA52 /* 3_piano_C2.wav in Resources */,
-				49E1CFA616EA720D0024CA52 /* 4_piano_G2.wav in Resources */,
-				49E1CFA716EA720D0024CA52 /* 5_piano_C3.wav in Resources */,
-				49E1CFA816EA720D0024CA52 /* 6_piano_G3.wav in Resources */,
+				49A4F6A516EDA68F006AD5DD /* instruments in Resources */,
+				49E250E016F04CC70090CB7C /* bell-images in Resources */,
+				49E250E216F052430090CB7C /* rec-bell-image in Resources */,
+				495099CB16F445AC00A16519 /* GUI in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

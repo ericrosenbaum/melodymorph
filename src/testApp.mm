@@ -1,6 +1,7 @@
 // melodymorph 
 //
 // ssh ericr@melodymorph2.xvm.mit.edu
+// nohup python manage.py runserver 0.0.0.0:8080
 //
 // now we are on github yay
 
@@ -46,7 +47,27 @@ SHOULD BE THIS
  server-timestamp.xml
  server-timestamp.png
  
+ *******
  
+ paths are used in a few different ways:
+ 
+ local user XML files - full documents path
+ local example XML files - examples/ path
+ 
+ morph vectors for user, example and shared tabs
+    user and example are loaded from their XML files
+    shared paths come from database entries
+ 
+ database entry on server
+    points to database file system, which has xml and png folders
+        so it's different from local file system paths!
+ 
+ ***
+ 
+ so maybe I should only store an id, which is the timestamp, same as filename
+ this would mean XML files have ids stored inside which are the same as their filename
+ and then construct paths with concatenation as needed
+ this also requires a field in the XML for user/example/shared
  
 */
 
@@ -65,9 +86,14 @@ SHOULD BE THIS
 #include "utils.h"
 #include "BrowserViewController.h"
 #include "QuasiModeSelectorCanvas.h"
+#include "SegmentedControl.h"
+#include "OctaveButtons.h"
 
 vector<Bell*> bells;
-ofxOpenALSoundPlayer voices[3][NUMVOICES];
+vector<MultiSampledSoundPlayer *> instrumentSoundPlayers;
+vector<string> instrumentNames;
+int numInstruments;
+
 int currentChannel[3];
 int currentInstrument;
 
@@ -99,7 +125,8 @@ bool zoomBegun;
 
 int octave;
 
-ofImage bellImages[3][3]; // 3 instruments * 3 functions
+vector<vector<ofImage> > bellImageTriplets;
+
 ofImage recBellImage;
 ofImage paletteBack;
 
@@ -133,6 +160,8 @@ vector<MorphMetaData> sharedMorphsMetaData;
 // play mode widgets
 
 QuasiModeSelectorCanvas *quasiModeSelectorCanvas;
+SegmentedControl *instrumentSelector;
+OctaveButtons *octaveButtons;
 
 // load menu
 
@@ -165,7 +194,6 @@ ofxiPhoneKeyboard *authorKeyboard;
 ofxiPhoneKeyboardWrapping *descriptionKeyboard;
 
 ofImage largeThumbImageForSaving;
-ofImage smallThumbImageForSaving;
 
 // native UI widgets
 
@@ -199,21 +227,9 @@ void testApp::setup(){
     ofxiPhoneSetOrientation(OFXIPHONE_ORIENTATION_LANDSCAPE_RIGHT);
     
 	ofEnableAlphaBlending();
-			
-	for (int i=0; i<NUMVOICES; i++) {
-		voices[0][i].loadSound("acoustic_bass_sample.wav");
-	}
-	for (int i=0; i<NUMVOICES; i++) {
-		voices[1][i].loadSound("piano_sample.wav");
-	}
-	for (int i=0; i<NUMVOICES; i++) {
-		voices[2][i].loadSound("vibe_sample.wav");
-	}
-
-	currentChannel[0] = 0;
-	currentChannel[1] = 0;
-	currentChannel[2] = 0;
-	
+    
+    setupInstruments();
+    
 	// compute palette positions
 	float inc = (768 - 100) / (float)(NUMNOTES+1);
 	int x = inc + 55 + 128;
@@ -225,7 +241,6 @@ void testApp::setup(){
 	screenPosX = SCREENSTARTPOSX;
 	screenPosY = SCREENSTARTPOSY;
 	
-	octave = 1;
 	paletteXPos = 0;
 	
 	showAllNotes = false;
@@ -260,21 +275,8 @@ void testApp::setup(){
 	draggingCanvas = false;
 	draggingMinimap = false;
 		
-	bellImages[0][0].loadImage("images/ball_plain.png");
-	bellImages[0][1].loadImage("images/ball_band.png");
-	bellImages[0][2].loadImage("images/ball_stripes.png");
-	
-	bellImages[1][0].loadImage("images/square_plain.png");
-	bellImages[1][1].loadImage("images/square_band.png");
-	bellImages[1][2].loadImage("images/square_stripes.png");
-	
-	bellImages[2][0].loadImage("images/triangle_plain.png");
-	bellImages[2][1].loadImage("images/triangle_band.png");
-	bellImages[2][2].loadImage("images/triangle_stripes.png");
-	
-	recBellImage.loadImage("images/rec_bell.png");
-	
-	paletteBack.loadImage("images/palette_back.png");
+	loadBellImages();
+	recBellImage.loadImage("rec-bell-image/rec_bell.png");
 	
 	recording = false;
     
@@ -322,12 +324,12 @@ void testApp::setup(){
     
      // buttons at the top of the screen
      topButtons = [[TopButtons alloc] initWithNibName:@"TopButtons" bundle:nil];
-     [ofxiPhoneGetGLView() addSubview:topButtons.view];
+     //[ofxiPhoneGetGLView() addSubview:topButtons.view];
      // ugh. only way I could figure out to do this
      // it needs to use the GLView to pass touches through it
      // but GLView is apparently not rotated, so we rotate manually
      topButtons.view.transform = CGAffineTransformMakeRotation(ofDegToRad(-90));
-     setInstrument(2);
+     //setInstrument(2);
     
      r = CGRectMake(0, 0, 768, 1024);
      topButtons.view.frame = r;
@@ -342,6 +344,12 @@ void testApp::setup(){
     
     quasiModeSelectorCanvas = new QuasiModeSelectorCanvas(0, 100, 100, 400);
     
+    instrumentSelector = new SegmentedControl(0,0,ofGetWidth(),100);
+    instrumentSelector->initWithNames(instrumentNames);
+    setInstrument(numInstruments-1);
+    instrumentSelector->setSelectedIndex(currentInstrument);
+    
+    octaveButtons = new OctaveButtons(128, 35, 768, 80);
     
 }
 
@@ -376,9 +384,6 @@ void testApp::draw(){
     if (UIMode == PRE_SAVE_MODE) {
         largeThumbImageForSaving.grabScreen(0,0,ofGetWidth(),ofGetHeight());
         largeThumbImageForSaving.resize(400,300);
- 
-        smallThumbImageForSaving.clone(largeThumbImageForSaving);
-        smallThumbImageForSaving.resize(133,100);
         
         enterUIMode(SAVE_DIALOG_MODE);
     }
@@ -467,21 +472,18 @@ void testApp::drawMiniMap(){
 //--------------------------------------------------------------
 void testApp::drawPalette(){
 	
-//	ofSetColor(100, 100, 100);
-//	ofRect(0, 0, ofGetWidth(), 90);
-	
     // background rectangle
-	//paletteBack.draw(128, 0, 768, 90);
-	ofSetColor(100, 100, 100);
-    ofRect(128, 20, 768, 80);
+    ofSetColor(127, 127, 127);
+    roundedRect(128, 35, 768, 80, 10);
+        
 	ofSetHexColor(0xffffff);
     
 	int paletteYPos = 75;
 	float targetXPos = 0;
-	if (octave == 0) {
+	if (octaveButtons->getOctave() == 0) {
 		targetXPos = 768;
 	} 
-	if (octave == 2) {
+	if (octaveButtons->getOctave() == 2) {
 		targetXPos = 768 * -1;
 	}
 	paletteXPos += (targetXPos - paletteXPos) / 10; 
@@ -519,11 +521,10 @@ void testApp::drawPalette(){
 					yOffset = -10; 
 					diam = 30;
 				}
-				ofImage *img = &bellImages[currentInstrument][function];
-				img->setAnchorPercent(0.5, 0.5);
 				float xPos = palettePositions[i] + xOffset + paletteXPos;
 				if ((xPos < (768 + 128 - 55)) && (xPos > (128 + 55))) {
-					img->draw(xPos, paletteYPos + yOffset, diam, diam);
+                    bellImageTriplets[currentInstrument][function].setAnchorPercent(0.5, 0.5);
+                    bellImageTriplets[currentInstrument][function].draw(xPos,paletteYPos + yOffset, diam, diam);
 					if (showNoteNames) {
 						ofSetHexColor(0x000000);
 						ofDrawBitmapString(noteNames(i), xPos+1-4, paletteYPos + yOffset+1+3);
@@ -536,6 +537,75 @@ void testApp::drawPalette(){
 		}
 	}
 	 
+}
+void testApp::roundedRect(float x, float y, float w, float h, float r) {
+    ofBeginShape();
+    ofVertex(x+r, y);
+    ofVertex(x+w-r, y);
+    quadraticBezierVertex(x+w, y, x+w, y+r, x+w-r, y);
+    ofVertex(x+w, y+h-r);
+    quadraticBezierVertex(x+w, y+h, x+w-r, y+h, x+w, y+h-r);
+    ofVertex(x+r, y+h);
+    quadraticBezierVertex(x, y+h, x, y+h-r, x+r, y+h);
+    ofVertex(x, y+r);
+    quadraticBezierVertex(x, y, x+r, y, x, y+r);
+    ofEndShape();
+}
+
+void testApp::quadraticBezierVertex(float cpx, float cpy, float x, float y, float prevX, float prevY) {
+    float cp1x = prevX + 2.0/3.0*(cpx - prevX);
+    float cp1y = prevY + 2.0/3.0*(cpy - prevY);
+    float cp2x = cp1x + (x - prevX)/3.0;
+    float cp2y = cp1y + (y - prevY)/3.0;
+    
+    // finally call cubic Bezier curve function
+    ofBezierVertex(cp1x, cp1y, cp2x, cp2y, x, y);
+}
+//--------------------------------------------------------------
+void testApp::setupInstruments() {
+    
+    ofDirectory instrumentPaths = *new ofDirectory();
+    numInstruments = instrumentPaths.listDir("instruments");
+    instrumentPaths.sort();
+    
+    for (int i=0; i<numInstruments; i++) {
+        MultiSampledSoundPlayer *inst = new MultiSampledSoundPlayer();
+        string path = instrumentPaths.getPath(i);
+        inst->loadSamples(path);
+        instrumentSoundPlayers.push_back(inst);
+        
+        vector<string> s = ofSplitString(path, "/");
+        string name = s[1];
+        instrumentNames.push_back(name);
+        
+        cout << "loaded instrument " + path << endl;
+        
+    }
+}
+//--------------------------------------------------------------
+void testApp::loadBellImages() {
+    
+    ofDirectory bellImagePaths = *new ofDirectory();
+    int numBellImagePaths = bellImagePaths.listDir("bell-images");
+    bellImagePaths.sort();
+    
+    for (int i=0; i<numBellImagePaths; i++) {
+        string path = bellImagePaths.getPath(i);
+        ofDirectory imageDir = *new ofDirectory();
+        int numImages = imageDir.listDir(path);
+        
+        vector<ofImage> triplet;
+
+        for (int j=0; j<numImages; j++) {
+            ofImage img;
+            img.loadImage(imageDir.getPath(j));
+            img.setAnchorPercent(0.5, 0.5);
+            triplet.push_back(img);
+        }
+        
+        bellImageTriplets.push_back(triplet);
+        cout << "loaded " + ofToString(numImages) + " images from " + path << endl;
+    }
 }
 //--------------------------------------------------------------
 void testApp::setOctave(int oct){
@@ -557,12 +627,10 @@ void testApp::saveCanvas(bool saveToServer){
     string timestamp = ofGetTimestampString();
     
     // generate file names and paths
-    string smallThumbFilePath = ofxiPhoneGetDocumentsDirectory() + "smallThumbImage_" + timestamp + ".png";
-    string largeThumbFilePath = ofxiPhoneGetDocumentsDirectory() + "largeThumbImage_" + timestamp + ".png";
-    string XMLFilePath = ofxiPhoneGetDocumentsDirectory() + "bells_" + timestamp + ".xml";
+    string largeThumbFilePath = ofxiPhoneGetDocumentsDirectory() + timestamp + ".png";
+    string XMLFilePath = ofxiPhoneGetDocumentsDirectory() + timestamp + ".xml";
     
-	// save thumb images (these were just generated in pre-save mode, inside draw())
-    smallThumbImageForSaving.saveImage(smallThumbFilePath);
+	// save thumb image (generated in pre-save mode, inside draw())
     largeThumbImageForSaving.saveImage(largeThumbFilePath);
 		
 	// XML
@@ -574,7 +642,6 @@ void testApp::saveCanvas(bool saveToServer){
     XML.setValue("TITLE:TEXT", title, 0);
     XML.setValue("AUTHOR:TEXT", author, 0);
     XML.setValue("DESCRIPTION:TEXT", description, 0);
-	XML.setValue("THUMBPATH:SMALL", smallThumbFilePath, 0);
 	XML.setValue("THUMBPATH:LARGE", largeThumbFilePath, 0);
 	XML.setValue("ZOOM:VALUE", zoom, 0);
 	XML.setValue("SCREENPOS:X", screenPosX, 0);
@@ -630,7 +697,6 @@ void testApp::saveCanvas(bool saveToServer){
         morph.author = author;
         morph.description = description;
         morph.xmlFilePath = XMLFilePath;
-        morph.smallThumbFilePath = smallThumbFilePath;
         morph.largeThumbFilePath = largeThumbFilePath;
         
         uploadMorph(morph);
@@ -641,34 +707,6 @@ void testApp::saveCanvas(bool saveToServer){
 //--------------------------------------------------------------
 void testApp::saveToServer(){
     saveCanvas(true);
-}
-//--------------------------------------------------------------
-void testApp::browseServer(){
-//    string p = ofxiPhoneGetDocumentsDirectory() + "test.xml";
-//    ofSaveURLTo("http://melodymorph2.xvm.mit.edu:8080/media/xml_files/0a789293-92b9-4340-8eea-0da9944136aa.xml", p);
-//    loadCanvas(p);
-    
-    ofHttpResponse response = ofLoadURL(ofToString(BROWSE_URL) + "?page=1");
-    //cout << "response to browse request:" << endl;
-    //cout << response.data.getText() << endl;
-    
-    // right now this just pulls out file names of thumbs
-    XML.loadFromBuffer(response.data.getText());
-    XML.pushTag("django-objects");
-    int numMorphs = XML.getNumTags("object");
-    if (numMorphs > 0) {
-        for (int i=0; i<numMorphs; i++) {
-            XML.pushTag("object", i);
-            int numFields = XML.getNumTags("field");
-            for (int j=0; j<numFields; j++) {
-                string name = XML.getAttribute("field", "name", "default", j);
-                if (name == "thumb"){
-                    cout << XML.getValue("field", "", j) << endl;
-                }
-            }
-            XML.popTag();
-        }
-    }
 }
 //--------------------------------------------------------------
 void testApp::updateSharedLoadMenuCanvas() {
@@ -710,9 +748,6 @@ vector<MorphMetaData> testApp::downloadPageOfSharedMorphs(int pageNum){
                 if (name == "description"){
                     morph.description = XML.getValue("field", "", j);
                 }
-                if (name == "smallThumb"){
-                    morph.smallThumbFilePath = XML.getValue("field", "", j);
-                }
                 if (name == "largeThumb"){
                     morph.largeThumbFilePath = XML.getValue("field", "", j);
                 }
@@ -725,22 +760,22 @@ vector<MorphMetaData> testApp::downloadPageOfSharedMorphs(int pageNum){
             XML.popTag();
         }
         
-        // we also need to download all of the small thumbnails
+        // we also need to download all of the thumbnails
         // initially the morph meta data has in it the server path information
-        // we use that to download the image, and then in the morph meta data, replace
-        // it with the local file path
+        // we use that to download the image
+        // ?? and then in the morph meta data, replace
+        // ?? it with the local file path
                 
         for (int i=0; i<numMorphs; i++) {
-            string remotePath = ofToString(morphs[i].smallThumbFilePath);
-            string localPath = downloadFile(remotePath);
-            morphs[i].smallThumbFilePath = localPath;
-        }
+            string remotePath = ofToString(morphs[i].largeThumbFilePath);
+            downloadFile(remotePath);
+         }
     }
      
     return morphs;
 }
 //--------------------------------------------------------------
-string testApp::downloadFile(string remotePath){
+void testApp::downloadFile(string remotePath){
     string sharedDirPath = ofxiPhoneGetDocumentsDirectory() + "sharedMorphs/";
     if (!ofDirectory::doesDirectoryExist(sharedDirPath)){
         ofDirectory::createDirectory(sharedDirPath);
@@ -755,8 +790,6 @@ string testApp::downloadFile(string remotePath){
         ofSaveURLTo(fileURL, localPath);
         cout << "downloaded: " + fileName << endl;
     }
-    return localPath;
-
 }
 //--------------------------------------------------------------
 void testApp::uploadMorph(MorphMetaData morph){
@@ -779,7 +812,6 @@ void testApp::uploadMorph(MorphMetaData morph){
     form->addInput("authorName", morph.author);
     form->addInput("morphName", morph.title);
     form->addInput("description", morph.description);
-    form->addFile("smallThumb", morph.smallThumbFilePath);
     form->addFile("largeThumb", morph.largeThumbFilePath);
     form->addFile("xmlFile",morph.xmlFilePath);
     
@@ -830,8 +862,7 @@ void testApp::loadCanvas(MorphMetaData morph){
 
     if (!loaded) {
         string remotePath = ofToString(morph.xmlFilePath);
-        string localPath = downloadFile(remotePath);
-        morph.xmlFilePath = localPath;
+        downloadFile(remotePath);
         loaded = XML.loadFile(morph.xmlFilePath);
         if (!loaded) {
             return;
@@ -846,7 +877,8 @@ void testApp::loadCanvas(MorphMetaData morph){
 			 int newNoteNum = XML.getValue("BELL:NOTENUM", 0, i);
 			 int newOctave  = XML.getValue("BELL:OCTAVE", 1, i);
 			 int newInst = XML.getValue("BELL:INSTRUMENT", 2, i);
-			 Bell *b = new Bell(newX, newY, newNoteNum, newOctave, newInst, voices[newInst], &currentChannel[newInst], bellImages[newInst]);
+			 Bell *b = new Bell(newX, newY, newNoteNum, newOctave, bellImageTriplets[newInst]);
+             b->setPlayer(instrumentSoundPlayers[newInst]);
              bells.push_back(b);
              //b->setMidi(midi);
 		 }
@@ -869,7 +901,7 @@ void testApp::loadCanvas(MorphMetaData morph){
 				notes.push_back(n);
 			}
 			XML.popTag();
-			bells.push_back(new RecorderBell(newX, newY, notes, voices, currentChannel, recBellImage, recorderBellMaker));
+			bells.push_back(new RecorderBell(newX, newY, notes, recBellImage, recorderBellMaker));
 		}
 	}
 	
@@ -919,8 +951,7 @@ void testApp::clearCanvas(){
 	drawingLines.clear();
 	
 	zoom = 1;
-	octave = 1; 
-    [topButtons resetOctave];
+    octaveButtons->reset();
     paletteXPos = 0;
     
 	screenPosX = SCREENSTARTPOSX;
@@ -1059,7 +1090,7 @@ void testApp::makeRecBell(vector<Note*> notes){
     x += ofRandom(-jitterSize,jitterSize);
     y += ofRandom(-jitterSize,jitterSize);
     
-	RecorderBell *b = new RecorderBell(x, y, notes, voices, currentChannel, recBellImage, recorderBellMaker);
+	RecorderBell *b = new RecorderBell(x, y, notes, recBellImage, recorderBellMaker);
 	bells.push_back(b);
 
 //    b->setMidi(midi);
@@ -1200,7 +1231,6 @@ MorphMetaData testApp::loadMorphMetaData(string xmlPath) {
     morph.title = ofToString(XML.getValue("TITLE:TEXT", "-", 0));
     morph.author = ofToString(XML.getValue("AUTHOR:TEXT", "-", 0));
     morph.description = ofToString(XML.getValue("DESCRIPTION:TEXT", "-", 0));
-    morph.smallThumbFilePath = ofToString(XML.getValue("THUMBPATH:SMALL", "", 0));
     morph.largeThumbFilePath = ofToString(XML.getValue("THUMBPATH:LARGE", "", 0));
     
     return(morph);
@@ -1245,9 +1275,11 @@ ofxUIMorphCanvas* testApp::canvasForMenuPage(vector<MorphMetaData> morphs, strin
     
     // add buttons to canvas in rows of 7
     for(int i = 0; i < numToAdd; i++){
-        string path = morphs[startIndex + i].smallThumbFilePath;
+        string path = morphs[startIndex + i].largeThumbFilePath;
         ofxUIImageButton *btn = new ofxUIImageButton(133, 100, true, path, tag);
-        btn->setColorPadded(ofColor(255,255,255));
+        btn->setColorPadded(ofColor(255,255,255)); // selection border
+        btn->setColorFillHighlight(127);    // down
+        btn->setColorBack(255);             // false
         btn->setDrawPadding(false);
         btn->setID(i);
         
@@ -1440,8 +1472,14 @@ void testApp::playModeSetVisible(bool visible) {
     [recorderBellMaker.view setHidden:!visible];
     [drawingToggle.view setHidden:!visible];
     
+    // ofxUI based components
+    instrumentSelector->setVisible(visible);
+    quasiModeSelectorCanvas->setVisible(visible);
+    
     //special case- we close the control panel when returning to play mode
     [controlPanel.view setHidden:YES];
+    
+    
     
 }
 //--------------------------------------------------------------
@@ -1483,10 +1521,11 @@ void testApp::touchDown(ofTouchEventArgs &touch){
             if (noteNum != -1) {
                 int x = (touch.x / zoom + screenPosX);
                 int y =  (touch.y / zoom + screenPosY) + (BELLRADIUS * zoom);
-                bells.push_back(new Bell(x, y, noteNum, octave, currentInstrument, voices[currentInstrument], &currentChannel[currentInstrument], bellImages[currentInstrument]));
-                bells[bells.size()-1]->startDrag(touch.id, 0, BELLRADIUS * zoom);
-                //bells[bells.size()-1]->setMidi(midi);
-                bells[bells.size()-1]->playNote();
+                Bell *b = new Bell(x, y, noteNum, octaveButtons->getOctave(), bellImageTriplets[currentInstrument]);
+                b->setPlayer(instrumentSoundPlayers[currentInstrument]);
+                b->startDrag(touch.id, 0, BELLRADIUS * zoom);
+                b->playNote();
+                bells.push_back(b);
             }
             return;
         }
@@ -1713,15 +1752,22 @@ void testApp::populateMetaDataViews(MorphMetaData *morph) {
 
     if (!loaded) {
         string remotePath = ofToString(morph->largeThumbFilePath);
-        string localPath = downloadFile(remotePath);
-        morph->largeThumbFilePath = localPath;
+        downloadFile(remotePath);
         largeThumbImageForLoading.loadImage(morph->largeThumbFilePath);
+    }
+}
+
+// messages are sent from the instrument selector, containing instrument names
+void testApp::gotMessage(ofMessage msg) {
+    for (int i=0; i<instrumentNames.size(); i++) {
+        if (msg.message == instrumentNames[i]) {
+            setInstrument(i);
+        }
     }
 }
 
 void testApp::guiEvent(ofxUIEventArgs &e)
 {
-
     string name = e.widget->getName();
     
     // load menu buttons
