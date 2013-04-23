@@ -35,7 +35,9 @@ public:
 	
 	void setupMiniMap();
 	
+    void drawGrid();
 	void drawPalette();
+    void drawSelection();
     void roundedRect(float x, float y, float w, float h, float r);
     void quadraticBezierVertex(float cpx, float cpy, float x, float y, float prevX, float prevY);
 

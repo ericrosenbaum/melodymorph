@@ -36,7 +36,6 @@ public:
             t->setColorFill(255);             // true
             t->setColorFillHighlight(127);    // down
             t->setColorBack(80);              // false
-            
             t->setPadding(1);
             toggles.push_back(t);
 
@@ -45,9 +44,9 @@ public:
             addWidget(label);
             addWidgetRight(t);
             
-            // ofxui draws things in reverse order that they are added, the labels must be added
+            // ofxui draws things in reverse order that they are added, so the labels must be added
             // before the image toggles in order to show up in front of them. but in order to
-            // set the position of the label using the toggle, the toggle has to be added first...
+            // set the position of the label using the toggle position, the toggle has to be added first...
             // so that's why I'm positioning the label down here
             ofxUIRectangle *r = t->getRect();
             int x = r->getX();

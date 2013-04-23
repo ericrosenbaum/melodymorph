@@ -67,7 +67,7 @@ SHOULD BE THIS
  so maybe I should only store an id, which is the timestamp, same as filename
  this would mean XML files have ids stored inside which are the same as their filename
  and then construct paths with concatenation as needed
- this also requires a field in the XML for user/example/shared
+ this also requires a field in the XML and in the morph for user/example/shared
  
 */
 
@@ -122,6 +122,9 @@ float pinchStartDist;
 float zoomStart;
 bool zooming;
 bool zoomBegun;
+
+ofPoint selectionStartCorner;
+ofPoint selectionDragCorner;
 
 int octave;
 
@@ -301,38 +304,19 @@ void testApp::setup(){
      controlPanel.view.frame = r;
      [controlPanel.view setHidden:YES];
      controlPanel.view.transform = CGAffineTransformMakeRotation(ofDegToRad(-90));
-
     
      // control panel toggle
      controlPanelToggle = [[ControlPanelToggle alloc] initWithNibName:@"ControlPanelToggle" bundle:nil];
      [[[UIApplication sharedApplication] keyWindow] addSubview:controlPanelToggle.view];
      r = CGRectMake(ofGetHeight()-100, ofGetWidth() - 100, 100, 100);
      controlPanelToggle.view.frame = r;
-     
-     //  drawing toggle
-//     drawingToggle = [[DrawingToggle alloc] initWithNibName:@"DrawingToggle" bundle:nil];
-//     [[[UIApplication sharedApplication] keyWindow] addSubview:drawingToggle.view];
-//     r = CGRectMake(90, ofGetWidth()-100, 300, 100);
-//     drawingToggle.view.frame = r;
-    
+        
      // recorder bell maker
      recorderBellMaker = [[RecorderBellMaker alloc] initWithNibName:@"RecorderBellMaker" bundle:nil];
      //[ofxiPhoneGetGLView() addSubview:recorderBellMaker.view];
      [[[UIApplication sharedApplication] keyWindow] addSubview:recorderBellMaker.view];
      r = CGRectMake(ofGetHeight() - 130, 10, 130, 130);
      recorderBellMaker.view.frame = r;
-    
-     // buttons at the top of the screen
-     topButtons = [[TopButtons alloc] initWithNibName:@"TopButtons" bundle:nil];
-     //[ofxiPhoneGetGLView() addSubview:topButtons.view];
-     // ugh. only way I could figure out to do this
-     // it needs to use the GLView to pass touches through it
-     // but GLView is apparently not rotated, so we rotate manually
-     topButtons.view.transform = CGAffineTransformMakeRotation(ofDegToRad(-90));
-     //setInstrument(2);
-    
-     r = CGRectMake(0, 0, 768, 1024);
-     topButtons.view.frame = r;
     
     
     // web view
@@ -343,6 +327,7 @@ void testApp::setup(){
     // play mode widgets
     
     quasiModeSelectorCanvas = new QuasiModeSelectorCanvas(0, 100, 100, 400);
+    quasiModeSelectorCanvas->autoSizeToFitWidgets();
     
     instrumentSelector = new SegmentedControl(0,0,ofGetWidth(),100);
     instrumentSelector->initWithNames(instrumentNames);
@@ -366,6 +351,9 @@ void testApp::draw(){
 
     if ((UIMode == PLAY_MODE) || (UIMode == PRE_SAVE_MODE)) {
         float bendAmt = bend();
+        
+        drawGrid();
+        drawSelection();
         
         for (int i=0; i<drawingLines.size(); i++) {
             drawingLines[i]->draw(screenPosX, screenPosY, zoom);
@@ -470,10 +458,46 @@ void testApp::drawMiniMap(){
 	ofFill();
 }
 //--------------------------------------------------------------
+void testApp::drawGrid(){
+    ofSetColor(55);
+    int gridSpacing = 240;
+    int numColumns = 2 + int(((1024 + gridSpacing) / zoom) / gridSpacing);
+    int numRows = 2 + int(((768 + gridSpacing) / zoom) / gridSpacing);
+    
+    for (int i=0; i<numColumns; i++) {
+        for (int j=0; j<numRows; j++) {
+            int colNum = int(screenPosX / gridSpacing) + i - 1;
+            int rowNum = int(screenPosY / gridSpacing) + j - 1;
+            int x = ((colNum*gridSpacing)-screenPosX) * zoom;
+            int y = ((rowNum*gridSpacing)-screenPosY) * zoom;
+            
+            // checkerboard pattern
+            int c = abs(colNum);
+            int r = abs(rowNum);
+            if ((c%2==0 && r%2==1) || (c%2==1 && r%2==0))  {
+                ofRect(x,y,gridSpacing*zoom,gridSpacing*zoom);
+            }
+        }
+    }
+}
+//--------------------------------------------------------------
+void testApp::drawSelection(){
+    if (quasiModeSelectorCanvas->getCurrentMode() == SELECT_MODE) {
+        
+        float startX = (selectionStartCorner.x - screenPosX) * zoom;
+        float startY = (selectionStartCorner.y - screenPosY) * zoom;
+        float endX = (selectionDragCorner.x - screenPosX) * zoom;
+        float endY = (selectionDragCorner.y - screenPosY) * zoom;
+        
+        ofSetColor(255, 255, 0, 20);
+        ofRect(startX, startY, endX-startX, endY-startY); // x, y, w, h
+    }
+}
+//--------------------------------------------------------------
 void testApp::drawPalette(){
 	
     // background rectangle
-    ofSetColor(127, 127, 127);
+    ofSetColor(128, 128, 128);
     roundedRect(128, 35, 768, 80, 10);
         
 	ofSetHexColor(0xffffff);
@@ -538,6 +562,7 @@ void testApp::drawPalette(){
 	}
 	 
 }
+//--------------------------------------------------------------
 void testApp::roundedRect(float x, float y, float w, float h, float r) {
     ofBeginShape();
     ofVertex(x+r, y);
@@ -551,7 +576,7 @@ void testApp::roundedRect(float x, float y, float w, float h, float r) {
     quadraticBezierVertex(x, y, x+r, y, x, y+r);
     ofEndShape();
 }
-
+//--------------------------------------------------------------
 void testApp::quadraticBezierVertex(float cpx, float cpy, float x, float y, float prevX, float prevY) {
     float cp1x = prevX + 2.0/3.0*(cpx - prevX);
     float cp1y = prevY + 2.0/3.0*(cpy - prevY);
@@ -749,25 +774,26 @@ vector<MorphMetaData> testApp::downloadPageOfSharedMorphs(int pageNum){
                     morph.description = XML.getValue("field", "", j);
                 }
                 if (name == "largeThumb"){
-                    morph.largeThumbFilePath = XML.getValue("field", "", j);
+                    string path = XML.getValue("field", "", j);
+                    vector<string> s = ofSplitString(path, "/");
+                    string fileName = s.back();
+                    morph.largeThumbFilePath = fileName;
                 }
                 if (name == "xmlFile"){
-                    morph.xmlFilePath = XML.getValue("field", "", j);
+                    string path = XML.getValue("field", "", j);
+                    vector<string> s = ofSplitString(path, "/");
+                    string fileName = s.back();
+                    morph.xmlFilePath = fileName;
                 }
             }
             
             morphs.push_back(morph);
             XML.popTag();
         }
-        
-        // we also need to download all of the thumbnails
-        // initially the morph meta data has in it the server path information
-        // we use that to download the image
-        // ?? and then in the morph meta data, replace
-        // ?? it with the local file path
-                
+                        
         for (int i=0; i<numMorphs; i++) {
             string remotePath = ofToString(morphs[i].largeThumbFilePath);
+            remotePath = "thumb_files/" + remotePath;
             downloadFile(remotePath);
          }
     }
@@ -862,7 +888,7 @@ void testApp::loadCanvas(MorphMetaData morph){
 
     if (!loaded) {
         string remotePath = ofToString(morph.xmlFilePath);
-        downloadFile(remotePath);
+        downloadFile("xml_files/" + remotePath);
         loaded = XML.loadFile(morph.xmlFilePath);
         if (!loaded) {
             return;
@@ -877,10 +903,10 @@ void testApp::loadCanvas(MorphMetaData morph){
 			 int newNoteNum = XML.getValue("BELL:NOTENUM", 0, i);
 			 int newOctave  = XML.getValue("BELL:OCTAVE", 1, i);
 			 int newInst = XML.getValue("BELL:INSTRUMENT", 2, i);
-			 Bell *b = new Bell(newX, newY, newNoteNum, newOctave, bellImageTriplets[newInst]);
+			 Bell *b = new Bell(newX, newY, newNoteNum, newOctave, newInst);
              b->setPlayer(instrumentSoundPlayers[newInst]);
+             b->setImageTriplet(bellImageTriplets[newInst]);
              bells.push_back(b);
-             //b->setMidi(midi);
 		 }
 	 }
 	int numRecBells = XML.getNumTags("RECBELL");
@@ -901,7 +927,9 @@ void testApp::loadCanvas(MorphMetaData morph){
 				notes.push_back(n);
 			}
 			XML.popTag();
-			bells.push_back(new RecorderBell(newX, newY, notes, recBellImage, recorderBellMaker));
+            RecorderBell *b = new RecorderBell(newX, newY, notes, recBellImage, recorderBellMaker);
+            b->setPlayers(instrumentSoundPlayers);
+			bells.push_back(b);
 		}
 	}
 	
@@ -1091,6 +1119,7 @@ void testApp::makeRecBell(vector<Note*> notes){
     y += ofRandom(-jitterSize,jitterSize);
     
 	RecorderBell *b = new RecorderBell(x, y, notes, recBellImage, recorderBellMaker);
+    b->setPlayers(instrumentSoundPlayers);
 	bells.push_back(b);
 
 //    b->setMidi(midi);
@@ -1515,14 +1544,24 @@ void testApp::touchDown(ofTouchEventArgs &touch){
         touchesY[touch.id] = touch.y;
         countTouches();
         
+        //cout << "id " + ofToString(touch.id) + " mode " + ofToString(quasiModeSelectorCanvas->getCurrentMode()) << endl;
+        //cout << ofToString(touch.x) << " " << ofToString(touch.y) << endl;
+        
+        // if we're on a quasimode button
+        // prevent touches to bells beneath the button
+        if (quasiModeSelectorCanvas->isHit(touch.x, touch.y)) {
+            return;
+        }
+        
         // palette
         if ((touch.y < 100) && (touch.y > 40)) { // above bottom of palette, and below the instrument selector
             int noteNum = getPaletteNote(touch.x);
             if (noteNum != -1) {
                 int x = (touch.x / zoom + screenPosX);
                 int y =  (touch.y / zoom + screenPosY) + (BELLRADIUS * zoom);
-                Bell *b = new Bell(x, y, noteNum, octaveButtons->getOctave(), bellImageTriplets[currentInstrument]);
+                Bell *b = new Bell(x, y, noteNum, octaveButtons->getOctave(), currentInstrument);
                 b->setPlayer(instrumentSoundPlayers[currentInstrument]);
+                b->setImageTriplet(bellImageTriplets[currentInstrument]);
                 b->startDrag(touch.id, 0, BELLRADIUS * zoom);
                 b->playNote();
                 bells.push_back(b);
@@ -1531,7 +1570,7 @@ void testApp::touchDown(ofTouchEventArgs &touch){
         }
 
         // drawing and erasing
-        if (touch.id == 1) { 
+        //if (touch.id == 1) {
             if (quasiModeSelectorCanvas->getCurrentMode() == DRAW_MODE) {
                 drawingLines.push_back(new DrawingLine());
                 int canvasX = int (screenPosX + (touch.x / zoom));
@@ -1545,8 +1584,18 @@ void testApp::touchDown(ofTouchEventArgs &touch){
                 eraseLine(canvasX, canvasY);
                 return;
             }
-        }
+        //}
         
+        // select mode
+        if (quasiModeSelectorCanvas->getCurrentMode() == SELECT_MODE) {
+            if (touch.id == 1) {
+                selectionStartCorner.x = int (screenPosX + (touch.x / zoom));
+                selectionStartCorner.y = int (screenPosY + (touch.y / zoom));
+                selectionDragCorner.x = selectionStartCorner.x;
+                selectionDragCorner.y = selectionStartCorner.y;
+            }
+        }
+
         // bells
         calculateForce();
         for (int i=bells.size()-1; i>=0; i--) {
@@ -1593,9 +1642,18 @@ void testApp::touchMoved(ofTouchEventArgs &touch){
         touchesX[touch.id] = touch.x;
         touchesY[touch.id] = touch.y;
         
+        // if we're on a quasimode button
+        // prevent touches to bells beneath the button
+        if (quasiModeSelectorCanvas->isHit(touch.x, touch.y)) {
+            return;
+        }
+        
         // drawing
         if (touch.id == 1) { 
             if (quasiModeSelectorCanvas->getCurrentMode() == DRAW_MODE) {
+                if (drawingLines.size() == 0) {
+                    drawingLines.push_back(new DrawingLine());
+                }
                 int canvasX = int (screenPosX + (touch.x / zoom));
                 int canvasY = int (screenPosY + (touch.y / zoom));
                 drawingLines.back()->addPoint(canvasX, canvasY);
@@ -1620,6 +1678,14 @@ void testApp::touchMoved(ofTouchEventArgs &touch){
                 }
             }
             return;
+        }
+        
+        // select mode
+        if (quasiModeSelectorCanvas->getCurrentMode() == SELECT_MODE) {
+            if (touch.id == 1) {
+                selectionDragCorner.x = int (screenPosX + (touch.x / zoom));
+                selectionDragCorner.y = int (screenPosY + (touch.y / zoom));
+            }
         }
         
         // bells get dragged

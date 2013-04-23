@@ -100,6 +100,7 @@
 		32CA4F630368D1EE00C91783 /* iPhone_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iPhone_Prefix.pch; sourceTree = "<group>"; };
 		49280A5716C37B32003C99FD /* ofxUIMorphCanvas.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ofxUIMorphCanvas.h; path = ../ofxUI/src/ofxUIMorphCanvas.h; sourceTree = "<group>"; };
 		495099CA16F445AC00A16519 /* GUI */ = {isa = PBXFileReference; lastKnownFileType = folder; path = GUI; sourceTree = "<group>"; };
+		495099CC16F6CD9C00A16519 /* RecorderMaker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecorderMaker.h; sourceTree = "<group>"; };
 		495B260515F165CC00290967 /* examples */ = {isa = PBXFileReference; lastKnownFileType = folder; path = examples; sourceTree = "<group>"; };
 		496D86AE16C0CD0900F746FA /* ofxTextBlock.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxTextBlock.cpp; sourceTree = "<group>"; };
 		496D86AF16C0CD0900F746FA /* ofxTextBlock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxTextBlock.h; sourceTree = "<group>"; };
@@ -621,6 +622,7 @@
 				4993E7D51627A6180030510D /* TopButtons.mm */,
 				4993E7D61627A6180030510D /* TopButtons.xib */,
 				4993E7D71627A6180030510D /* RecorderBellMaker.h */,
+				495099CC16F6CD9C00A16519 /* RecorderMaker.h */,
 				4993E7D81627A6180030510D /* RecorderBellMaker.xib */,
 				49E0B92B15E7FEC200B7E5CC /* RecorderBellMaker.mm */,
 				49E0B92D15E7FEC200B7E5CC /* Bell.mm */,

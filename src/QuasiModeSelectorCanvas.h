@@ -10,14 +10,14 @@
 #ifndef MelodyMorph_QuasiModeSelectorCanvas_h
 #define MelodyMorph_QuasiModeSelectorCanvas_h
 
-#define NUM_MODES                   3
+#define NUM_MODES                   4
 
 // quasi modes
 #define NONE                        0
 #define DRAW_MODE                   1
 #define ERASE_MODE                  2
 #define SLIDE_MODE                  3
-//#define SELECT_MODE                 4
+#define SELECT_MODE                 4
 
 class QuasiModeSelectorCanvas : public ofxUICanvas {
 
@@ -31,13 +31,13 @@ public:
     ofxUIImageButton *slideButton;
     ofxUIImageButton *selectButton;
     
-    string names[3] = {"pencil_button", "eraser_button", "slide_button"};
+    string names[4] = {"pencil_button", "eraser_button", "slide_button", "select_button"}; // icon image file names
     
     QuasiModeSelectorCanvas(int x,int y,int w,int h) : ofxUICanvas(x,y,w,h)
     {
         currentMode = NONE;
         
-        for (int i=0; i<3; i++) {
+        for (int i=0; i<NUM_MODES; i++) {
             ofxUIImageButton *b = new ofxUIImageButton(100, 100, false, "GUI/" + names[i] + ".png", names[i]);
             b->setColorFillHighlight(127);    // down
             b->setColorBack(255);             // false

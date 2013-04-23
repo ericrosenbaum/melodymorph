@@ -15,7 +15,6 @@
 #include "config.h"
 #include "utils.h"
 #include "Note.cpp"
-//#import "PGMidi.h"
 #include "MultiSampledSoundPlayer.h"
 
 class Bell {
@@ -56,10 +55,8 @@ public:
 	
 	bool touchMovedFlag;
     	
-	Bell(int _canvasX, int _canvasY, int _noteNum, int _octave, vector<ofImage> bellImages) {
+	Bell(int _canvasX, int _canvasY, int _noteNum, int _octave, int _inst) {
 			
-//		myApp = (testApp*)ofGetAppPtr();
-		
 		// 0 = triad, 1 = scale, 2 = out
 		int j=0;
 		noteFunctions[j++] = 0;
@@ -78,13 +75,8 @@ public:
 		
 		noteNum = _noteNum;
 		octave = _octave;
-		//instrument = _inst;
+		instrument = _inst;
 		velocity = 1;
-		
-//		voices = _voices;
-//		currentChannel = _currentChannel;
-//		myChannel = 0;
-//		voices[myChannel].setVolume(1);
 		
 		canvasX = _canvasX;
 		canvasY = _canvasY;
@@ -103,27 +95,24 @@ public:
 		
 		bendStart = 0;
 		downCount = 0;
-
-		int function = noteFunctions[noteNum];
-		img = bellImages[function];
-		img.setAnchorPercent(0.5, 0.5);
 		
 		touchMovedFlag = false;
         
         for (int i=0; i<MAXTOUCHES; i++) {
             slideFlags[i] = false;
         }
-        
-        //midiNoteNum = noteNum + ((octave + 3) * 12);
-        
-        //player.loadSamples("pluck");
-	};
+    };
 	
 	Bell() {
 	}
     
     void setPlayer(MultiSampledSoundPlayer *p) {
         player = p;
+    }
+    void setImageTriplet(vector<ofImage> bellImages) {
+		int function = noteFunctions[noteNum];
+		img = bellImages[function];
+		img.setAnchorPercent(0.5, 0.5);        
     }
 	
 	virtual void draw(float screenPosX, float screenPosY, float _zoom, float force, float _bend, bool showNoteNames) {
@@ -145,34 +134,14 @@ public:
 			downCount++;
 			if (downCount < 10) {
 				float vol = ofMap(force, 0, 0.5, 0.8, 1);
-//				voices[myChannel].setVolume(vol);
 				velocity = vol;
                 player->setVolume(vol);
-
-                // reset MIDI pitch bend
-//                const UInt8 status = 0xE0 + instrument;
-//                const UInt8 pitchBend[]  = { status, 0, 0x20 }; // centered
-//                [midi sendBytes:pitchBend size:sizeof(pitchBend)];
 			}
             if (downCount == 10) {
                 bendStart = bend;
             }
 			if (downCount > 10 && ((downCount % 10) == 0) ) {
 //				voices[myChannel].setPitch(ratio+(bend - bendStart));
-                
-                // MIDI pitch bend
-//                const UInt8 status = 0xE0 + instrument;
-//                float bendAmt = bend - bendStart;
-//                printf("bendAmt: %f\n", bendAmt);
-//                int bend14bit = ofMap(bendAmt, -0.1, 0.1, -4000, 4000); // max is 16383
-//                bend14bit += 8192;
-//                bend14bit = ofClamp(bend14bit, 0, 16383);
-//                printf("bend14bit: %d\n", bend14bit);
-//                const UInt8 LSB = UInt8(bend14bit & 0xff);
-//                const UInt8 MSB = UInt8((bend14bit & 0xff00) >> 8); 
-//                printf("LSB: %d MSB: %d\n", LSB, MSB);
-//                const UInt8 pitchBend[]  = { status, LSB, MSB };
-//                [midi sendBytes:pitchBend size:sizeof(pitchBend)];
 			}
 		} 
 		
@@ -210,38 +179,10 @@ public:
 		dragOffsetX[id] = xOffset;
 		dragOffsetY[id] = yOffset;
 	}
-//    void setMidi(PGMidi *_midi) {
-//        midi = _midi;
-//    }
 	virtual void playNote() {
         player->playNote(noteNum, octave);
         
-//		*currentChannel += 1;
-//		*currentChannel %= NUMVOICES;
-//		
-//		myChannel = *currentChannel;
-//				
-//		voices[myChannel].setPitch(ratio);
-		//voices[myChannel].play();
-		
 		currentRadius = BELLRADIUS + 25;
-        
- //       midiNoteOn(midiNoteNum, instrument, velocity);
-    }
-    void midiNoteOn(int num, int inst, float vel) {        
-        const UInt8 note = num;
-        const UInt8 status = 0x90 + inst; // status byte for noteOn is 0x90 + low nibble is channel
-        const UInt8 velocity = UInt8(vel * 127);
-        const UInt8 noteOn[]  = { status, note, velocity };
-  //      [midi sendBytes:noteOn size:sizeof(noteOn)];
-        
-    }
-    void midiNoteOff() {        
-   //     const UInt8 note = midiNoteNum;
-        const UInt8 status = 0x80 + instrument; // status byte for noteOff is 0x80 + low nibble is channel
-        const UInt8 vel = UInt8(velocity * 127);
-       // const UInt8 noteOff[]  = { status, note, vel };
-     //   [midi sendBytes:noteOff size:sizeof(noteOff)];
         
     }
 	bool touchDown(int tx, int ty, int id) {
@@ -303,9 +244,6 @@ public:
 	void touchUp(int tx, int ty, int id) {
                 
 		if (id == downID) {
-			if (downCount > 20) { // short taps do not get a note off (i.e. hold down to sustain and release, otherwise just sustain)
-                midiNoteOff();     // the problem is that some instruments do not have a finite decay, so you get a stuck note
-            }
             down = false;
 			downCount = 0;
             
