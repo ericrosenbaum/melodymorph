@@ -54,6 +54,8 @@ public:
     MultiSampledSoundPlayer *player;
 	
 	bool touchMovedFlag;
+    
+    bool isSelected;
     	
 	Bell(int _canvasX, int _canvasY, int _noteNum, int _octave, int _inst) {
 			
@@ -101,6 +103,8 @@ public:
         for (int i=0; i<MAXTOUCHES; i++) {
             slideFlags[i] = false;
         }
+        
+        isSelected = false;
     };
 	
 	Bell() {
@@ -135,7 +139,7 @@ public:
 			if (downCount < 10) {
 				float vol = ofMap(force, 0, 0.5, 0.8, 1);
 				velocity = vol;
-                player->setVolume(vol);
+                //player->setVolume(vol);
 			}
             if (downCount == 10) {
                 bendStart = bend;
@@ -154,11 +158,18 @@ public:
 		if (octave == 2) {
 			saturation = HIGHOCTSATURATION;
 		}
+        if (isSelected) {
+            //saturation = ofMap(sin(ofGetElapsedTimef()*4),-1,1,0,0.5); // slow pulsation
+            saturation = 0;
+        }
+        
 		int rgb[3];
 		setColorHSV(hue, saturation, brightness, rgb);
+
 		if (dragging) {
 			ofSetColor(rgb[0], rgb[1], rgb[2], 200);
 		}
+        
 		img.draw(screenX, screenY, currentRadius * 2 * zoom, currentRadius * 2 * zoom);
 		
 		// draw note names
@@ -186,8 +197,9 @@ public:
         
     }
 	bool touchDown(int tx, int ty, int id) {
-		if (ofDist(tx, ty, screenX, screenY) < (currentRadius * zoom)) {
-			playNote();
+		if (ofDist(tx, ty, screenX, screenY) < (currentRadius * zoom)) { // change to square hit area?
+                                                                         // probably use ofrectangle inside()
+			//playNote(); // this is now called in testApp
 			down = true;
 			downID = id;
 			bendStart = bend;
@@ -239,6 +251,28 @@ public:
             slideFlags[id] = false;
         }
         return false;
+    }
+    
+    void deselect() {
+        isSelected = false;
+    }
+    
+    void setSelectedIfInside(int x1, int y1, int x2, int y2) {
+        
+        // for the ofRectangle inside function to work,
+        // we need to make sure x1,y1 is the top left corner
+        // so swap as needed
+        if (x1 > x2) {
+            std::swap(x1,x2);
+        }
+        if (y1 > y2) {
+            std::swap(y1,y2);
+        }
+        
+        ofRectangle r = ofRectangle(x1, y1, x2-x1, y2-y1);
+        if (r.inside(canvasX, canvasY)) {
+            isSelected = true;
+        }
     }
     
 	void touchUp(int tx, int ty, int id) {

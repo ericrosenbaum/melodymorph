@@ -10,7 +10,7 @@
 #ifndef MelodyMorph_QuasiModeSelectorCanvas_h
 #define MelodyMorph_QuasiModeSelectorCanvas_h
 
-#define NUM_MODES                   4
+#define NUM_MODES                   5
 
 // quasi modes
 #define NONE                        0
@@ -18,6 +18,7 @@
 #define ERASE_MODE                  2
 #define SLIDE_MODE                  3
 #define SELECT_MODE                 4
+#define MUTE_MODE                   5
 
 class QuasiModeSelectorCanvas : public ofxUICanvas {
 
@@ -30,8 +31,10 @@ public:
     ofxUIImageButton *eraseButton;
     ofxUIImageButton *slideButton;
     ofxUIImageButton *selectButton;
-    
-    string names[4] = {"pencil_button", "eraser_button", "slide_button", "select_button"}; // icon image file names
+    ofxUIImageButton *muteButton;
+
+    // icon image file names
+    string names[NUM_MODES] = {"pencil_button", "eraser_button", "slide_button", "select_button", "mute_button"};
     
     QuasiModeSelectorCanvas(int x,int y,int w,int h) : ofxUICanvas(x,y,w,h)
     {
@@ -61,12 +64,23 @@ public:
         string name = e.widget->getName();
         
         for (int i=0; i<NUM_MODES; i++) {
+            ofxUIImageButton *btn = (ofxUIImageButton *) e.widget;
+            
+            // set currentMode to the corresponding #defined int value (above)
             if (name == names[i]) {
                 ofxUIImageButton *btn = (ofxUIImageButton *) e.widget;
                 if (btn->getValue()) { // touch down
                     currentMode = i+1;
                 } else {
                     resetMode();
+                }
+            }
+            
+            // if we just released the select button, send a message to testApp
+            // so that we can deselect everything
+            if (name == "select_button") {
+                if (!btn->getValue()) { // touch up
+                    ofSendMessage("select_button_released");
                 }
             }
         }

@@ -12,6 +12,7 @@
 		288765FD0DF74451002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765FC0DF74451002DB57D /* CoreGraphics.framework */; };
 		495099CB16F445AC00A16519 /* GUI in Resources */ = {isa = PBXBuildFile; fileRef = 495099CA16F445AC00A16519 /* GUI */; };
 		495B260715F165CC00290967 /* examples in Resources */ = {isa = PBXBuildFile; fileRef = 495B260515F165CC00290967 /* examples */; };
+		495D4403175D3F22005DDC58 /* NewMediaFett.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 495D4402175D3F22005DDC58 /* NewMediaFett.ttf */; };
 		496D86B116C0CD0900F746FA /* ofxTextBlock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 496D86AE16C0CD0900F746FA /* ofxTextBlock.cpp */; };
 		49778C18169647F3009AB6FC /* libcurl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 49778BD6169647F3009AB6FC /* libcurl.a */; };
 		49778C1D169647F3009AB6FC /* README.txt in Resources */ = {isa = PBXBuildFile; fileRef = 49778BDD169647F3009AB6FC /* README.txt */; };
@@ -34,7 +35,12 @@
 		4993E7DB1627A6180030510D /* RecorderBellMaker.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4993E7D81627A6180030510D /* RecorderBellMaker.xib */; };
 		4993E7EC162A4BEF0030510D /* control_panel_back.png in Resources */ = {isa = PBXBuildFile; fileRef = 4993E7EB162A4BEF0030510D /* control_panel_back.png */; };
 		4993E7EE162A4C080030510D /* button2.png in Resources */ = {isa = PBXBuildFile; fileRef = 4993E7ED162A4C080030510D /* button2.png */; };
+		499B64A6175796980033532E /* gear.png in Resources */ = {isa = PBXBuildFile; fileRef = 499B64A2175796980033532E /* gear.png */; };
+		499B64A8175796980033532E /* rec_bell_maker.png in Resources */ = {isa = PBXBuildFile; fileRef = 499B64A4175796980033532E /* rec_bell_maker.png */; };
+		499B64A9175796980033532E /* rec_bell_maker_active.png in Resources */ = {isa = PBXBuildFile; fileRef = 499B64A5175796980033532E /* rec_bell_maker_active.png */; };
 		49A4F6A516EDA68F006AD5DD /* instruments in Resources */ = {isa = PBXBuildFile; fileRef = 49A4F6A416EDA68F006AD5DD /* instruments */; };
+		49CF1BE2175FEA6C003D001F /* PathPoint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 49CF1BE0175FEA6C003D001F /* PathPoint.cpp */; };
+		49CF1BE9176001A0003D001F /* other-images in Resources */ = {isa = PBXBuildFile; fileRef = 49CF1BE8176001A0003D001F /* other-images */; };
 		49E0B93915E7FEC200B7E5CC /* DrawingLine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 49E0B91515E7FEC200B7E5CC /* DrawingLine.cpp */; };
 		49E0B93A15E7FEC200B7E5CC /* Point2D.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 49E0B91615E7FEC200B7E5CC /* Point2D.cpp */; };
 		49E0B94315E7FEC200B7E5CC /* Thumb.m in Sources */ = {isa = PBXBuildFile; fileRef = 49E0B92415E7FEC200B7E5CC /* Thumb.m */; };
@@ -60,7 +66,6 @@
 		49E0BD1115E822FA00B7E5CC /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 49E0BCED15E822FA00B7E5CC /* Icon.png */; };
 		49E0BD1415E822FA00B7E5CC /* piano_sample.wav in Resources */ = {isa = PBXBuildFile; fileRef = 49E0BCF015E822FA00B7E5CC /* piano_sample.wav */; };
 		49E250E016F04CC70090CB7C /* bell-images in Resources */ = {isa = PBXBuildFile; fileRef = 49E250DF16F04CC70090CB7C /* bell-images */; };
-		49E250E216F052430090CB7C /* rec-bell-image in Resources */ = {isa = PBXBuildFile; fileRef = 49E250E116F052430090CB7C /* rec-bell-image */; };
 		49FE3CA316E3A80E0084638B /* BrowserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 49FE3CA116E3A80E0084638B /* BrowserViewController.m */; };
 		49FE3CA416E3A80E0084638B /* BrowserViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 49FE3CA216E3A80E0084638B /* BrowserViewController.xib */; };
 		5326AEA810A23A0500278DE6 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5326AEA710A23A0500278DE6 /* CoreLocation.framework */; };
@@ -102,6 +107,7 @@
 		495099CA16F445AC00A16519 /* GUI */ = {isa = PBXFileReference; lastKnownFileType = folder; path = GUI; sourceTree = "<group>"; };
 		495099CC16F6CD9C00A16519 /* RecorderMaker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecorderMaker.h; sourceTree = "<group>"; };
 		495B260515F165CC00290967 /* examples */ = {isa = PBXFileReference; lastKnownFileType = folder; path = examples; sourceTree = "<group>"; };
+		495D4402175D3F22005DDC58 /* NewMediaFett.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = NewMediaFett.ttf; sourceTree = "<group>"; };
 		496D86AE16C0CD0900F746FA /* ofxTextBlock.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxTextBlock.cpp; sourceTree = "<group>"; };
 		496D86AF16C0CD0900F746FA /* ofxTextBlock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxTextBlock.h; sourceTree = "<group>"; };
 		496D86B016C0CD0900F746FA /* ofxTextSuite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxTextSuite.h; sourceTree = "<group>"; };
@@ -150,7 +156,13 @@
 		4993E7D81627A6180030510D /* RecorderBellMaker.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RecorderBellMaker.xib; sourceTree = "<group>"; };
 		4993E7EB162A4BEF0030510D /* control_panel_back.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = control_panel_back.png; sourceTree = "<group>"; };
 		4993E7ED162A4C080030510D /* button2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button2.png; sourceTree = "<group>"; };
+		499B64A2175796980033532E /* gear.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gear.png; sourceTree = "<group>"; };
+		499B64A4175796980033532E /* rec_bell_maker.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = rec_bell_maker.png; sourceTree = "<group>"; };
+		499B64A5175796980033532E /* rec_bell_maker_active.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = rec_bell_maker_active.png; sourceTree = "<group>"; };
 		49A4F6A416EDA68F006AD5DD /* instruments */ = {isa = PBXFileReference; lastKnownFileType = folder; path = instruments; sourceTree = "<group>"; };
+		49CF1BDF175FE93B003D001F /* PathPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PathPlayer.h; sourceTree = "<group>"; };
+		49CF1BE0175FEA6C003D001F /* PathPoint.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PathPoint.cpp; sourceTree = "<group>"; };
+		49CF1BE8176001A0003D001F /* other-images */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "other-images"; sourceTree = "<group>"; };
 		49E0B91515E7FEC200B7E5CC /* DrawingLine.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DrawingLine.cpp; sourceTree = "<group>"; };
 		49E0B91615E7FEC200B7E5CC /* Point2D.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Point2D.cpp; sourceTree = "<group>"; };
 		49E0B92315E7FEC200B7E5CC /* Thumb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Thumb.h; sourceTree = "<group>"; };
@@ -225,7 +237,6 @@
 		49E0BCF015E822FA00B7E5CC /* piano_sample.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = piano_sample.wav; sourceTree = "<group>"; };
 		49E1CF8B16E910310024CA52 /* MultiSampledSoundPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MultiSampledSoundPlayer.h; sourceTree = "<group>"; };
 		49E250DF16F04CC70090CB7C /* bell-images */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "bell-images"; sourceTree = "<group>"; };
-		49E250E116F052430090CB7C /* rec-bell-image */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "rec-bell-image"; sourceTree = "<group>"; };
 		49FE3CA016E3A80D0084638B /* BrowserViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BrowserViewController.h; sourceTree = "<group>"; };
 		49FE3CA116E3A80E0084638B /* BrowserViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BrowserViewController.m; sourceTree = "<group>"; };
 		49FE3CA216E3A80E0084638B /* BrowserViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BrowserViewController.xib; sourceTree = "<group>"; };
@@ -318,7 +329,8 @@
 		4932CFB915EA07E400D9B5C2 /* data */ = {
 			isa = PBXGroup;
 			children = (
-				49E250E116F052430090CB7C /* rec-bell-image */,
+				49CF1BE8176001A0003D001F /* other-images */,
+				499B64A1175796980033532E /* native */,
 				49E250DF16F04CC70090CB7C /* bell-images */,
 				49A4F6A416EDA68F006AD5DD /* instruments */,
 				495099CA16F445AC00A16519 /* GUI */,
@@ -424,6 +436,17 @@
 				49778BF5169647F3009AB6FC /* types.h */,
 			);
 			path = curl;
+			sourceTree = "<group>";
+		};
+		499B64A1175796980033532E /* native */ = {
+			isa = PBXGroup;
+			children = (
+				495D4402175D3F22005DDC58 /* NewMediaFett.ttf */,
+				499B64A2175796980033532E /* gear.png */,
+				499B64A4175796980033532E /* rec_bell_maker.png */,
+				499B64A5175796980033532E /* rec_bell_maker_active.png */,
+			);
+			path = native;
 			sourceTree = "<group>";
 		};
 		49E0BA0C15E8190100B7E5CC /* ofxDirList */ = {
@@ -614,6 +637,7 @@
 				4993E7CE1627A5AB0030510D /* ControlPanelToggle.mm */,
 				4993E7CF1627A5AB0030510D /* ControlPanelToggle.xib */,
 				49E0B91615E7FEC200B7E5CC /* Point2D.cpp */,
+				49CF1BE0175FEA6C003D001F /* PathPoint.cpp */,
 				49E0B92315E7FEC200B7E5CC /* Thumb.h */,
 				49E0B92415E7FEC200B7E5CC /* Thumb.m */,
 				49E0B92515E7FEC200B7E5CC /* utils.h */,
@@ -626,6 +650,7 @@
 				4993E7D81627A6180030510D /* RecorderBellMaker.xib */,
 				49E0B92B15E7FEC200B7E5CC /* RecorderBellMaker.mm */,
 				49E0B92D15E7FEC200B7E5CC /* Bell.mm */,
+				49CF1BDF175FE93B003D001F /* PathPlayer.h */,
 				49E0B92E15E7FEC200B7E5CC /* RecorderBell.mm */,
 				49E0B92F15E7FEC200B7E5CC /* Note.cpp */,
 				49E0B93015E7FEC200B7E5CC /* main.mm */,
@@ -738,8 +763,12 @@
 				49FE3CA416E3A80E0084638B /* BrowserViewController.xib in Resources */,
 				49A4F6A516EDA68F006AD5DD /* instruments in Resources */,
 				49E250E016F04CC70090CB7C /* bell-images in Resources */,
-				49E250E216F052430090CB7C /* rec-bell-image in Resources */,
 				495099CB16F445AC00A16519 /* GUI in Resources */,
+				499B64A6175796980033532E /* gear.png in Resources */,
+				499B64A8175796980033532E /* rec_bell_maker.png in Resources */,
+				499B64A9175796980033532E /* rec_bell_maker_active.png in Resources */,
+				495D4403175D3F22005DDC58 /* NewMediaFett.ttf in Resources */,
+				49CF1BE9176001A0003D001F /* other-images in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -794,6 +823,7 @@
 				49778C24169647F3009AB6FC /* ofxCurlFormTypeInput.cpp in Sources */,
 				496D86B116C0CD0900F746FA /* ofxTextBlock.cpp in Sources */,
 				49FE3CA316E3A80E0084638B /* BrowserViewController.m in Sources */,
+				49CF1BE2175FEA6C003D001F /* PathPoint.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

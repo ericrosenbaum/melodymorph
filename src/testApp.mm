@@ -102,8 +102,6 @@ int paletteXPos;
 float touchPrevX, touchPrevY;
 bool draggingCanvas;
 int draggingCanvasId;
-bool draggingMinimap;
-int draggingMinimapId;
 float screenPosX, screenPosY;
 ofxXmlSettings XML;
 
@@ -131,6 +129,8 @@ int octave;
 vector<vector<ofImage> > bellImageTriplets;
 
 ofImage recBellImage;
+ofImage pathPlayerImage;
+ofImage pathHeadImage;
 ofImage paletteBack;
 
 bool recording;
@@ -276,14 +276,14 @@ void testApp::setup(){
     zoomBegun = false;
 	zoomStart = zoom;
 	draggingCanvas = false;
-	draggingMinimap = false;
 		
 	loadBellImages();
-	recBellImage.loadImage("rec-bell-image/rec_bell.png");
+	recBellImage.loadImage("other-images/rec_bell.png");
+    pathPlayerImage.loadImage("other-images/path_player.png");
+	pathHeadImage.loadImage("other-images/path_head.png");
 	
 	recording = false;
     
-	//setupMiniMap();
 	  
     // MIDI
     // check that the device we're loading the app onto actually supports CoreMIDI
@@ -349,27 +349,21 @@ void testApp::draw(){
 
     ofBackground(50, 50, 50);
 
-    if ((UIMode == PLAY_MODE) || (UIMode == PRE_SAVE_MODE)) {
-        float bendAmt = bend();
-        
-        drawGrid();
-        drawSelection();
-        
-        for (int i=0; i<drawingLines.size(); i++) {
-            drawingLines[i]->draw(screenPosX, screenPosY, zoom);
-        }
-        for (int i=0; i<bells.size(); i++) {
-            bells[i]->draw(screenPosX, screenPosY, zoom, forceEstimate, bendAmt, showNoteNames);
-        }
-    }
-    
-    // if we are in pre-save mode, we are about to create the thumbnail, so do not draw the palette
     if (UIMode == PLAY_MODE) {
+        drawGrid();
+        drawSelectionBox();
+        drawLines();
+        drawBells();
         drawPalette();
     }
     
-    // in pre-save mode, create the thumbnails, then switch to save dialog mode
+    // if we are in pre-save mode, we are about to create the thumbnail
+    // so do not draw the palette, grid, or selection
     if (UIMode == PRE_SAVE_MODE) {
+        drawLines();
+        drawBells();
+        
+        // create the thumbnails, then switch to save dialog mode
         largeThumbImageForSaving.grabScreen(0,0,ofGetWidth(),ofGetHeight());
         largeThumbImageForSaving.resize(400,300);
         
@@ -422,42 +416,6 @@ void testApp::calculateForce(){
 	//forceEstimate *= forceEstimate;
 }
 //--------------------------------------------------------------
-void testApp::setupMiniMap(){
-	float mapScale = MINIMAPSCALE;
-	mapWidth = CANVASWIDTH * mapScale;
-	mapHeight = CANVASHEIGHT * mapScale;
-	mapXOffset = ofGetWidth() - mapWidth - 5;
-	mapYOffset = ofGetHeight() - mapHeight - 5;	
-}
-//--------------------------------------------------------------
-void testApp::drawMiniMap(){
-	float mapScale = MINIMAPSCALE;
-	float mapScreenWidth = ofGetWidth() * mapScale / zoom;
-	float mapScreenHeight = ofGetHeight() * mapScale / zoom;
-	
-	ofSetColor(100, 100, 100);
-	ofRect(mapXOffset, mapYOffset, mapWidth, mapHeight);
-	
-	for (int i=0; i<bells.size(); i++) {
-		int rgb[3];
-		if (bells[i]->isRecorderBell()) {
-			setColorHSV(0, 0, 1, rgb);
-		} else {	
-			setColorHSV(bells[i]->getHue(), 1, 1, rgb);
-		}
-		float x = bells[i]->getCanvasX() * mapScale + mapXOffset;
-		float y = bells[i]->getCanvasY() * mapScale + mapYOffset;
-		ofCircle(x, y, BELLRADIUS * mapScale);
-	}
-	
-	ofSetColor(255, 255, 255);
-	ofNoFill();
-	float mapScreenX = screenPosX * mapScale + mapXOffset;
-	float mapScreenY = screenPosY * mapScale + mapYOffset;
-	ofRect(mapScreenX, mapScreenY, mapScreenWidth, mapScreenHeight);
-	ofFill();
-}
-//--------------------------------------------------------------
 void testApp::drawGrid(){
     ofSetColor(55);
     int gridSpacing = 240;
@@ -481,7 +439,20 @@ void testApp::drawGrid(){
     }
 }
 //--------------------------------------------------------------
-void testApp::drawSelection(){
+void testApp::drawBells(){
+    float bendAmt = bend();
+    for (int i=0; i<bells.size(); i++) {
+        bells[i]->draw(screenPosX, screenPosY, zoom, forceEstimate, bendAmt, showNoteNames);
+    }
+}
+//--------------------------------------------------------------
+void testApp::drawLines(){
+    for (int i=0; i<drawingLines.size(); i++) {
+        drawingLines[i]->draw(screenPosX, screenPosY, zoom);
+    }
+}
+//--------------------------------------------------------------
+void testApp::drawSelectionBox(){
     if (quasiModeSelectorCanvas->getCurrentMode() == SELECT_MODE) {
         
         float startX = (selectionStartCorner.x - screenPosX) * zoom;
@@ -489,7 +460,7 @@ void testApp::drawSelection(){
         float endX = (selectionDragCorner.x - screenPosX) * zoom;
         float endY = (selectionDragCorner.y - screenPosY) * zoom;
         
-        ofSetColor(255, 255, 0, 20);
+        ofSetColor(255, 255, 0, 20); // transparent yellow
         ofRect(startX, startY, endX-startX, endY-startY); // x, y, w, h
     }
 }
@@ -1242,9 +1213,9 @@ void testApp::buildLoadMenu() {
     descriptionLabel = new ofxUILabelButton(100, false, "Description");
     loadMenuCanvas->addWidgetSouthOf(descriptionLabel, "Author");
     
-    descriptionTextView.init("NewMedia Fett.ttf", 12);
-    authorTextView.init("NewMedia Fett.ttf", 12);
-    titleTextView.init("NewMedia Fett.ttf", 12);
+    descriptionTextView.init("NewMediaFett.ttf", 12);
+    authorTextView.init("NewMediaFett.ttf", 12);
+    titleTextView.init("NewMediaFett.ttf", 12);
     
     // open and cancel buttons
     loadMenuCanvas->addWidget(new ofxUILabelButton(420, ofGetHeight() - 40, 100, false, "Open"));
@@ -1563,7 +1534,9 @@ void testApp::touchDown(ofTouchEventArgs &touch){
                 b->setPlayer(instrumentSoundPlayers[currentInstrument]);
                 b->setImageTriplet(bellImageTriplets[currentInstrument]);
                 b->startDrag(touch.id, 0, BELLRADIUS * zoom);
-                b->playNote();
+                if (quasiModeSelectorCanvas->getCurrentMode() != MUTE_MODE) {
+                    b->playNote();
+                }
                 bells.push_back(b);
             }
             return;
@@ -1579,9 +1552,18 @@ void testApp::touchDown(ofTouchEventArgs &touch){
                 return;
             }
             if (quasiModeSelectorCanvas->getCurrentMode() == ERASE_MODE) {
+                // erase lines
                 int canvasX = int (screenPosX + (touch.x / zoom));
                 int canvasY = int (screenPosY + (touch.y / zoom));
                 eraseLine(canvasX, canvasY);
+                
+                // erase bells
+                for (int i=bells.size()-1; i>=0; i--) {
+                    bool touched = bells[i]->touchDown((int)touch.x, (int)touch.y, touch.id);
+                    if (touched) {
+                        deleteBellNum(i);
+                    }
+                }
                 return;
             }
         //}
@@ -1589,6 +1571,9 @@ void testApp::touchDown(ofTouchEventArgs &touch){
         // select mode
         if (quasiModeSelectorCanvas->getCurrentMode() == SELECT_MODE) {
             if (touch.id == 1) {
+                for (int i=0; i<bells.size(); i++) {
+                    bells[i]->deselect();
+                }
                 selectionStartCorner.x = int (screenPosX + (touch.x / zoom));
                 selectionStartCorner.y = int (screenPosY + (touch.y / zoom));
                 selectionDragCorner.x = selectionStartCorner.x;
@@ -1598,11 +1583,15 @@ void testApp::touchDown(ofTouchEventArgs &touch){
 
         // bells
         calculateForce();
-        for (int i=bells.size()-1; i>=0; i--) {
+        for (int i=bells.size()-1; i>=0; i--) { // step backward through the bells, so we get the ones on top first
             bool touched = bells[i]->touchDown((int)touch.x, (int)touch.y, touch.id);
             if (touched) {
-                if (recording) {
-                    [recorderBellMaker recordNote:bells[i]];
+                int mode = quasiModeSelectorCanvas->getCurrentMode();
+                if (mode != MUTE_MODE) {
+                    bells[i]->playNote();
+                    if (recording) {
+                        [recorderBellMaker recordNote:bells[i]];
+                    }
                 }
                 // put the touched bell at the end of the list so it draws last (in front)
                 std::swap(bells[i], bells.back());
@@ -1620,8 +1609,8 @@ void testApp::touchDown(ofTouchEventArgs &touch){
         }
         
         // dragging the screen over the canvas
-        // (if we make it here, we are not touching a bell or the palette or minimap or zooming)
-        if (!draggingCanvas) {
+        // (if we make it here, we are not touching a bell or the palette or zooming)
+        if (!draggingCanvas && numTouches == 1) {
             if (quasiModeSelectorCanvas->getCurrentMode() == NONE) {
                 touchPrevX = touch.x;
                 touchPrevY = touch.y;
@@ -1648,7 +1637,7 @@ void testApp::touchMoved(ofTouchEventArgs &touch){
             return;
         }
         
-        // drawing
+        // drawing and erasing
         if (touch.id == 1) { 
             if (quasiModeSelectorCanvas->getCurrentMode() == DRAW_MODE) {
                 if (drawingLines.size() == 0) {
@@ -1663,6 +1652,14 @@ void testApp::touchMoved(ofTouchEventArgs &touch){
                 int canvasX = int (screenPosX + (touch.x / zoom));
                 int canvasY = int (screenPosY + (touch.y / zoom));
                 eraseLine(canvasX, canvasY);
+                
+                // erase bells
+                for (int i=bells.size()-1; i>=0; i--) {
+                    bool touched = bells[i]->touchDown((int)touch.x, (int)touch.y, touch.id);
+                    if (touched) {
+                        deleteBellNum(i);
+                    }
+                }
                 return;
             }		
         }
@@ -1685,6 +1682,11 @@ void testApp::touchMoved(ofTouchEventArgs &touch){
             if (touch.id == 1) {
                 selectionDragCorner.x = int (screenPosX + (touch.x / zoom));
                 selectionDragCorner.y = int (screenPosY + (touch.y / zoom));
+                for (int i=0; i<bells.size(); i++) {
+                    bells[i]->deselect();
+                    bells[i]->setSelectedIfInside(selectionStartCorner.x, selectionStartCorner.y, selectionDragCorner.x, selectionDragCorner.y);
+                }
+
             }
         }
         
@@ -1700,13 +1702,14 @@ void testApp::touchMoved(ofTouchEventArgs &touch){
         }
         // pinch zoom
         if (quasiModeSelectorCanvas->getCurrentMode() == NONE) {
-            if (zooming && numDragging == 0 && numTouches == 2) {
+            if (zooming && numDragging == 0 && numTouches == 2 && touch.id == 1) {
                 
                 float dist = pinchDist();
                 
                 if (!zoomBegun) {
-                    if (absf(dist - pinchStartDist) > MINPINCHZOOMDIST) {  // hm this threshold still causes a jump when you start zooming
+                    if (absf(dist - pinchStartDist) > MINPINCHZOOMDIST) {
                         zoomBegun = true;
+                        pinchStartDist = dist;
                     }
                 }
                     
@@ -1723,13 +1726,27 @@ void testApp::touchMoved(ofTouchEventArgs &touch){
                     
                     screenPosX = screenCenterX - newWidth;
                     screenPosY = screenCenterY - newHeight;
+
+                    float x1 = touchesX[0];
+                    float y1 = touchesY[0];
+                    float x2 = touchesX[1];
+                    float y2 = touchesY[1];
+
+                    float pinchCenterX = x1 + ((x2 - x1) / 2.0);
+                    float pinchCenterY = y1 + ((y2 - y1) / 2.0);
+                    float pinchDiffX = pinchCenterX - (ofGetWidth() / 2.0);
+                    float pinchDiffY = pinchCenterY - (ofGetHeight() / 2.0);
+                    
+                    screenPosX = screenPosX - (pinchDiffX / zoom) + (pinchDiffX / prevZoom);
+                    screenPosY = screenPosY - (pinchDiffY / zoom) + (pinchDiffY / prevZoom);;
+
                 }
                 return;
             }
         }
         // drag the canvas
         if (quasiModeSelectorCanvas->getCurrentMode() == NONE) {
-            if (draggingCanvas && touch.id == draggingCanvasId) {
+            if (draggingCanvas && touch.id == draggingCanvasId && numTouches == 1) {
                 screenPosX += (touchPrevX - touch.x) / zoom;
                 screenPosY += (touchPrevY - touch.y) / zoom;
                 touchPrevX = touch.x;
@@ -1752,18 +1769,14 @@ void testApp::touchUp(ofTouchEventArgs &touch){
         if (touch.y < 90) {
             for (int i=0; i<bells.size(); i++) {
                 if (bells[i]->deleteMe(touch.id)) {
-                    if (bells[i]->isRecorderBell()) {
-                        for (int j=0; j<bells[i]->notes.size(); j++) {
-                            delete bells[i]->notes[j];
-                        }
-                    }
-                    bells.erase(bells.begin()+i);
+                    deleteBellNum(i);
                 }
             }
         }
         for (int i=0; i<bells.size(); i++) {
             bells[i]->touchUp((int)touch.x, (int)touch.y, touch.id);
         }
+                
         if (touch.id == draggingCanvasId) {
             draggingCanvas = false;
         }
@@ -1777,6 +1790,15 @@ void testApp::touchUp(ofTouchEventArgs &touch){
         touchUpX = (int)touch.x;
         touchUpY = (int)touch.y;
     }
+}
+//--------------------------------------------------------------
+void testApp::deleteBellNum(int num){
+    if (bells[num]->isRecorderBell()) {
+        for (int i=0; i<bells[num]->notes.size(); i++) {
+            delete bells[num]->notes[i];
+        }
+    }
+    bells.erase(bells.begin()+num);
 }
 
 //--------------------------------------------------------------
@@ -1818,16 +1840,25 @@ void testApp::populateMetaDataViews(MorphMetaData *morph) {
 
     if (!loaded) {
         string remotePath = ofToString(morph->largeThumbFilePath);
-        downloadFile(remotePath);
-        largeThumbImageForLoading.loadImage(morph->largeThumbFilePath);
+        //downloadFile(remotePath);
+        //largeThumbImageForLoading.loadImage(morph->largeThumbFilePath);
     }
 }
 
-// messages are sent from the instrument selector, containing instrument names
+// messages are sent from the instrument selector and quasimode selector
 void testApp::gotMessage(ofMessage msg) {
+    
+    //  the instrument selector sends instrument names
     for (int i=0; i<instrumentNames.size(); i++) {
         if (msg.message == instrumentNames[i]) {
             setInstrument(i);
+        }
+    }
+    
+    // quasimode selector sends a message when we release the select button
+    if (msg.message == "select_button_released") {
+        for (int i=0; i<bells.size(); i++) {
+            bells[i]->deselect();
         }
     }
 }

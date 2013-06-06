@@ -94,6 +94,7 @@ class RecorderBell : public Bell {
 		if (playing) {
 			n = noteCounter;
 		}
+        ofSetCircleResolution(3);
 		for (int i=0; i<n; i++) {
 			float x = screenX + xOffset + ((notes[i]->time / notesDuration) * notationWidth);
 			float y = screenY + yOffset - (((notes[i]->note + 1) + (12 * (notes[i]->octave))) * noteHeight);
@@ -101,7 +102,7 @@ class RecorderBell : public Bell {
 			int rgb[3];
 			setColorHSV(hue, 1, 1, rgb);
 			float r = 2 * zoom;
-			ofCircle(x, y, r);
+			ofCircle(x, y, r); 
 		}		
 	}
 	

@@ -33,16 +33,14 @@ public:
 	void touchDoubleTap(ofTouchEventArgs &touch);
 	void touchCancelled(ofTouchEventArgs &touch);
 	
-	void setupMiniMap();
-	
     void drawGrid();
+    void drawLines();
+    void drawBells();
 	void drawPalette();
-    void drawSelection();
+    void drawSelectionBox();
     void roundedRect(float x, float y, float w, float h, float r);
     void quadraticBezierVertex(float cpx, float cpy, float x, float y, float prevX, float prevY);
-
-	void drawMiniMap();
-	
+    
 	void calculateForce();
 	float bend();
 
@@ -116,5 +114,8 @@ public:
     bool noCanvasIsHit(int x, int y);
 
     void loadBellImages();
+    
+    void deleteBellNum(int num);
+
 };
 
