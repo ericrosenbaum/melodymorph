@@ -10,15 +10,16 @@
 #ifndef MelodyMorph_QuasiModeSelectorCanvas_h
 #define MelodyMorph_QuasiModeSelectorCanvas_h
 
-#define NUM_MODES                   5
+#define NUM_MODES                   6
 
 // quasi modes
 #define NONE                        0
 #define DRAW_MODE                   1
 #define ERASE_MODE                  2
-#define SLIDE_MODE                  3
-#define SELECT_MODE                 4
-#define MUTE_MODE                   5
+#define SELECT_MODE                 3
+#define PATH_MODE                   4
+#define SLIDE_MODE                  5
+#define MUTE_MODE                   6
 
 class QuasiModeSelectorCanvas : public ofxUICanvas {
 
@@ -27,18 +28,14 @@ public:
     // they are mutually exclusive modes, only active while you're holding one down
     int currentMode;
     
-    ofxUIImageButton *drawButton;
-    ofxUIImageButton *eraseButton;
-    ofxUIImageButton *slideButton;
-    ofxUIImageButton *selectButton;
-    ofxUIImageButton *muteButton;
-
     // icon image file names
-    string names[NUM_MODES] = {"pencil_button", "eraser_button", "slide_button", "select_button", "mute_button"};
+    string names[NUM_MODES] = {"pencil_button", "eraser_button", "select_button", "path_button", "slide_button", "mute_button"};
     
     QuasiModeSelectorCanvas(int x,int y,int w,int h) : ofxUICanvas(x,y,w,h)
     {
         currentMode = NONE;
+        
+        setWidgetSpacing(0);
         
         for (int i=0; i<NUM_MODES; i++) {
             ofxUIImageButton *b = new ofxUIImageButton(100, 100, false, "GUI/" + names[i] + ".png", names[i]);

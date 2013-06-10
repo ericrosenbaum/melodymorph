@@ -9,52 +9,27 @@
 
 #include "ofMain.h"
 #include "Point2D.cpp"
+#include "BoundingBoxForLine.h"
 
 class DrawingLine {
 	
 public:
 	
 	vector<Point2D*> points;
-	int boxTop, boxBottom, boxLeft, boxRight;
+    BoundingBoxForLine *boundingBox;
+    
+    DrawingLine() {
+        boundingBox = new BoundingBoxForLine();
+    };
 	
 	void addPoint(int x, int y) {
 		points.push_back(new Point2D(x, y));
-		
-		// update bounding box
-		if (points.size() == 1) {
-			boxTop = y;
-			boxBottom = y;
-			boxLeft = x;
-			boxRight = x;
-		}
-		if (y < boxTop) {
-			boxTop = y;
-		}
-		if (y > boxBottom) {
-			boxBottom = y;
-		}
-		if (x < boxLeft) {
-			boxLeft = x;
-		}
-		if (x > boxRight) {
-			boxRight = x;
-		}
-        
-        // prevent the bug where a straight line gives a bounding box
-        // with a width or height of zero, preventing it from being detected
-        // by inBox(), so it can't be erased
-        if ((boxRight - boxLeft) < 1) {
-            boxRight += 10;
-        }
-        if ((boxBottom - boxTop) < 1) {
-            boxBottom += 10;
-        }
-        
+		boundingBox->update(x,y);
 	}
 	
 	void draw(int screenPosX, int screenPosY, float zoom){
 		
-		if (!isOnScreen(screenPosX, screenPosY, zoom)) {
+		if (!boundingBox->isOnScreen(screenPosX, screenPosY, zoom)) {
 			return;
 		}
 		
@@ -70,42 +45,15 @@ public:
 			prevX = x;
 			prevY = y;
 		}
-//		ofCircle((boxLeft - screenPosX) * zoom, (boxTop - screenPosY) * zoom, 1.0);
-//		ofCircle((boxRight - screenPosX) * zoom, (boxTop - screenPosY) * zoom, 1.0);
-//		ofCircle((boxLeft - screenPosX) * zoom, (boxBottom - screenPosY) * zoom, 1.0);
-//		ofCircle((boxRight - screenPosX) * zoom, (boxBottom - screenPosY) * zoom, 1.0);
+
+        // draw the corners, for debugging
+//      ofCircle((boundingBox->left - screenPosX) * zoom, (boundingBox->top - screenPosY) * zoom, 1.0);
+//		ofCircle((boundingBox->right - screenPosX) * zoom, (boundingBox->top - screenPosY) * zoom, 1.0);
+//		ofCircle((boundingBox->left - screenPosX) * zoom, (boundingBox->bottom - screenPosY) * zoom, 1.0);
+//		ofCircle((boundingBox->right - screenPosX) * zoom, (boundingBox->bottom - screenPosY) * zoom, 1.0);
 
 	}
-	
-	bool isOnScreen(int screenPosX, int screenPosY, float zoom) {
-		if (((boxRight - screenPosX) * zoom) < 0) {
-			return false;
-		}
-		if (((boxLeft - screenPosX) * zoom) > ofGetWidth()) {
-			return false;
-		}
-		if (((boxTop - screenPosY) * zoom) > ofGetHeight()) {
-			return false;
-		}
-		if (((boxBottom - screenPosY) * zoom) < 0) {
-			return false;
-		}
-		return true;
-	}
-	
-	bool inBox(int canvasX, int canvasY) {
-		if (canvasX > boxLeft) {
-			if (canvasX < boxRight) {
-				if (canvasY > boxTop) {
-					if (canvasY < boxBottom) {
-						return true;
-					}
-				}
-			}
-		}
-		return false;
-	}
-	
+		
 	vector<Point2D*> getPoints() {
 		return points;
 	}

@@ -88,6 +88,7 @@ SHOULD BE THIS
 #include "QuasiModeSelectorCanvas.h"
 #include "SegmentedControl.h"
 #include "OctaveButtons.h"
+#include "PathPlayer.h"
 
 vector<Bell*> bells;
 vector<MultiSampledSoundPlayer *> instrumentSoundPlayers;
@@ -146,6 +147,8 @@ bool showNoteNames;
 bool drawingOn;
 bool erasingOn;
 vector<DrawingLine*> drawingLines;
+
+PathPlayer *currentlyDrawingPath;
 
 bool slideModeOn;
 
@@ -300,7 +303,8 @@ void testApp::setup(){
      controlPanel = [[ControlPanel alloc] initWithNibName:@"ControlPanel" bundle:nil];
      [[[UIApplication sharedApplication] keyWindow] addSubview:controlPanel.view];
     // CGRect r = CGRectMake(ofGetHeight()-150, ofGetWidth() - 410, 140, 300);
-     CGRect r = CGRectMake(ofGetHeight()-250, ofGetWidth() - 350, 300, 140); // apparently x and y are swapped (but not for of)
+//     CGRect r = CGRectMake(ofGetHeight()-250, ofGetWidth() - 350, 300, 140); // apparently x and y are swapped (but not for of)
+    CGRect r = CGRectMake(ofGetHeight()-250, 250, 300, 140); // apparently x and y are swapped (but not for of)
      controlPanel.view.frame = r;
      [controlPanel.view setHidden:YES];
      controlPanel.view.transform = CGAffineTransformMakeRotation(ofDegToRad(-90));
@@ -308,8 +312,9 @@ void testApp::setup(){
      // control panel toggle
      controlPanelToggle = [[ControlPanelToggle alloc] initWithNibName:@"ControlPanelToggle" bundle:nil];
      [[[UIApplication sharedApplication] keyWindow] addSubview:controlPanelToggle.view];
-     r = CGRectMake(ofGetHeight()-100, ofGetWidth() - 100, 100, 100);
-     controlPanelToggle.view.frame = r;
+     //r = CGRectMake(ofGetHeight()-100, ofGetWidth() - 100, 100, 100);
+    r = CGRectMake(ofGetHeight()-250, 10, 100, 100);
+    controlPanelToggle.view.frame = r;
         
      // recorder bell maker
      recorderBellMaker = [[RecorderBellMaker alloc] initWithNibName:@"RecorderBellMaker" bundle:nil];
@@ -643,17 +648,8 @@ void testApp::saveCanvas(bool saveToServer){
 	XML.setValue("SCREENPOS:X", screenPosX, 0);
 	XML.setValue("SCREENPOS:Y", screenPosY, 0);
 	for(int i=0; i<bells.size(); i++) {
-		if (!bells[i]->isRecorderBell()) {
-			int num = XML.addTag("BELL");
-			XML.pushTag("BELL", num);
-			XML.setValue("X", bells[i]->getCanvasX(), i);
-			XML.setValue("Y", bells[i]->getCanvasY(), i);
-			XML.setValue("NOTENUM", bells[i]->getNoteNum(), i);
-			XML.setValue("OCTAVE", bells[i]->getOctave(), i);
-			XML.setValue("INSTRUMENT", bells[i]->getInstrument(), i);
-			XML.popTag();
-		} else {
-			int num = XML.addTag("RECBELL");
+		if (bells[i]->isRecorderBell()) {
+            int num = XML.addTag("RECBELL");
 			XML.pushTag("RECBELL", num);
 			XML.setValue("X", bells[i]->getCanvasX(), i);
 			XML.setValue("Y", bells[i]->getCanvasY(), i);
@@ -668,7 +664,30 @@ void testApp::saveCanvas(bool saveToServer){
 				XML.setValue("NOTE:INSTRUMENT", n->instrument, j);
 			}
 			XML.popTag();
-		}
+		} else if (bells[i]->isPathPlayer()) {
+            int num = XML.addTag("PATHPLAYER");
+			XML.pushTag("PATHPLAYER", num);
+			XML.setValue("X", bells[i]->getCanvasX(), i);
+			XML.setValue("Y", bells[i]->getCanvasY(), i);
+		 	vector<PathPoint *> pathPoints = ((PathPlayer *)bells[i])->getPathPoints();
+			for (int j=0; j<pathPoints.size(); j++) {
+				PathPoint *p = pathPoints[j];
+				XML.addTag("P");
+				XML.setValue("P:T", p->t, j);
+				XML.setValue("P:X", p->x, j);
+				XML.setValue("P:Y", p->y, j);
+			}
+			XML.popTag();
+        } else {
+            int num = XML.addTag("BELL");
+			XML.pushTag("BELL", num);
+			XML.setValue("X", bells[i]->getCanvasX(), i);
+			XML.setValue("Y", bells[i]->getCanvasY(), i);
+			XML.setValue("NOTENUM", bells[i]->getNoteNum(), i);
+			XML.setValue("OCTAVE", bells[i]->getOctave(), i);
+			XML.setValue("INSTRUMENT", bells[i]->getInstrument(), i);
+			XML.popTag();
+        }
 	}
 	
 	for (int i=0; i<drawingLines.size(); i++) {
@@ -903,7 +922,29 @@ void testApp::loadCanvas(MorphMetaData morph){
 			bells.push_back(b);
 		}
 	}
-	
+
+    int numPathPlayers = XML.getNumTags("PATHPLAYER");
+	if (numPathPlayers > 0) {
+		for (int i=0; i<numPathPlayers; i++) {
+			int newX = XML.getValue("PATHPLAYER:X", 0, i);
+			int newY = XML.getValue("PATHPLAYER:Y", 0, i);
+			XML.pushTag("PATHPLAYER", i);
+			int numPathPoints = XML.getNumTags("P");
+			vector<PathPoint*> pathPoints;
+			for (int j=0; j<numPathPoints; j++) {
+				float x = XML.getValue("P:X", 0.0f, j);
+				float y = XML.getValue("P:Y", 0.0f, j);
+				float t = XML.getValue("P:T", 0.0f, j);
+				PathPoint *p = new PathPoint(x, y, t);
+				pathPoints.push_back(p);
+			}
+			XML.popTag();
+            PathPlayer *player = new PathPlayer(newX, newY, pathPlayerImage, pathHeadImage, &bells);
+            player->setPathPoints(pathPoints);
+            bells.push_back(player);
+		}
+	}
+    
 	int numLines = XML.getNumTags("LINE");
 	if (numLines > 0) {
 		for (int i=0; i<numLines; i++) {
@@ -936,6 +977,13 @@ void testApp::clearCanvas(){
 			}
 			bells[i]->notes.clear();
 		}
+        if (bells[i]->isPathPlayer()) {
+            for (int j=0; j<((PathPlayer*)bells[i])->pathPoints.size(); j++) {
+                delete ((PathPlayer*)bells[i])->pathPoints[j];
+            }
+            ((PathPlayer*)bells[i])->pathPoints.clear();
+        }
+
 		delete bells[i];
 	}
 	bells.clear();
@@ -1000,7 +1048,7 @@ void testApp::setSlidingOff(){
 void testApp::eraseLine(int canvasX, int canvasY){
 	vector<int> nearbyLineIndices;
 	for (int i=0; i<drawingLines.size(); i++) {
-		if (drawingLines[i]->inBox(canvasX, canvasY)) {
+		if (drawingLines[i]->boundingBox->inBox(canvasX, canvasY)) {
 			nearbyLineIndices.push_back(i);
 		}
 	}
@@ -1580,6 +1628,18 @@ void testApp::touchDown(ofTouchEventArgs &touch){
                 selectionDragCorner.y = selectionStartCorner.y;
             }
         }
+        
+        // path mode
+        if (quasiModeSelectorCanvas->getCurrentMode() == PATH_MODE) {
+            if (touch.id == 1) {
+                // make a pathplayer
+                int x = (touch.x / zoom + screenPosX);
+                int y =  (touch.y / zoom + screenPosY);// + (BELLRADIUS * zoom);
+                PathPlayer *p = new PathPlayer(x, y, pathPlayerImage, pathHeadImage, &bells);
+                currentlyDrawingPath = p;
+                bells.push_back(p);
+            }
+        }
 
         // bells
         calculateForce();
@@ -1587,7 +1647,7 @@ void testApp::touchDown(ofTouchEventArgs &touch){
             bool touched = bells[i]->touchDown((int)touch.x, (int)touch.y, touch.id);
             if (touched) {
                 int mode = quasiModeSelectorCanvas->getCurrentMode();
-                if (mode != MUTE_MODE) {
+                if ((mode != MUTE_MODE) && (mode != PATH_MODE)) {
                     bells[i]->playNote();
                     if (recording) {
                         [recorderBellMaker recordNote:bells[i]];
@@ -1662,6 +1722,20 @@ void testApp::touchMoved(ofTouchEventArgs &touch){
                 }
                 return;
             }		
+        }
+        
+        // path drawing
+        if (quasiModeSelectorCanvas->getCurrentMode() == PATH_MODE) {
+            if (touch.id==1) {
+                int canvasX = int (screenPosX + (touch.x / zoom));
+                int canvasY = int (screenPosY + (touch.y / zoom));
+                currentlyDrawingPath->addPoint(canvasX, canvasY);
+                
+                for (int i=0; i<bells.size(); i++) {
+                    bells[i]->slide(touch.x, touch.y, touch.id);
+                }
+                return;
+            }
         }
         
         // slide mode
@@ -1796,6 +1870,11 @@ void testApp::deleteBellNum(int num){
     if (bells[num]->isRecorderBell()) {
         for (int i=0; i<bells[num]->notes.size(); i++) {
             delete bells[num]->notes[i];
+        }
+    }
+    if (bells[num]->isPathPlayer()) {
+        for (int i=0; i<((PathPlayer*)bells[num])->pathPoints.size(); i++) {
+            delete ((PathPlayer*)bells[num])->pathPoints[i];
         }
     }
     bells.erase(bells.begin()+num);

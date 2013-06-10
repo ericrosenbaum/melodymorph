@@ -58,13 +58,29 @@ class RecorderBell : public Bell {
 		
 		screenX = (canvasX - screenPosX) * zoom;
 		screenY = (canvasY - screenPosY) * zoom;
-				
-		int rgb[3];
-		setColorHSV(0, 0, 1, rgb);
-		if (dragging) {
-			ofSetColor(rgb[0], rgb[1], rgb[2], 200);
+        
+        // play the sequence
+        // this must come before we check if we are offscreen, so we keep playing while offscreen
+		if (playing) {
+			playNextNote();
 		}
-		
+
+        // no need to draw image if we are off screen
+        if (!isOnScreen()) {
+			return;
+		}
+
+        ofColor gray;
+        gray.setHsb(0,0,255);
+        if(!playing) {
+            gray.setBrightness(150);
+        }
+        int alpha = 255;
+        if (dragging) {
+            alpha = 200;
+        }
+        ofSetColor(gray, alpha);
+
 		if (currentRadius != targetRadius) {
 			currentRadius += (targetRadius - currentRadius) / 10;
 		}
@@ -73,10 +89,6 @@ class RecorderBell : public Bell {
 		
 		drawNotation();
 		
-		// play the sequence
-		if (playing) {
-			playNextNote();
-		}		
 		
 	}
 	
@@ -94,14 +106,14 @@ class RecorderBell : public Bell {
 		if (playing) {
 			n = noteCounter;
 		}
-        ofSetCircleResolution(3);
+        ofSetCircleResolution(4);
 		for (int i=0; i<n; i++) {
 			float x = screenX + xOffset + ((notes[i]->time / notesDuration) * notationWidth);
 			float y = screenY + yOffset - (((notes[i]->note + 1) + (12 * (notes[i]->octave))) * noteHeight);
 			float hue = notes[i]->note / 13.0;
 			int rgb[3];
-			setColorHSV(hue, 1, 1, rgb);
-			float r = 2 * zoom;
+			setColorHSV(hue, 1, 0.75, rgb);
+			float r = 3 * zoom;
 			ofCircle(x, y, r); 
 		}		
 	}

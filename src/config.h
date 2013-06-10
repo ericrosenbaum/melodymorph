@@ -16,9 +16,11 @@
 #define CANVASWIDTH 2000
 #define CANVASHEIGHT 2666
 
-#define BELLRADIUS		50
-#define RECBELLRADIUS	75
-#define DRAGZONE		50
+#define BELLRADIUS          50
+#define DRAGZONE            50
+#define RECBELLRADIUS       75
+#define PATHPLAYERRADIUS	50
+#define PATHHEADRADIUS      25
 
 #define MINPINCHZOOMDIST    50
 

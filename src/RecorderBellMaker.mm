@@ -46,7 +46,7 @@
 	}
 }
 - (void)recordNote:(Bell *)b {
-	if (!(b->isRecorderBell())) {
+	if (!(b->isRecorderBell()) && !b->isPathPlayer()) {
 		noteCount++;
 		if (noteCount == 1) {
 			recStartTime = ofGetElapsedTimef();

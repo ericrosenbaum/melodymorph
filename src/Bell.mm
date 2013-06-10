@@ -343,6 +343,9 @@ public:
 	virtual bool isRecorderBell() {
 		return false;
 	}
+	virtual bool isPathPlayer() {
+		return false;
+	}
 	virtual vector<Note *> getNotes() {
 		vector<Note *> n;
 		return n;
