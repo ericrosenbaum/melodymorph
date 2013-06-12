@@ -275,6 +275,16 @@ public:
         }
     }
     
+    void dragIfSelected(ofPoint prev, int x, int y) {
+        if (isSelected) {
+            canvasX += (x - prev.x) / zoom;
+            canvasY += (y - prev.y) / zoom;
+        }
+    }
+    bool getIsSelected() {
+        return isSelected;
+    }
+    
 	void touchUp(int tx, int ty, int id) {
                 
 		if (id == downID) {

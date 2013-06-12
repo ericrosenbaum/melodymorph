@@ -7,6 +7,13 @@
 
 /*
  
+ TO DO:
+ stop all button
+ smaller UI button
+ flattened gear and recbellmaker icons
+ flattened control panel back
+ how to make the whole UI cleaner - all one visual object? background?
+ 
  app
  
  timestamp.xml
@@ -124,6 +131,7 @@ bool zoomBegun;
 
 ofPoint selectionStartCorner;
 ofPoint selectionDragCorner;
+ofPoint selectionBoxDragPrev;
 
 int octave;
 
@@ -168,6 +176,8 @@ vector<MorphMetaData> sharedMorphsMetaData;
 QuasiModeSelectorCanvas *quasiModeSelectorCanvas;
 SegmentedControl *instrumentSelector;
 OctaveButtons *octaveButtons;
+ofxUIImageToggle *fullScreenToggle;
+ofxUICanvas *fullScreenCanvas;
 
 // load menu
 
@@ -213,7 +223,6 @@ BrowserViewController *browser;
 
 // UI mode
 // current mode of the UI (#defines are in config.h):
-// PLAY_MODE, LOAD_MENU_MODE, PRE_SAVE_MODE, SAVE_DIALOG_MODE
 int UIMode;
 
 // current load menu tab
@@ -332,7 +341,6 @@ void testApp::setup(){
     // play mode widgets
     
     quasiModeSelectorCanvas = new QuasiModeSelectorCanvas(0, 100, 100, 400);
-    quasiModeSelectorCanvas->autoSizeToFitWidgets();
     
     instrumentSelector = new SegmentedControl(0,0,ofGetWidth(),100);
     instrumentSelector->initWithNames(instrumentNames);
@@ -341,6 +349,11 @@ void testApp::setup(){
     
     octaveButtons = new OctaveButtons(128, 35, 768, 80);
     
+    fullScreenToggle = new ofxUIImageToggle(0, 0, 100, 100, true, "GUI/fullscreen_button.png", "fullScreenButton");
+    fullScreenCanvas = new ofxUICanvas(0,0,100,100);
+    fullScreenCanvas->addWidget(fullScreenToggle);
+    fullScreenCanvas->setPadding(0);
+    ofAddListener(fullScreenCanvas->newGUIEvent, this, &testApp::guiEvent);
 }
 
 //--------------------------------------------------------------
@@ -470,8 +483,17 @@ void testApp::drawSelectionBox(){
     }
 }
 //--------------------------------------------------------------
+void testApp::resetSelectionBox(){
+    selectionStartCorner = *new ofPoint();
+    selectionDragCorner = *new ofPoint();
+}
+//--------------------------------------------------------------
 void testApp::drawPalette(){
-	
+    
+    if (!fullScreenToggle->getValue()) {
+        return;
+	}
+    
     // background rectangle
     ofSetColor(128, 128, 128);
     roundedRect(128, 35, 768, 80, 10);
@@ -1523,12 +1545,10 @@ void testApp::playModeSetVisible(bool visible) {
     // ofxUI based components
     instrumentSelector->setVisible(visible);
     quasiModeSelectorCanvas->setVisible(visible);
+    fullScreenCanvas->setVisible(visible);
     
     //special case- we close the control panel when returning to play mode
     [controlPanel.view setHidden:YES];
-    
-    
-    
 }
 //--------------------------------------------------------------
 void testApp::saveDialogModeSetVisible(bool visible) {
@@ -1568,26 +1588,28 @@ void testApp::touchDown(ofTouchEventArgs &touch){
         
         // if we're on a quasimode button
         // prevent touches to bells beneath the button
-        if (quasiModeSelectorCanvas->isHit(touch.x, touch.y)) {
+        if (quasiModeSelectorCanvas->isHit(touch.x, touch.y, fullScreenToggle->getValue())) { 
             return;
         }
         
         // palette
-        if ((touch.y < 100) && (touch.y > 40)) { // above bottom of palette, and below the instrument selector
-            int noteNum = getPaletteNote(touch.x);
-            if (noteNum != -1) {
-                int x = (touch.x / zoom + screenPosX);
-                int y =  (touch.y / zoom + screenPosY) + (BELLRADIUS * zoom);
-                Bell *b = new Bell(x, y, noteNum, octaveButtons->getOctave(), currentInstrument);
-                b->setPlayer(instrumentSoundPlayers[currentInstrument]);
-                b->setImageTriplet(bellImageTriplets[currentInstrument]);
-                b->startDrag(touch.id, 0, BELLRADIUS * zoom);
-                if (quasiModeSelectorCanvas->getCurrentMode() != MUTE_MODE) {
-                    b->playNote();
+        if (fullScreenToggle->getValue()) {
+            if ((touch.y < 100) && (touch.y > 40)) { // above bottom of palette, and below the instrument selector
+                int noteNum = getPaletteNote(touch.x);
+                if (noteNum != -1) {
+                    int x = (touch.x / zoom + screenPosX);
+                    int y =  (touch.y / zoom + screenPosY) + (BELLRADIUS * zoom);
+                    Bell *b = new Bell(x, y, noteNum, octaveButtons->getOctave(), currentInstrument);
+                    b->setPlayer(instrumentSoundPlayers[currentInstrument]);
+                    b->setImageTriplet(bellImageTriplets[currentInstrument]);
+                    b->startDrag(touch.id, 0, BELLRADIUS * zoom);
+                    if (quasiModeSelectorCanvas->getCurrentMode() != MUTE_MODE) {
+                        b->playNote();
+                    }
+                    bells.push_back(b);
                 }
-                bells.push_back(b);
+                return;
             }
-            return;
         }
 
         // drawing and erasing
@@ -1618,17 +1640,27 @@ void testApp::touchDown(ofTouchEventArgs &touch){
         
         // select mode
         if (quasiModeSelectorCanvas->getCurrentMode() == SELECT_MODE) {
-            if (touch.id == 1) {
-                for (int i=0; i<bells.size(); i++) {
-                    bells[i]->deselect();
+            if (quasiModeSelectorCanvas->getSelectionState() == SELECT_DRAWING) {
+                if (touch.id == 1) {
+                    for (int i=0; i<bells.size(); i++) {
+                        bells[i]->deselect();
+                    }
+                    selectionStartCorner.x = int (screenPosX + (touch.x / zoom));
+                    selectionStartCorner.y = int (screenPosY + (touch.y / zoom));
+                    selectionDragCorner.x = selectionStartCorner.x;
+                    selectionDragCorner.y = selectionStartCorner.y;
                 }
-                selectionStartCorner.x = int (screenPosX + (touch.x / zoom));
-                selectionStartCorner.y = int (screenPosY + (touch.y / zoom));
-                selectionDragCorner.x = selectionStartCorner.x;
-                selectionDragCorner.y = selectionStartCorner.y;
             }
+            if (quasiModeSelectorCanvas->getSelectionState() == SELECT_DONE_DRAWING) {
+                if (touch.id == 1) {
+                    selectionBoxDragPrev.x = touch.x;
+                    selectionBoxDragPrev.y = touch.y;
+
+                }
+            }
+            return;
         }
-        
+    
         // path mode
         if (quasiModeSelectorCanvas->getCurrentMode() == PATH_MODE) {
             if (touch.id == 1) {
@@ -1639,6 +1671,7 @@ void testApp::touchDown(ofTouchEventArgs &touch){
                 currentlyDrawingPath = p;
                 bells.push_back(p);
             }
+            return;
         }
 
         // bells
@@ -1693,7 +1726,7 @@ void testApp::touchMoved(ofTouchEventArgs &touch){
         
         // if we're on a quasimode button
         // prevent touches to bells beneath the button
-        if (quasiModeSelectorCanvas->isHit(touch.x, touch.y)) {
+        if (quasiModeSelectorCanvas->isHit(touch.x, touch.y, fullScreenToggle->getValue())) {
             return;
         }
         
@@ -1753,13 +1786,28 @@ void testApp::touchMoved(ofTouchEventArgs &touch){
         
         // select mode
         if (quasiModeSelectorCanvas->getCurrentMode() == SELECT_MODE) {
-            if (touch.id == 1) {
+            // draw the selection
+            if (touch.id == 1 && quasiModeSelectorCanvas->getSelectionState() == SELECT_DRAWING) {
                 selectionDragCorner.x = int (screenPosX + (touch.x / zoom));
                 selectionDragCorner.y = int (screenPosY + (touch.y / zoom));
                 for (int i=0; i<bells.size(); i++) {
                     bells[i]->deselect();
                     bells[i]->setSelectedIfInside(selectionStartCorner.x, selectionStartCorner.y, selectionDragCorner.x, selectionDragCorner.y);
                 }
+            }
+            // drag selected bells
+            if (quasiModeSelectorCanvas->getSelectionState() == SELECT_DONE_DRAWING) {
+                for (int i=0; i<bells.size(); i++) {
+                    bells[i]->dragIfSelected(selectionBoxDragPrev, touch.x, touch.y);
+                }
+                
+                selectionDragCorner.x += (touch.x - selectionBoxDragPrev.x) / zoom;
+                selectionDragCorner.y += (touch.y - selectionBoxDragPrev.y) / zoom;
+                selectionStartCorner.x += (touch.x - selectionBoxDragPrev.x) / zoom;
+                selectionStartCorner.y += (touch.y - selectionBoxDragPrev.y) / zoom;
+
+                selectionBoxDragPrev.x = touch.x;
+                selectionBoxDragPrev.y = touch.y;
 
             }
         }
@@ -1833,14 +1881,23 @@ void testApp::touchMoved(ofTouchEventArgs &touch){
 //--------------------------------------------------------------
 void testApp::touchUp(ofTouchEventArgs &touch){
     
-//    if (!loadMenuScrollableCanvas->isVisible() && noCanvasIsHit(touch.x, touch.y)) {
-//    if (!loadMenuCanvas->isVisible()) {
     if (UIMode == PLAY_MODE) {
+        
+        if (quasiModeSelectorCanvas->isHit(touch.x, touch.y, fullScreenToggle->getValue())) {
+            return;
+        }
 
         touchesDown[touch.id] = false;
         countTouches();
+        
+        if (quasiModeSelectorCanvas->getCurrentMode() == SELECT_MODE) {
+            if (touch.id == 1) {
+                quasiModeSelectorCanvas->setSelectionState(SELECT_DONE_DRAWING);
+            }
+        }
 
-        if (touch.y < 90) {
+        // delete bells when you drag to the palette (obsolete now that we have eraser tool?)
+        if (touch.y < 90 && !fullScreenToggle->getValue()) {
             for (int i=0; i<bells.size(); i++) {
                 if (bells[i]->deleteMe(touch.id)) {
                     deleteBellNum(i);
@@ -1934,10 +1991,58 @@ void testApp::gotMessage(ofMessage msg) {
         }
     }
     
-    // quasimode selector sends a message when we release the select button
+    // quasimode selector sends a message when we press or release the select button
+    if (msg.message == "select_button_pressed") {
+        resetSelectionBox();
+    }
     if (msg.message == "select_button_released") {
         for (int i=0; i<bells.size(); i++) {
             bells[i]->deselect();
+        }
+    }
+    if (msg.message == "duplicate_selected") {
+        for (int i=0; i<bells.size(); i++) {
+            if (bells[i]->getIsSelected()) {
+                Bell *b = bells[i];
+                if (b->isRecorderBell()) {
+                    RecorderBell recBell = *(RecorderBell *)bells[i];
+                    RecorderBell *newBell = new RecorderBell(recBell);
+
+                    // newbell now has vector of pointers to the old bell's notes
+                    // so we clear this vector, and make a copy of each note and add it
+                    vector <Note *> notes = recBell.getNotes();
+                    newBell->notes.clear();
+                    for (int i=0; i<notes.size(); i++) {
+                        Note n = *notes[i];
+                        Note *newNote = new Note(n);
+                        newBell->notes.push_back(newNote);
+                    }
+                    
+                    newBell->isSelected = false;
+                    newBell->img.setAnchorPercent(0.5, 0.5);
+                    bells.push_back(newBell);
+                } else if (b->isPathPlayer()) {
+                    PathPlayer *newBell = new PathPlayer(*(PathPlayer*)bells[i]);
+                    
+                    vector<PathPoint *> points = newBell->getPathPoints();
+                    newBell->pathPoints.clear();
+                    for(int i=0; i<points.size(); i++) {
+                        PathPoint p = *points[i];
+                        PathPoint *newPoint = new PathPoint(p);
+                        newBell->pathPoints.push_back(newPoint);
+                    }
+                    
+                    newBell->isSelected = false;
+                    newBell->img.setAnchorPercent(0.5, 0.5);
+                    newBell->pathHeadImg.setAnchorPercent(0.5,0.5);
+                    bells.push_back(newBell);
+                } else {
+                    Bell *newBell = new Bell(*bells[i]);
+                    newBell->isSelected = false;
+                    newBell->setImageTriplet(bellImageTriplets[newBell->getInstrument()]);
+                    bells.push_back(newBell);
+                }
+            }
         }
     }
 }
@@ -1945,6 +2050,21 @@ void testApp::gotMessage(ofMessage msg) {
 void testApp::guiEvent(ofxUIEventArgs &e)
 {
     string name = e.widget->getName();
+    
+    // play mode buttons
+    if (name == "fullScreenButton") {
+        bool visible = fullScreenToggle->getValue();
+        quasiModeSelectorCanvas->resetMode();
+        
+        [controlPanelToggle.view setHidden:!visible];
+        [recorderBellMaker.view setHidden:!visible];
+        [drawingToggle.view setHidden:!visible];
+        
+        // ofxUI based components
+        instrumentSelector->setVisible(visible);
+        quasiModeSelectorCanvas->setVisibilityOfEditModesOnly(visible);
+        octaveButtons->setVisible(visible);
+    }
     
     // load menu buttons
     if (name == "userMorphButton") {

@@ -7,13 +7,13 @@
          shouldBeEnabled = "Yes"
          ignoreCount = "0"
          continueAfterRunningActions = "No"
-         filePath = "src/PathPlayer.h"
-         timestampString = "392535451.761565"
+         filePath = "src/Bell.mm"
+         timestampString = "392683834.202696"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "270"
-         endingLineNumber = "270"
-         landmarkName = "updatePathHeadLocation()"
+         startingLineNumber = "200"
+         endingLineNumber = "200"
+         landmarkName = "touchDown(int tx, int ty, int id)"
          landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>

@@ -12,10 +12,6 @@
 /*
   things to fix
  
-recorderbell should skip recording these
- 
-needs to keep running while offscreen (also fix this is recorderbell)
- 
  */
 
 
@@ -51,6 +47,8 @@ public:
     
     int screenPosX, screenPosY;
     
+    float tempoInterval;
+    
     PathPlayer(int _canvasX, int _canvasY, ofImage _img, ofImage _pathHeadImg, vector <Bell *> *_bells) {
         bells = _bells;
         BellTheHeadIsTouching = nil;
@@ -74,12 +72,15 @@ public:
         
         drawingStartTime = ofGetElapsedTimef();
         
+        tempoInterval = 0.5;
+        
         // set up bounding box
-        // has to start out covering this object's img
+        // in this case bounding box coordinates are stored as
+        // relative canvas coordinates: the distance in canvas units from the anchor point
         box = new BoundingBoxForLine();
         
-        // initial update sets the anchor points for the bounding box
-        // which are used to recalculate it if it moves
+        // initial update sets the anchor point for the bounding box (the center of the path player)
+        // which is used to recalculate the bounding box if the path player is dragged
         box->update(canvasX, canvasY);
         
         // update bounding box to include the path player object
@@ -126,8 +127,7 @@ public:
         }
 
         if (playing) {
-            updatePathHeadLocation();
-            //playBells();
+            movePathHeadAndPlayBells();
         }
         
         if (box->isOnScreen(screenPosX, screenPosY, zoom)) {
@@ -139,7 +139,7 @@ public:
     }
     
     void drawPath() {
-        // draw my path
+
         if (pathPoints.size() == 0) {
             return;
         }
@@ -252,15 +252,23 @@ public:
             ofPopMatrix();
         }
     }
-    void updatePathHeadLocation() {
+    void movePathHeadAndPlayBells() {
         if (pathPoints.size() > 1) {
             float t = ofGetElapsedTimef() - playBackStartTime;
-            float nextTime;
+            float nextTime = pathPoints[pathPointsIndex]->t;
             
-            do {
+            // the do while loop advances the path head until it reaches the current time
+            // this is necessary so that it can catch up if the framerate at playback is
+            // lower than at the time it was recorded (prevents laggy playback)
+            while (t > nextTime) {
                 playBells();
-                pathPointsIndex++;
                 
+                if (BellTheHeadIsTouching == myself) {
+                    return; // otherwise we get trapped in this loop
+                }
+                
+                pathPointsIndex++;
+                                
                 if (pathPointsIndex >= pathPoints.size() - 1) {
                     playing = false;
                     return;
@@ -268,7 +276,7 @@ public:
 
                 nextTime = pathPoints[pathPointsIndex]->t;
                 
-            } while (t > nextTime);
+            } 
         }
     }
     
@@ -366,7 +374,7 @@ public:
             pathPointsIndex = 0;
             pathHeadAngle = 0;
             targetPathHeadAngle = 0;
-            BellTheHeadIsTouching = nil;
+            //BellTheHeadIsTouching = nil;
         } else {
             playing = false;
         }

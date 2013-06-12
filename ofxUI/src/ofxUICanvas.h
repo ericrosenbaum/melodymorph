@@ -151,7 +151,7 @@ public:
         font_small = sharedResources->getFontSmall();
         
         fontName = OFX_UI_FONT_NAME;
-//        setFont(fontName,true, true, false, 0.0, OFX_UI_FONT_RESOLUTION);
+        setFont(fontName,true, true, false, 0.0, OFX_UI_FONT_RESOLUTION);
         
 		font = font_medium; 
 		lastAdded = NULL; 

@@ -21,6 +21,10 @@
 #define SLIDE_MODE                  5
 #define MUTE_MODE                   6
 
+// selection mode states
+#define SELECT_DRAWING              0
+#define SELECT_DONE_DRAWING         1
+
 class QuasiModeSelectorCanvas : public ofxUICanvas {
 
 public:
@@ -28,8 +32,12 @@ public:
     // they are mutually exclusive modes, only active while you're holding one down
     int currentMode;
     
+    int selectionState;
+    
     // icon image file names
     string names[NUM_MODES] = {"pencil_button", "eraser_button", "select_button", "path_button", "slide_button", "mute_button"};
+    
+    ofxUILabelButton *duplicateButton;
     
     QuasiModeSelectorCanvas(int x,int y,int w,int h) : ofxUICanvas(x,y,w,h)
     {
@@ -42,11 +50,31 @@ public:
             b->setColorFillHighlight(127);    // down
             b->setColorBack(255);             // false
             addWidgetDown(b);
+            
+            // add a spacer between edit-modes and play modes
+            if (i==3) {
+                ofxUISpacer *spacer = new ofxUISpacer(100,30);
+                spacer->setVisible(false);
+                addWidgetDown(spacer);
+            }
         }
-                
-        setDrawBack(false);
         
+//        vector<string> items;
+//        items.push_back("duplicate");
+//        items.push_back("delete");
+//        
+//        ofxUIDropDownList *selectModeControls = new ofxUIDropDownList("select mode controls", items, 30);
+//        addWidgetDown(selectModeControls);
+        
+        duplicateButton = new ofxUILabelButton(false, "duplicate");
+        duplicateButton->setVisible(false);
+        addWidgetEastOf(duplicateButton, "select_button");
+        
+        setDrawBack(false);
         ofAddListener(newGUIEvent, this, &QuasiModeSelectorCanvas::guiEvent);
+        
+        autoSizeToFitWidgets();
+
     }
 
     void resetMode() {
@@ -57,30 +85,81 @@ public:
         return currentMode;
     }
     
+    int getSelectionState() {
+        return selectionState;
+    }
+    
+    void setSelectionState(int s) {
+        selectionState = s;
+    }
+    
+    void setVisibilityOfEditModesOnly(bool visible) {
+        vector<ofxUIWidget *> w = getWidgets();
+        for (int i=0; i<4; i++) {
+            w[i]->setVisible(visible);
+        }
+    }
+    
+    bool isHit(float x, float y, bool allModes) {
+        vector<ofxUIWidget *> w = getWidgets();
+        if (allModes) {
+            for (int i=0; i<NUM_MODES; i++) {
+                if (w[i]->isHit(x, y)) {
+                    return true;
+                }
+            }
+        } else {
+            if (w[NUM_MODES-1]->isHit(x, y)) {
+                return true;
+            }
+            if (w[NUM_MODES-2]->isHit(x, y)) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
     void guiEvent(ofxUIEventArgs &e) {
         string name = e.widget->getName();
         
+        ofxUIButton *btn = (ofxUIButton *) e.widget;
+
         for (int i=0; i<NUM_MODES; i++) {
-            ofxUIImageButton *btn = (ofxUIImageButton *) e.widget;
-            
             // set currentMode to the corresponding #defined int value (above)
             if (name == names[i]) {
-                ofxUIImageButton *btn = (ofxUIImageButton *) e.widget;
                 if (btn->getValue()) { // touch down
                     currentMode = i+1;
                 } else {
                     resetMode();
                 }
             }
-            
-            // if we just released the select button, send a message to testApp
-            // so that we can deselect everything
-            if (name == "select_button") {
-                if (!btn->getValue()) { // touch up
-                    ofSendMessage("select_button_released");
-                }
+        }
+        
+        // when we first enter selection mode, we are about to draw a selection
+        if (name == "select_button") {
+            if (btn->getValue()) { // touch down
+                selectionState = SELECT_DRAWING;
+                duplicateButton->setVisible(true);
+                autoSizeToFitWidgets();
+                ofSendMessage("select_button_pressed");
             }
         }
+        // if we just released the select button, send a message to testApp
+        // so that we can deselect everything
+        if (name == "select_button") {
+            if (!btn->getValue()) { // touch up
+                duplicateButton->setVisible(false);
+                autoSizeToFitWidgets();
+                ofSendMessage("select_button_released");
+            }
+        }
+        
+        if (name == "duplicate") {
+            if (btn->getValue()) { // touch down
+                ofSendMessage("duplicate_selected");
+            }
+        }
+        
     }
 };
 
