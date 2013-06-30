@@ -29,10 +29,12 @@
  
 #define FORCEBUFFERLENGTH	20
 
-#define MINZOOM	0.2
-#define MAXZOOM	1.9
+#define MINZOOM             0.15
+#define MAXZOOM             1.9
 
-#define MINIMAPSCALE	0.05
+#define MINIMAPSCALE        0.05
+
+#define SELECTION_COLOR     255, 255, 0, 20
 
 #define note_C						1
 #define	note_Cs						1.05946309

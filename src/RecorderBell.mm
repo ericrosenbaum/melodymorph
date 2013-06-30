@@ -22,7 +22,7 @@ class RecorderBell : public Bell {
 	float startTime;
 	RecorderBellMaker *maker;
 	
-	RecorderBell(int _canvasX, int _canvasY, vector<Note*> _notes, ofImage recBellImage, RecorderBellMaker *_maker) { // PGMidi	*_midi
+	RecorderBell(int _canvasX, int _canvasY, vector<Note*> _notes, ofImage *recBellImage, RecorderBellMaker *_maker) { // PGMidi	*_midi
 		canvasX = _canvasX;
 		canvasY = _canvasY;
 		
@@ -32,7 +32,7 @@ class RecorderBell : public Bell {
 		targetRadius = RECBELLRADIUS;
 		
 		img = recBellImage;
-		img.setAnchorPercent(0.5, 0.5);
+		img->setAnchorPercent(0.5, 0.5);
 		
 		maker = _maker;
 		
@@ -85,7 +85,7 @@ class RecorderBell : public Bell {
 			currentRadius += (targetRadius - currentRadius) / 10;
 		}
 
-		img.draw(screenX, screenY, currentRadius * 2 * zoom, currentRadius * 2 * zoom);
+		img->draw(screenX, screenY, currentRadius * 2 * zoom, currentRadius * 2 * zoom);
 		
 		drawNotation();
 		

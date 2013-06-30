@@ -16,6 +16,7 @@
 #include "utils.h"
 #include "Note.cpp"
 #include "MultiSampledSoundPlayer.h"
+#include "SelectionBox.h"
 
 class Bell {
 		
@@ -27,7 +28,8 @@ public:
 	
 	float screenX, screenY;
 	float ratio;
-	ofImage img;
+	ofImage *img;
+    vector<ofImage *> bellImages;
 	ofxOpenALSoundPlayer *voices;
 	bool dragging;
 	int dragID;
@@ -113,10 +115,20 @@ public:
     void setPlayer(MultiSampledSoundPlayer *p) {
         player = p;
     }
-    void setImageTriplet(vector<ofImage> bellImages) {
+//    void setImageTriplet(vector<ofImage> bellImages) {
+//		int function = noteFunctions[noteNum];
+//		img = bellImages[function];
+//		img.setAnchorPercent(0.5, 0.5);        
+//    }
+    void setImageTriplet(vector<ofImage *> _bellImages) {
+        bellImages = _bellImages;
+        setImg();
+    }
+    
+    void setImg() {
 		int function = noteFunctions[noteNum];
 		img = bellImages[function];
-		img.setAnchorPercent(0.5, 0.5);        
+		img->setAnchorPercent(0.5, 0.5);
     }
 	
 	virtual void draw(float screenPosX, float screenPosY, float _zoom, float force, float _bend, bool showNoteNames) {
@@ -144,8 +156,10 @@ public:
             if (downCount == 10) {
                 bendStart = bend;
             }
-			if (downCount > 10 && ((downCount % 10) == 0) ) {
+			if (downCount > 10 ) {
+//			if (downCount > 10 && ((downCount % 10) == 0) ) {
 //				voices[myChannel].setPitch(ratio+(bend - bendStart));
+                //player->bendNotes(ratio * bend);
 			}
 		} 
 		
@@ -159,8 +173,10 @@ public:
 			saturation = HIGHOCTSATURATION;
 		}
         if (isSelected) {
-            //saturation = ofMap(sin(ofGetElapsedTimef()*4),-1,1,0,0.5); // slow pulsation
-            saturation = 0;
+            //saturation = ofMap(sin(ofGetElapsedTimef()*12),-1,1,0,0.5); // slow pulsation
+            //saturation = ofMap(sin(ofGetElapsedTimef()*24),-1,1,0,0.5); // fast pulsation
+            //saturation = 0;
+            brightness = ofMap(sin(ofGetElapsedTimef()*18),-1,1,0.5,1);
         }
         
 		int rgb[3];
@@ -170,7 +186,7 @@ public:
 			ofSetColor(rgb[0], rgb[1], rgb[2], 200);
 		}
         
-		img.draw(screenX, screenY, currentRadius * 2 * zoom, currentRadius * 2 * zoom);
+		img->draw(screenX, screenY, currentRadius * 2 * zoom, currentRadius * 2 * zoom);
 		
 		// draw note names
 		if (showNoteNames) {
@@ -256,29 +272,17 @@ public:
     void deselect() {
         isSelected = false;
     }
-    
-    void setSelectedIfInside(int x1, int y1, int x2, int y2) {
-        
-        // for the ofRectangle inside function to work,
-        // we need to make sure x1,y1 is the top left corner
-        // so swap as needed
-        if (x1 > x2) {
-            std::swap(x1,x2);
-        }
-        if (y1 > y2) {
-            std::swap(y1,y2);
-        }
-        
-        ofRectangle r = ofRectangle(x1, y1, x2-x1, y2-y1);
-        if (r.inside(canvasX, canvasY)) {
+
+    void setSelectedIfInside(SelectionBox s) {
+        if (s.isInside(canvasX, canvasY)) {
             isSelected = true;
         }
     }
     
     void dragIfSelected(ofPoint prev, int x, int y) {
         if (isSelected) {
-            canvasX += (x - prev.x) / zoom;
-            canvasY += (y - prev.y) / zoom;
+            canvasX += x - prev.x;
+            canvasY += y - prev.y;
         }
     }
     bool getIsSelected() {
@@ -375,6 +379,26 @@ public:
 		}
 		return true;
 	}
+    
+    void changePitchBy(int num){
+        noteNum += num;
+        if (noteNum > 12) {
+            noteNum -= 12;
+            octave++;
+            if (octave > 2) {
+                octave -= 3;
+            }
+        }
+        if (noteNum < 0) {
+            noteNum += 12;
+            octave--;
+            if (octave < 0) {
+                octave += 3;
+            }
+        }
+        setImg();
+        hue = noteNum / 13.0f;
+    }
 };
 #endif
 

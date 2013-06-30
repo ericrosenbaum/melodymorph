@@ -11,6 +11,9 @@
 
 /*
   things to fix
+
+ box update on load
+ not playing the last one or two pathpoints?
  
  */
 
@@ -49,7 +52,7 @@ public:
     
     float tempoInterval;
     
-    PathPlayer(int _canvasX, int _canvasY, ofImage _img, ofImage _pathHeadImg, vector <Bell *> *_bells) {
+    PathPlayer(int _canvasX, int _canvasY, ofImage *_img, ofImage _pathHeadImg, vector <Bell *> *_bells) {
         bells = _bells;
         BellTheHeadIsTouching = nil;
         myself = this;
@@ -60,7 +63,7 @@ public:
         canvasY = _canvasY;
         
         img = _img;
-        img.setAnchorPercent(0.5, 0.5);
+        img->setAnchorPercent(0.5, 0.5);
         imgAngle = 0;
         imgAngleSet = false;
         
@@ -213,7 +216,7 @@ public:
         ofTranslate(screenX, screenY);
         ofRotate(180+(-1*imgAngle));
         
-        img.draw(0, 0, r, r);
+        img->draw(0, 0, r, r);
         
         ofPopMatrix();
 
@@ -338,7 +341,7 @@ public:
     }
     
     void addPoint(int _x, int _y) {
-        int x = _x - canvasX;
+        int x = _x - canvasX; // convert to relative coords for storage
         int y = _y - canvasY;
 
         // prevent the path from starting inside player img
@@ -362,7 +365,7 @@ public:
         float t = ofGetElapsedTimef() - drawingStartTime;
         PathPoint *p = new PathPoint(x, y, t);
         pathPoints.push_back(p);
-        box->update(_x, _y);
+        box->update(_x, _y); // update bounding box using canvas coords
     }
     
     void playNote() {
@@ -374,7 +377,6 @@ public:
             pathPointsIndex = 0;
             pathHeadAngle = 0;
             targetPathHeadAngle = 0;
-            //BellTheHeadIsTouching = nil;
         } else {
             playing = false;
         }
@@ -389,7 +391,16 @@ public:
     }
     
     void setPathPoints(vector <PathPoint *> _pathPoints) {
-        pathPoints = _pathPoints;
+        for (int i=0; i<_pathPoints.size(); i++) {
+            float x = _pathPoints[i]->x;
+            float y = _pathPoints[i]->y;
+            float t = _pathPoints[i]->t;
+            
+            PathPoint *p = new PathPoint(x, y, t);
+            pathPoints.push_back(p);
+            
+            box->update(canvasX + x, canvasY + y); // we store relative coords, but update box using canvas coords
+        }
     }
 };
 

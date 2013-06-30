@@ -36,9 +36,7 @@ public:
     
     // icon image file names
     string names[NUM_MODES] = {"pencil_button", "eraser_button", "select_button", "path_button", "slide_button", "mute_button"};
-    
-    ofxUILabelButton *duplicateButton;
-    
+        
     QuasiModeSelectorCanvas(int x,int y,int w,int h) : ofxUICanvas(x,y,w,h)
     {
         currentMode = NONE;
@@ -59,22 +57,10 @@ public:
             }
         }
         
-//        vector<string> items;
-//        items.push_back("duplicate");
-//        items.push_back("delete");
-//        
-//        ofxUIDropDownList *selectModeControls = new ofxUIDropDownList("select mode controls", items, 30);
-//        addWidgetDown(selectModeControls);
-        
-        duplicateButton = new ofxUILabelButton(false, "duplicate");
-        duplicateButton->setVisible(false);
-        addWidgetEastOf(duplicateButton, "select_button");
-        
         setDrawBack(false);
         ofAddListener(newGUIEvent, this, &QuasiModeSelectorCanvas::guiEvent);
         
         autoSizeToFitWidgets();
-
     }
 
     void resetMode() {
@@ -139,7 +125,6 @@ public:
         if (name == "select_button") {
             if (btn->getValue()) { // touch down
                 selectionState = SELECT_DRAWING;
-                duplicateButton->setVisible(true);
                 autoSizeToFitWidgets();
                 ofSendMessage("select_button_pressed");
             }
@@ -148,18 +133,10 @@ public:
         // so that we can deselect everything
         if (name == "select_button") {
             if (!btn->getValue()) { // touch up
-                duplicateButton->setVisible(false);
                 autoSizeToFitWidgets();
                 ofSendMessage("select_button_released");
             }
         }
-        
-        if (name == "duplicate") {
-            if (btn->getValue()) { // touch down
-                ofSendMessage("duplicate_selected");
-            }
-        }
-        
     }
 };
 

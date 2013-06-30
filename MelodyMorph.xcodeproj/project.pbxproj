@@ -164,6 +164,7 @@
 		49CF1BDF175FE93B003D001F /* PathPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PathPlayer.h; sourceTree = "<group>"; };
 		49CF1BE0175FEA6C003D001F /* PathPoint.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PathPoint.cpp; sourceTree = "<group>"; };
 		49CF1BE8176001A0003D001F /* other-images */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "other-images"; sourceTree = "<group>"; };
+		49DD7DDD176E01E1007586B6 /* SelectionBox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SelectionBox.h; sourceTree = "<group>"; };
 		49E0B91515E7FEC200B7E5CC /* DrawingLine.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DrawingLine.cpp; sourceTree = "<group>"; };
 		49E0B91615E7FEC200B7E5CC /* Point2D.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Point2D.cpp; sourceTree = "<group>"; };
 		49E0B92315E7FEC200B7E5CC /* Thumb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Thumb.h; sourceTree = "<group>"; };
@@ -624,6 +625,7 @@
 		E4D8936A11527B74007E1F53 /* src */ = {
 			isa = PBXGroup;
 			children = (
+				49DD7DDD176E01E1007586B6 /* SelectionBox.h */,
 				49280A5716C37B32003C99FD /* ofxUIMorphCanvas.h */,
 				49FE3CA516E3B4EE0084638B /* QuasiModeSelectorCanvas.h */,
 				49E0BCD215E822FA00B7E5CC /* data */,

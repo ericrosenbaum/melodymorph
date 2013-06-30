@@ -102,6 +102,18 @@ public:
         }
 
     }
+    
+    void bendNotes(float amount) {
+        if (multiSample) {
+            for (int i=0; i<MULTI_SAMPLES_NUM; i++) {
+                myPlayers[i].setSpeed(amount);
+            }
+        } else {
+                myPlayer.setSpeed(amount);
+        }
+
+    }
+    
 };
 
 

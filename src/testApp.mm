@@ -7,9 +7,13 @@
 
 /*
  
+ BUGS:
+ 
+ fix button states for stop all and full screen
+ stuck in slide mode? related to count touches I think
+ 
  TO DO:
- stop all button
- smaller UI button
+ smaller fullscreen and stop buttons?
  flattened gear and recbellmaker icons
  flattened control panel back
  how to make the whole UI cleaner - all one visual object? background?
@@ -96,6 +100,7 @@ SHOULD BE THIS
 #include "SegmentedControl.h"
 #include "OctaveButtons.h"
 #include "PathPlayer.h"
+#include "SelectionBox.h"
 
 vector<Bell*> bells;
 vector<MultiSampledSoundPlayer *> instrumentSoundPlayers;
@@ -129,13 +134,16 @@ float zoomStart;
 bool zooming;
 bool zoomBegun;
 
-ofPoint selectionStartCorner;
-ofPoint selectionDragCorner;
-ofPoint selectionBoxDragPrev;
+//ofPoint selectionStartCorner;
+//ofPoint selectionDragCorner;
+//ofPoint selectionBoxDragPrev;
+
+SelectionBox *selectionBox;
 
 int octave;
 
 vector<vector<ofImage> > bellImageTriplets;
+vector<vector<ofImage *> > bellImageTripletPtrs;
 
 ofImage recBellImage;
 ofImage pathPlayerImage;
@@ -178,6 +186,8 @@ SegmentedControl *instrumentSelector;
 OctaveButtons *octaveButtons;
 ofxUIImageToggle *fullScreenToggle;
 ofxUICanvas *fullScreenCanvas;
+ofxUIImageButton *stopAllButton;
+ofxUICanvas *stopAllCanvas;
 
 // load menu
 
@@ -353,7 +363,25 @@ void testApp::setup(){
     fullScreenCanvas = new ofxUICanvas(0,0,100,100);
     fullScreenCanvas->addWidget(fullScreenToggle);
     fullScreenCanvas->setPadding(0);
+    fullScreenCanvas->setColorFill(255);             // true
+    fullScreenCanvas->setColorFillHighlight(127);    // down
+    //fullScreenCanvas->setColorBack(255);              // false
+
     ofAddListener(fullScreenCanvas->newGUIEvent, this, &testApp::guiEvent);
+
+    stopAllButton = new ofxUIImageButton(100, 100, true, "GUI/stop_button.png", "stopAllButton");
+    stopAllCanvas = new ofxUICanvas(ofGetWidth()-100,0,100,100);
+    stopAllCanvas->addWidget(stopAllButton);
+    stopAllCanvas->setPadding(0);
+    stopAllCanvas->setColorFill(255);             // true
+    stopAllCanvas->setColorFillHighlight(127);    // down
+    //stopAllCanvas->setColorBack(255);              // false
+
+    ofAddListener(stopAllCanvas->newGUIEvent, this, &testApp::guiEvent);
+    
+    // SELECTION BOX
+    
+    selectionBox = new SelectionBox();
 }
 
 //--------------------------------------------------------------
@@ -459,6 +487,9 @@ void testApp::drawGrid(){
 //--------------------------------------------------------------
 void testApp::drawBells(){
     float bendAmt = bend();
+    
+    // is there are way to optimize the drawing here?
+    // some way to bind an unbind textures, but this requires looping through one image at a time
     for (int i=0; i<bells.size(); i++) {
         bells[i]->draw(screenPosX, screenPosY, zoom, forceEstimate, bendAmt, showNoteNames);
     }
@@ -473,19 +504,16 @@ void testApp::drawLines(){
 void testApp::drawSelectionBox(){
     if (quasiModeSelectorCanvas->getCurrentMode() == SELECT_MODE) {
         
-        float startX = (selectionStartCorner.x - screenPosX) * zoom;
-        float startY = (selectionStartCorner.y - screenPosY) * zoom;
-        float endX = (selectionDragCorner.x - screenPosX) * zoom;
-        float endY = (selectionDragCorner.y - screenPosY) * zoom;
+        selectionBox->draw(screenPosX, screenPosY, zoom);
         
-        ofSetColor(255, 255, 0, 20); // transparent yellow
-        ofRect(startX, startY, endX-startX, endY-startY); // x, y, w, h
+//        float startX = (selectionStartCorner.x - screenPosX) * zoom;
+//        float startY = (selectionStartCorner.y - screenPosY) * zoom;
+//        float endX = (selectionDragCorner.x - screenPosX) * zoom;
+//        float endY = (selectionDragCorner.y - screenPosY) * zoom;
+//        
+//        ofSetColor(255, 255, 0, 20); // transparent yellow
+//        ofRect(startX, startY, endX-startX, endY-startY); // x, y, w, h
     }
-}
-//--------------------------------------------------------------
-void testApp::resetSelectionBox(){
-    selectionStartCorner = *new ofPoint();
-    selectionDragCorner = *new ofPoint();
 }
 //--------------------------------------------------------------
 void testApp::drawPalette(){
@@ -618,15 +646,18 @@ void testApp::loadBellImages() {
         int numImages = imageDir.listDir(path);
         
         vector<ofImage> triplet;
+        vector<ofImage *> tripletPtrs;
 
         for (int j=0; j<numImages; j++) {
-            ofImage img;
-            img.loadImage(imageDir.getPath(j));
-            img.setAnchorPercent(0.5, 0.5);
-            triplet.push_back(img);
+            ofImage *img = new ofImage();
+            img->loadImage(imageDir.getPath(j));
+            img->setAnchorPercent(0.5, 0.5);
+            triplet.push_back(*img);
+            tripletPtrs.push_back(img);
         }
         
         bellImageTriplets.push_back(triplet);
+        bellImageTripletPtrs.push_back(tripletPtrs);
         cout << "loaded " + ofToString(numImages) + " images from " + path << endl;
     }
 }
@@ -757,8 +788,8 @@ void testApp::updateSharedLoadMenuCanvas() {
 vector<MorphMetaData> testApp::downloadPageOfSharedMorphs(int pageNum){
     ofHttpResponse response = ofLoadURL(ofToString(BROWSE_URL) + "?page=" + ofToString(pageNum));
 
-    //cout << "response to browse request:" << endl;
-    //cout << response.data.getText() << endl;
+    cout << "response to browse request:" << endl;
+    cout << response.data.getText() << endl;
 
     vector<MorphMetaData> morphs;
     
@@ -822,9 +853,12 @@ void testApp::downloadFile(string remotePath){
     string fileName = s[1];
     string localPath = sharedDirPath + fileName;
     
+    cout << "localPath: " << localPath << endl;
+    
     // check if we already have this image locally, if not, download it
     if (!ofFile::doesFileExist(localPath)) {
         string fileURL = ofToString(MEDIA_URL) + "/" + remotePath;
+        cout << "fileURL: " << fileURL << endl;
         ofSaveURLTo(fileURL, localPath);
         cout << "downloaded: " + fileName << endl;
     }
@@ -917,7 +951,7 @@ void testApp::loadCanvas(MorphMetaData morph){
 			 int newInst = XML.getValue("BELL:INSTRUMENT", 2, i);
 			 Bell *b = new Bell(newX, newY, newNoteNum, newOctave, newInst);
              b->setPlayer(instrumentSoundPlayers[newInst]);
-             b->setImageTriplet(bellImageTriplets[newInst]);
+             b->setImageTriplet(bellImageTripletPtrs[newInst]);
              bells.push_back(b);
 		 }
 	 }
@@ -939,7 +973,7 @@ void testApp::loadCanvas(MorphMetaData morph){
 				notes.push_back(n);
 			}
 			XML.popTag();
-            RecorderBell *b = new RecorderBell(newX, newY, notes, recBellImage, recorderBellMaker);
+            RecorderBell *b = new RecorderBell(newX, newY, notes, &recBellImage, recorderBellMaker);
             b->setPlayers(instrumentSoundPlayers);
 			bells.push_back(b);
 		}
@@ -961,7 +995,7 @@ void testApp::loadCanvas(MorphMetaData morph){
 				pathPoints.push_back(p);
 			}
 			XML.popTag();
-            PathPlayer *player = new PathPlayer(newX, newY, pathPlayerImage, pathHeadImage, &bells);
+            PathPlayer *player = new PathPlayer(newX, newY, &pathPlayerImage, pathHeadImage, &bells);
             player->setPathPoints(pathPoints);
             bells.push_back(player);
 		}
@@ -1159,7 +1193,7 @@ void testApp::makeRecBell(vector<Note*> notes){
     x += ofRandom(-jitterSize,jitterSize);
     y += ofRandom(-jitterSize,jitterSize);
     
-	RecorderBell *b = new RecorderBell(x, y, notes, recBellImage, recorderBellMaker);
+	RecorderBell *b = new RecorderBell(x, y, notes, &recBellImage, recorderBellMaker);
     b->setPlayers(instrumentSoundPlayers);
 	bells.push_back(b);
 
@@ -1297,7 +1331,8 @@ MorphMetaData testApp::loadMorphMetaData(string xmlPath) {
     MorphMetaData morph;
     morph.xmlFilePath = xmlPath;
     
-    XML.loadFile(morph.xmlFilePath);
+    XML.loadFile(morph.xmlFilePath); // this is what causes it to take a long time at startup- we load in all of the user files!
+                                     // somehow we need to get just the metadata, without loading in the bells etc. 
     morph.title = ofToString(XML.getValue("TITLE:TEXT", "-", 0));
     morph.author = ofToString(XML.getValue("AUTHOR:TEXT", "-", 0));
     morph.description = ofToString(XML.getValue("DESCRIPTION:TEXT", "-", 0));
@@ -1546,6 +1581,7 @@ void testApp::playModeSetVisible(bool visible) {
     instrumentSelector->setVisible(visible);
     quasiModeSelectorCanvas->setVisible(visible);
     fullScreenCanvas->setVisible(visible);
+    stopAllCanvas->setVisible(visible);
     
     //special case- we close the control panel when returning to play mode
     [controlPanel.view setHidden:YES];
@@ -1583,6 +1619,10 @@ void testApp::touchDown(ofTouchEventArgs &touch){
         touchesY[touch.id] = touch.y;
         countTouches();
         
+        float touchCanvasX = screenPosX + (touch.x / zoom);
+        float touchCanvasY = screenPosY + (touch.y / zoom);
+
+        
         //cout << "id " + ofToString(touch.id) + " mode " + ofToString(quasiModeSelectorCanvas->getCurrentMode()) << endl;
         //cout << ofToString(touch.x) << " " << ofToString(touch.y) << endl;
         
@@ -1601,7 +1641,7 @@ void testApp::touchDown(ofTouchEventArgs &touch){
                     int y =  (touch.y / zoom + screenPosY) + (BELLRADIUS * zoom);
                     Bell *b = new Bell(x, y, noteNum, octaveButtons->getOctave(), currentInstrument);
                     b->setPlayer(instrumentSoundPlayers[currentInstrument]);
-                    b->setImageTriplet(bellImageTriplets[currentInstrument]);
+                    b->setImageTriplet(bellImageTripletPtrs[currentInstrument]);
                     b->startDrag(touch.id, 0, BELLRADIUS * zoom);
                     if (quasiModeSelectorCanvas->getCurrentMode() != MUTE_MODE) {
                         b->playNote();
@@ -1643,19 +1683,22 @@ void testApp::touchDown(ofTouchEventArgs &touch){
             if (quasiModeSelectorCanvas->getSelectionState() == SELECT_DRAWING) {
                 if (touch.id == 1) {
                     for (int i=0; i<bells.size(); i++) {
-                        bells[i]->deselect();
+                        bells[i]->deselect();               // deselect all bells since we're starting a new selection
                     }
-                    selectionStartCorner.x = int (screenPosX + (touch.x / zoom));
-                    selectionStartCorner.y = int (screenPosY + (touch.y / zoom));
-                    selectionDragCorner.x = selectionStartCorner.x;
-                    selectionDragCorner.y = selectionStartCorner.y;
+                    
+                    selectionBox->setSelectionStart(touchCanvasX, touchCanvasY);
+                    
+//                    selectionStartCorner.x = int (screenPosX + (touch.x / zoom));
+//                    selectionStartCorner.y = int (screenPosY + (touch.y / zoom));
+//                    selectionDragCorner.x = selectionStartCorner.x;
+//                    selectionDragCorner.y = selectionStartCorner.y;
                 }
             }
             if (quasiModeSelectorCanvas->getSelectionState() == SELECT_DONE_DRAWING) {
                 if (touch.id == 1) {
-                    selectionBoxDragPrev.x = touch.x;
-                    selectionBoxDragPrev.y = touch.y;
-
+                    if (selectionBox->isInside(touchCanvasX, touchCanvasY)) {
+                        selectionBox->startDrag(touchCanvasX, touchCanvasY);
+                    }
                 }
             }
             return;
@@ -1667,7 +1710,7 @@ void testApp::touchDown(ofTouchEventArgs &touch){
                 // make a pathplayer
                 int x = (touch.x / zoom + screenPosX);
                 int y =  (touch.y / zoom + screenPosY);// + (BELLRADIUS * zoom);
-                PathPlayer *p = new PathPlayer(x, y, pathPlayerImage, pathHeadImage, &bells);
+                PathPlayer *p = new PathPlayer(x, y, &pathPlayerImage, pathHeadImage, &bells);
                 currentlyDrawingPath = p;
                 bells.push_back(p);
             }
@@ -1692,6 +1735,7 @@ void testApp::touchDown(ofTouchEventArgs &touch){
                         // this also prevents overlapping bells from dragging together (they get stuck together)
             }
         }
+        
         // zooming
         if (numTouches == 2 && (quasiModeSelectorCanvas->getCurrentMode() == NONE)) {
             zooming = true;
@@ -1723,6 +1767,10 @@ void testApp::touchMoved(ofTouchEventArgs &touch){
         
         touchesX[touch.id] = touch.x;
         touchesY[touch.id] = touch.y;
+
+        float touchCanvasX = screenPosX + (touch.x / zoom);
+        float touchCanvasY = screenPosY + (touch.y / zoom);
+
         
         // if we're on a quasimode button
         // prevent touches to bells beneath the button
@@ -1786,29 +1834,25 @@ void testApp::touchMoved(ofTouchEventArgs &touch){
         
         // select mode
         if (quasiModeSelectorCanvas->getCurrentMode() == SELECT_MODE) {
-            // draw the selection
+ 
+            // we are dragging the corner of the selection box
             if (touch.id == 1 && quasiModeSelectorCanvas->getSelectionState() == SELECT_DRAWING) {
-                selectionDragCorner.x = int (screenPosX + (touch.x / zoom));
-                selectionDragCorner.y = int (screenPosY + (touch.y / zoom));
+                selectionBox->updateSelection(touchCanvasX, touchCanvasY);
                 for (int i=0; i<bells.size(); i++) {
                     bells[i]->deselect();
-                    bells[i]->setSelectedIfInside(selectionStartCorner.x, selectionStartCorner.y, selectionDragCorner.x, selectionDragCorner.y);
+                    bells[i]->setSelectedIfInside(*selectionBox);
                 }
             }
+            
             // drag selected bells
             if (quasiModeSelectorCanvas->getSelectionState() == SELECT_DONE_DRAWING) {
-                for (int i=0; i<bells.size(); i++) {
-                    bells[i]->dragIfSelected(selectionBoxDragPrev, touch.x, touch.y);
-                }
                 
-                selectionDragCorner.x += (touch.x - selectionBoxDragPrev.x) / zoom;
-                selectionDragCorner.y += (touch.y - selectionBoxDragPrev.y) / zoom;
-                selectionStartCorner.x += (touch.x - selectionBoxDragPrev.x) / zoom;
-                selectionStartCorner.y += (touch.y - selectionBoxDragPrev.y) / zoom;
-
-                selectionBoxDragPrev.x = touch.x;
-                selectionBoxDragPrev.y = touch.y;
-
+                if (selectionBox->isInside(touchCanvasX, touchCanvasY)) {
+                    for (int i=0; i<bells.size(); i++) {
+                        bells[i]->dragIfSelected(selectionBox->dragPrev, touchCanvasX, touchCanvasY);
+                    }
+                    selectionBox->drag(touchCanvasX, touchCanvasY);
+                }
             }
         }
         
@@ -1897,7 +1941,7 @@ void testApp::touchUp(ofTouchEventArgs &touch){
         }
 
         // delete bells when you drag to the palette (obsolete now that we have eraser tool?)
-        if (touch.y < 90 && !fullScreenToggle->getValue()) {
+        if (touch.y < 90 && fullScreenToggle->getValue()) {
             for (int i=0; i<bells.size(); i++) {
                 if (bells[i]->deleteMe(touch.id)) {
                     deleteBellNum(i);
@@ -1976,8 +2020,8 @@ void testApp::populateMetaDataViews(MorphMetaData *morph) {
 
     if (!loaded) {
         string remotePath = ofToString(morph->largeThumbFilePath);
-        //downloadFile(remotePath);
-        //largeThumbImageForLoading.loadImage(morph->largeThumbFilePath);
+        downloadFile(remotePath);
+        largeThumbImageForLoading.loadImage(morph->largeThumbFilePath);
     }
 }
 
@@ -1993,17 +2037,40 @@ void testApp::gotMessage(ofMessage msg) {
     
     // quasimode selector sends a message when we press or release the select button
     if (msg.message == "select_button_pressed") {
-        resetSelectionBox();
+        selectionBox->reset();
     }
     if (msg.message == "select_button_released") {
         for (int i=0; i<bells.size(); i++) {
             bells[i]->deselect();
         }
+        selectionBox->reset();
     }
-    if (msg.message == "duplicate_selected") {
+    if (msg.message == "pitch +") {
+        for (int i=0; i<bells.size(); i++) {
+            if (bells[i]->getIsSelected()) {
+                if (!bells[i]->isRecorderBell() && !bells[i]->isPathPlayer()) {
+                    bells[i]->changePitchBy(1);
+                }
+            }
+        }
+    }
+    if (msg.message == "pitch -") {
+        for (int i=0; i<bells.size(); i++) {
+            if (bells[i]->getIsSelected()) {
+                if (!bells[i]->isRecorderBell() && !bells[i]->isPathPlayer()) {
+                    bells[i]->changePitchBy(-1);
+                }
+            }
+        }
+    }
+    if (msg.message == "duplicate") {
+        vector <Bell *> newBells;
         for (int i=0; i<bells.size(); i++) {
             if (bells[i]->getIsSelected()) {
                 Bell *b = bells[i];
+                b->isSelected = false;
+                
+                // duplicate recorder bells
                 if (b->isRecorderBell()) {
                     RecorderBell recBell = *(RecorderBell *)bells[i];
                     RecorderBell *newBell = new RecorderBell(recBell);
@@ -2018,9 +2085,11 @@ void testApp::gotMessage(ofMessage msg) {
                         newBell->notes.push_back(newNote);
                     }
                     
-                    newBell->isSelected = false;
-                    newBell->img.setAnchorPercent(0.5, 0.5);
-                    bells.push_back(newBell);
+                    newBell->isSelected = true;
+                    newBell->img->setAnchorPercent(0.5, 0.5);
+                    newBells.push_back(newBell);
+                    
+                // duplicate path players
                 } else if (b->isPathPlayer()) {
                     PathPlayer *newBell = new PathPlayer(*(PathPlayer*)bells[i]);
                     
@@ -2032,18 +2101,23 @@ void testApp::gotMessage(ofMessage msg) {
                         newBell->pathPoints.push_back(newPoint);
                     }
                     
-                    newBell->isSelected = false;
-                    newBell->img.setAnchorPercent(0.5, 0.5);
+                    newBell->isSelected = true;
+                    newBell->img->setAnchorPercent(0.5, 0.5);
                     newBell->pathHeadImg.setAnchorPercent(0.5,0.5);
-                    bells.push_back(newBell);
+                    newBells.push_back(newBell);
+                    
+                // duplicate regular bells
                 } else {
                     Bell *newBell = new Bell(*bells[i]);
-                    newBell->isSelected = false;
-                    newBell->setImageTriplet(bellImageTriplets[newBell->getInstrument()]);
-                    bells.push_back(newBell);
+                    newBell->isSelected = true;
+                    newBell->setImageTriplet(bellImageTripletPtrs[newBell->getInstrument()]);
+                    newBell->canvasX += 10;
+                    newBell->canvasY += 10;
+                    newBells.push_back(newBell);
                 }
             }
         }
+        bells.insert(bells.end(), newBells.begin(), newBells.end());
     }
 }
 
@@ -2064,6 +2138,17 @@ void testApp::guiEvent(ofxUIEventArgs &e)
         instrumentSelector->setVisible(visible);
         quasiModeSelectorCanvas->setVisibilityOfEditModesOnly(visible);
         octaveButtons->setVisible(visible);
+    }
+    
+    if (name == "stopAllButton") {
+        for (int i=0; i<bells.size(); i++) {
+            if (bells[i]->isRecorderBell()) {
+                ((RecorderBell *)bells[i])->playing = false;
+            }
+            if (bells[i]->isPathPlayer()) {
+                ((PathPlayer *)bells[i])->playing = false;
+            }
+        }
     }
     
     // load menu buttons
