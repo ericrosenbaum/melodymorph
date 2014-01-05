@@ -12,16 +12,35 @@
  git commit -m ""
  git push origin master
  
+ PRIORITIES FOR BETA
+ 
+ critical
+ * help screens - ofxUIbuttons? way to render with code (not images)?
+ 
+ pedadgogy
+ * examples with templates
+ 
+ functional
+ * long startup loading wait times
+ * lack of spinner for loading
+ * recorder misses path player notes
+ 
+ cosmetic
+ * quieter pluck sound
+ * make all instruments multi-sampled?
+ * change to ofxui: rec button, gear, menu
+ * try mode locking?
+ * colors of C at octave breaks
+ * use sprite sheets to speed up graphics
+ 
+ long term
+ * sharing
+ * new sound engine
+ 
  BUGS:
  
- fix button states for stop all and full screen
- stuck in slide mode? related to count touches I think
+ * stuck in slide mode? related to count touches I think
  
- TO DO:
- smaller fullscreen and stop buttons?
- flattened gear and recbellmaker icons
- flattened control panel back
- how to make the whole UI cleaner - all one visual object? background?
  
  app
  
@@ -98,7 +117,7 @@ SHOULD BE THIS
 #include "LoadFileViewController.h"
 #include "ControlPanel.h"
 #include "controlPanelToggle.h"
-#include "DrawingToggle.h"
+//#include "DrawingToggle.h"
 #include "utils.h"
 //#include "WebView.h"
 #include "QuasiModeSelectorCanvas.h"
@@ -234,7 +253,7 @@ ControlPanel *controlPanel;
 ControlPanelToggle *controlPanelToggle;
 RecorderBellMaker *recorderBellMaker;
 LoadFileViewController *loadView;
-DrawingToggle *drawingToggle;
+//DrawingToggle *drawingToggle;
 //WebView *browser;
 
 // UI mode
@@ -380,13 +399,17 @@ void testApp::setup(){
     ofAddListener(fullScreenCanvas->newGUIEvent, this, &testApp::guiEvent);
 
     stopAllButton = new ofxUIImageButton(100, 100, true, "GUI/stop_button.png", "stopAllButton");
+    
+    stopAllButton->setColorFillHighlight(127);
+    stopAllButton->setColorBack(255);
+    
     stopAllCanvas = new ofxUICanvas(ofGetWidth()-100,0,100,100);
     stopAllCanvas->addWidget(stopAllButton);
     stopAllCanvas->setPadding(0);
     stopAllCanvas->setColorFill(255);             // true
     stopAllCanvas->setColorFillHighlight(127);    // down
-    //stopAllCanvas->setColorBack(255);              // false
-
+    stopAllCanvas->setDrawBack(false);
+    
     ofAddListener(stopAllCanvas->newGUIEvent, this, &testApp::guiEvent);
     
     // SELECTION BOX
@@ -1588,7 +1611,7 @@ void testApp::playModeSetVisible(bool visible) {
     [topButtons.view setHidden:!visible];
     [controlPanelToggle.view setHidden:!visible];
     [recorderBellMaker.view setHidden:!visible];
-    [drawingToggle.view setHidden:!visible];
+    //[drawingToggle.view setHidden:!visible];
     
     // ofxUI based components
     instrumentSelector->setVisible(visible);
@@ -2144,7 +2167,7 @@ void testApp::guiEvent(ofxUIEventArgs &e)
         
         [controlPanelToggle.view setHidden:!visible];
         [recorderBellMaker.view setHidden:!visible];
-        [drawingToggle.view setHidden:!visible];
+        //[drawingToggle.view setHidden:!visible];
         
         // ofxUI based components
         instrumentSelector->setVisible(visible);

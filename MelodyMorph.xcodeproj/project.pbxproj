@@ -10,8 +10,12 @@
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
 		288765FD0DF74451002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765FC0DF74451002DB57D /* CoreGraphics.framework */; };
+		49355B7F187A192F0007DE86 /* button2.png in Resources */ = {isa = PBXBuildFile; fileRef = 49355B7D187A192F0007DE86 /* button2.png */; };
+		49355B80187A192F0007DE86 /* control_panel_back.png in Resources */ = {isa = PBXBuildFile; fileRef = 49355B7E187A192F0007DE86 /* control_panel_back.png */; };
 		495099CB16F445AC00A16519 /* GUI in Resources */ = {isa = PBXBuildFile; fileRef = 495099CA16F445AC00A16519 /* GUI */; };
 		495B260715F165CC00290967 /* examples in Resources */ = {isa = PBXBuildFile; fileRef = 495B260515F165CC00290967 /* examples */; };
+		495CBFD1187923B600BF6008 /* icons in Resources */ = {isa = PBXBuildFile; fileRef = 495CBFD0187923B600BF6008 /* icons */; };
+		495CBFD31879242900BF6008 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 495CBFD21879242900BF6008 /* Images.xcassets */; };
 		495D4403175D3F22005DDC58 /* NewMediaFett.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 495D4402175D3F22005DDC58 /* NewMediaFett.ttf */; };
 		496D86B116C0CD0900F746FA /* ofxTextBlock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 496D86AE16C0CD0900F746FA /* ofxTextBlock.cpp */; };
 		49778C18169647F3009AB6FC /* libcurl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 49778BD6169647F3009AB6FC /* libcurl.a */; };
@@ -24,17 +28,11 @@
 		49778C23169647F3009AB6FC /* ofxCurlFormTypeFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 49778C0C169647F3009AB6FC /* ofxCurlFormTypeFile.cpp */; };
 		49778C24169647F3009AB6FC /* ofxCurlFormTypeInput.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 49778C0E169647F3009AB6FC /* ofxCurlFormTypeInput.cpp */; };
 		49778C281696A0F4009AB6FC /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49778C271696A0F4009AB6FC /* Security.framework */; };
-		4993E7C81627A57C0030510D /* DrawingToggle.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4993E7C61627A57B0030510D /* DrawingToggle.mm */; };
-		4993E7C91627A57C0030510D /* DrawingToggle.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4993E7C71627A57B0030510D /* DrawingToggle.xib */; };
 		4993E7D01627A5AB0030510D /* ControlPanel.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4993E7CB1627A5AB0030510D /* ControlPanel.mm */; };
 		4993E7D11627A5AB0030510D /* ControlPanel.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4993E7CC1627A5AB0030510D /* ControlPanel.xib */; };
 		4993E7D21627A5AB0030510D /* ControlPanelToggle.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4993E7CE1627A5AB0030510D /* ControlPanelToggle.mm */; };
 		4993E7D31627A5AB0030510D /* ControlPanelToggle.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4993E7CF1627A5AB0030510D /* ControlPanelToggle.xib */; };
-		4993E7D91627A6180030510D /* TopButtons.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4993E7D51627A6180030510D /* TopButtons.mm */; };
-		4993E7DA1627A6180030510D /* TopButtons.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4993E7D61627A6180030510D /* TopButtons.xib */; };
 		4993E7DB1627A6180030510D /* RecorderBellMaker.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4993E7D81627A6180030510D /* RecorderBellMaker.xib */; };
-		4993E7EC162A4BEF0030510D /* control_panel_back.png in Resources */ = {isa = PBXBuildFile; fileRef = 4993E7EB162A4BEF0030510D /* control_panel_back.png */; };
-		4993E7EE162A4C080030510D /* button2.png in Resources */ = {isa = PBXBuildFile; fileRef = 4993E7ED162A4C080030510D /* button2.png */; };
 		499B64A6175796980033532E /* gear.png in Resources */ = {isa = PBXBuildFile; fileRef = 499B64A2175796980033532E /* gear.png */; };
 		499B64A8175796980033532E /* rec_bell_maker.png in Resources */ = {isa = PBXBuildFile; fileRef = 499B64A4175796980033532E /* rec_bell_maker.png */; };
 		499B64A9175796980033532E /* rec_bell_maker_active.png in Resources */ = {isa = PBXBuildFile; fileRef = 499B64A5175796980033532E /* rec_bell_maker_active.png */; };
@@ -52,19 +50,12 @@
 		49E0B94C15E7FEC200B7E5CC /* testApp.mm in Sources */ = {isa = PBXBuildFile; fileRef = 49E0B93115E7FEC200B7E5CC /* testApp.mm */; };
 		49E0B94D15E7FEC200B7E5CC /* BrowserTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 49E0B93415E7FEC200B7E5CC /* BrowserTest.m */; };
 		49E0B94E15E7FEC200B7E5CC /* BrowserTest.xib in Resources */ = {isa = PBXBuildFile; fileRef = 49E0B93515E7FEC200B7E5CC /* BrowserTest.xib */; };
-		49E0B94F15E7FEC200B7E5CC /* LoadFileViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 49E0B93715E7FEC200B7E5CC /* LoadFileViewController.mm */; };
-		49E0B95015E7FEC200B7E5CC /* LoadFileViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 49E0B93815E7FEC200B7E5CC /* LoadFileViewController.xib */; };
 		49E0BBD515E8190200B7E5CC /* Instructions.txt in Resources */ = {isa = PBXBuildFile; fileRef = 49E0BA0E15E8190100B7E5CC /* Instructions.txt */; };
 		49E0BBD615E8190200B7E5CC /* install.xml in Resources */ = {isa = PBXBuildFile; fileRef = 49E0BA0F15E8190100B7E5CC /* install.xml */; };
 		49E0BC9415E8190200B7E5CC /* tinyxml.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 49E0BB8315E8190100B7E5CC /* tinyxml.cpp */; };
 		49E0BC9515E8190200B7E5CC /* tinyxmlerror.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 49E0BB8515E8190100B7E5CC /* tinyxmlerror.cpp */; };
 		49E0BC9615E8190200B7E5CC /* tinyxmlparser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 49E0BB8615E8190100B7E5CC /* tinyxmlparser.cpp */; };
 		49E0BC9715E8190200B7E5CC /* ofxXmlSettings.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 49E0BB8815E8190100B7E5CC /* ofxXmlSettings.cpp */; };
-		49E0BCF915E822FA00B7E5CC /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 49E0BCD315E822FA00B7E5CC /* .gitignore */; };
-		49E0BCFA15E822FA00B7E5CC /* acoustic_bass_sample.wav in Resources */ = {isa = PBXBuildFile; fileRef = 49E0BCD415E822FA00B7E5CC /* acoustic_bass_sample.wav */; };
-		49E0BD0715E822FA00B7E5CC /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 49E0BCE115E822FA00B7E5CC /* Default.png */; };
-		49E0BD1115E822FA00B7E5CC /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 49E0BCED15E822FA00B7E5CC /* Icon.png */; };
-		49E0BD1415E822FA00B7E5CC /* piano_sample.wav in Resources */ = {isa = PBXBuildFile; fileRef = 49E0BCF015E822FA00B7E5CC /* piano_sample.wav */; };
 		49E250E016F04CC70090CB7C /* bell-images in Resources */ = {isa = PBXBuildFile; fileRef = 49E250DF16F04CC70090CB7C /* bell-images */; };
 		5326AEA810A23A0500278DE6 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5326AEA710A23A0500278DE6 /* CoreLocation.framework */; };
 		53F323EB10A20EDB00E0DAE4 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 53F323EA10A20EDB00E0DAE4 /* OpenAL.framework */; };
@@ -102,9 +93,13 @@
 		288765FC0DF74451002DB57D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		32CA4F630368D1EE00C91783 /* iPhone_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iPhone_Prefix.pch; sourceTree = "<group>"; };
 		49280A5716C37B32003C99FD /* ofxUIMorphCanvas.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ofxUIMorphCanvas.h; path = ../ofxUI/src/ofxUIMorphCanvas.h; sourceTree = "<group>"; };
+		49355B7D187A192F0007DE86 /* button2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button2.png; sourceTree = "<group>"; };
+		49355B7E187A192F0007DE86 /* control_panel_back.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = control_panel_back.png; sourceTree = "<group>"; };
 		495099CA16F445AC00A16519 /* GUI */ = {isa = PBXFileReference; lastKnownFileType = folder; path = GUI; sourceTree = "<group>"; };
 		495099CC16F6CD9C00A16519 /* RecorderMaker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecorderMaker.h; sourceTree = "<group>"; };
 		495B260515F165CC00290967 /* examples */ = {isa = PBXFileReference; lastKnownFileType = folder; path = examples; sourceTree = "<group>"; };
+		495CBFD0187923B600BF6008 /* icons */ = {isa = PBXFileReference; lastKnownFileType = folder; name = icons; path = src/icons; sourceTree = "<group>"; };
+		495CBFD21879242900BF6008 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = MelodyMorph/Images.xcassets; sourceTree = "<group>"; };
 		495D4402175D3F22005DDC58 /* NewMediaFett.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = NewMediaFett.ttf; sourceTree = "<group>"; };
 		496D86AE16C0CD0900F746FA /* ofxTextBlock.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxTextBlock.cpp; sourceTree = "<group>"; };
 		496D86AF16C0CD0900F746FA /* ofxTextBlock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxTextBlock.h; sourceTree = "<group>"; };
@@ -138,22 +133,14 @@
 		49778C271696A0F4009AB6FC /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		497C489C16CA3ACA0083E763 /* SegmentedControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SegmentedControl.h; sourceTree = "<group>"; };
 		498F8AA716F36F2E00CC9F7C /* OctaveButtons.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OctaveButtons.h; sourceTree = "<group>"; };
-		4993E7C51627A57B0030510D /* DrawingToggle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DrawingToggle.h; sourceTree = "<group>"; };
-		4993E7C61627A57B0030510D /* DrawingToggle.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = DrawingToggle.mm; sourceTree = "<group>"; };
-		4993E7C71627A57B0030510D /* DrawingToggle.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DrawingToggle.xib; sourceTree = "<group>"; };
 		4993E7CA1627A5AB0030510D /* ControlPanel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ControlPanel.h; sourceTree = "<group>"; };
 		4993E7CB1627A5AB0030510D /* ControlPanel.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ControlPanel.mm; sourceTree = "<group>"; };
 		4993E7CC1627A5AB0030510D /* ControlPanel.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ControlPanel.xib; sourceTree = "<group>"; };
 		4993E7CD1627A5AB0030510D /* ControlPanelToggle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ControlPanelToggle.h; sourceTree = "<group>"; };
 		4993E7CE1627A5AB0030510D /* ControlPanelToggle.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ControlPanelToggle.mm; sourceTree = "<group>"; };
 		4993E7CF1627A5AB0030510D /* ControlPanelToggle.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ControlPanelToggle.xib; sourceTree = "<group>"; };
-		4993E7D41627A6180030510D /* TopButtons.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TopButtons.h; sourceTree = "<group>"; };
-		4993E7D51627A6180030510D /* TopButtons.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = TopButtons.mm; sourceTree = "<group>"; };
-		4993E7D61627A6180030510D /* TopButtons.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TopButtons.xib; sourceTree = "<group>"; };
 		4993E7D71627A6180030510D /* RecorderBellMaker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecorderBellMaker.h; sourceTree = "<group>"; };
 		4993E7D81627A6180030510D /* RecorderBellMaker.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RecorderBellMaker.xib; sourceTree = "<group>"; };
-		4993E7EB162A4BEF0030510D /* control_panel_back.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = control_panel_back.png; sourceTree = "<group>"; };
-		4993E7ED162A4C080030510D /* button2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button2.png; sourceTree = "<group>"; };
 		499B64A2175796980033532E /* gear.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gear.png; sourceTree = "<group>"; };
 		499B64A4175796980033532E /* rec_bell_maker.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = rec_bell_maker.png; sourceTree = "<group>"; };
 		499B64A5175796980033532E /* rec_bell_maker_active.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = rec_bell_maker_active.png; sourceTree = "<group>"; };
@@ -180,9 +167,6 @@
 		49E0B93315E7FEC200B7E5CC /* BrowserTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BrowserTest.h; sourceTree = "<group>"; };
 		49E0B93415E7FEC200B7E5CC /* BrowserTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BrowserTest.m; sourceTree = "<group>"; };
 		49E0B93515E7FEC200B7E5CC /* BrowserTest.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BrowserTest.xib; sourceTree = "<group>"; };
-		49E0B93615E7FEC200B7E5CC /* LoadFileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoadFileViewController.h; sourceTree = "<group>"; };
-		49E0B93715E7FEC200B7E5CC /* LoadFileViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = LoadFileViewController.mm; sourceTree = "<group>"; };
-		49E0B93815E7FEC200B7E5CC /* LoadFileViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoadFileViewController.xib; sourceTree = "<group>"; };
 		49E0BA0E15E8190100B7E5CC /* Instructions.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Instructions.txt; sourceTree = "<group>"; };
 		49E0BA0F15E8190100B7E5CC /* install.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = install.xml; sourceTree = "<group>"; };
 		49E0BA1115E8190100B7E5CC /* ofxDirList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxDirList.h; sourceTree = "<group>"; };
@@ -231,11 +215,6 @@
 		49E0BB8615E8190100B7E5CC /* tinyxmlparser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = tinyxmlparser.cpp; sourceTree = "<group>"; };
 		49E0BB8815E8190100B7E5CC /* ofxXmlSettings.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxXmlSettings.cpp; sourceTree = "<group>"; };
 		49E0BB8915E8190100B7E5CC /* ofxXmlSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxXmlSettings.h; sourceTree = "<group>"; };
-		49E0BCD315E822FA00B7E5CC /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
-		49E0BCD415E822FA00B7E5CC /* acoustic_bass_sample.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = acoustic_bass_sample.wav; sourceTree = "<group>"; };
-		49E0BCE115E822FA00B7E5CC /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
-		49E0BCED15E822FA00B7E5CC /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
-		49E0BCF015E822FA00B7E5CC /* piano_sample.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = piano_sample.wav; sourceTree = "<group>"; };
 		49E1CF8B16E910310024CA52 /* MultiSampledSoundPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MultiSampledSoundPlayer.h; sourceTree = "<group>"; };
 		49E250DF16F04CC70090CB7C /* bell-images */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "bell-images"; sourceTree = "<group>"; };
 		49FE3CA516E3B4EE0084638B /* QuasiModeSelectorCanvas.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QuasiModeSelectorCanvas.h; sourceTree = "<group>"; };
@@ -292,6 +271,7 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
+				495CBFD21879242900BF6008 /* Images.xcassets */,
 				49778C271696A0F4009AB6FC /* Security.framework */,
 				495B260515F165CC00290967 /* examples */,
 				4932CFB915EA07E400D9B5C2 /* data */,
@@ -300,6 +280,7 @@
 				BB16F26B0F2B646B00518274 /* addons */,
 				BB16E9930F2B1E5900518274 /* libs */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
+				495CBFD0187923B600BF6008 /* icons */,
 			);
 			name = CustomTemplate;
 			sourceTree = "<group>";
@@ -439,6 +420,8 @@
 		499B64A1175796980033532E /* native */ = {
 			isa = PBXGroup;
 			children = (
+				49355B7D187A192F0007DE86 /* button2.png */,
+				49355B7E187A192F0007DE86 /* control_panel_back.png */,
 				495D4402175D3F22005DDC58 /* NewMediaFett.ttf */,
 				499B64A2175796980033532E /* gear.png */,
 				499B64A4175796980033532E /* rec_bell_maker.png */,
@@ -556,20 +539,6 @@
 			path = src;
 			sourceTree = "<group>";
 		};
-		49E0BCD215E822FA00B7E5CC /* data */ = {
-			isa = PBXGroup;
-			children = (
-				4993E7ED162A4C080030510D /* button2.png */,
-				4993E7EB162A4BEF0030510D /* control_panel_back.png */,
-				49E0BCD315E822FA00B7E5CC /* .gitignore */,
-				49E0BCD415E822FA00B7E5CC /* acoustic_bass_sample.wav */,
-				49E0BCE115E822FA00B7E5CC /* Default.png */,
-				49E0BCED15E822FA00B7E5CC /* Icon.png */,
-				49E0BCF015E822FA00B7E5CC /* piano_sample.wav */,
-			);
-			path = data;
-			sourceTree = "<group>";
-		};
 		BB16E9930F2B1E5900518274 /* libs */ = {
 			isa = PBXGroup;
 			children = (
@@ -624,12 +593,8 @@
 				49DD7DDD176E01E1007586B6 /* SelectionBox.h */,
 				49280A5716C37B32003C99FD /* ofxUIMorphCanvas.h */,
 				49FE3CA516E3B4EE0084638B /* QuasiModeSelectorCanvas.h */,
-				49E0BCD215E822FA00B7E5CC /* data */,
 				49E0B91515E7FEC200B7E5CC /* DrawingLine.cpp */,
 				49B22191176028A5008AD99F /* BoundingBoxForLine.h */,
-				4993E7C51627A57B0030510D /* DrawingToggle.h */,
-				4993E7C61627A57B0030510D /* DrawingToggle.mm */,
-				4993E7C71627A57B0030510D /* DrawingToggle.xib */,
 				4993E7CA1627A5AB0030510D /* ControlPanel.h */,
 				4993E7CB1627A5AB0030510D /* ControlPanel.mm */,
 				4993E7CC1627A5AB0030510D /* ControlPanel.xib */,
@@ -642,9 +607,6 @@
 				49E0B92415E7FEC200B7E5CC /* Thumb.m */,
 				49E0B92515E7FEC200B7E5CC /* utils.h */,
 				49E0B92615E7FEC200B7E5CC /* config.h */,
-				4993E7D41627A6180030510D /* TopButtons.h */,
-				4993E7D51627A6180030510D /* TopButtons.mm */,
-				4993E7D61627A6180030510D /* TopButtons.xib */,
 				4993E7D71627A6180030510D /* RecorderBellMaker.h */,
 				495099CC16F6CD9C00A16519 /* RecorderMaker.h */,
 				4993E7D81627A6180030510D /* RecorderBellMaker.xib */,
@@ -663,9 +625,6 @@
 				49E0B93315E7FEC200B7E5CC /* BrowserTest.h */,
 				49E0B93415E7FEC200B7E5CC /* BrowserTest.m */,
 				49E0B93515E7FEC200B7E5CC /* BrowserTest.xib */,
-				49E0B93615E7FEC200B7E5CC /* LoadFileViewController.h */,
-				49E0B93715E7FEC200B7E5CC /* LoadFileViewController.mm */,
-				49E0B93815E7FEC200B7E5CC /* LoadFileViewController.xib */,
 			);
 			path = src;
 			sourceTree = SOURCE_ROOT;
@@ -699,6 +658,16 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0450;
+				TargetAttributes = {
+					1D6058900D05DD3D006BFB54 = {
+						DevelopmentTeam = J9PZ7YAHSY;
+						SystemCapabilities = {
+							com.apple.iOS = {
+								enabled = 0;
+							};
+						};
+					};
+				};
 			};
 			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "MelodyMorph" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -741,31 +710,25 @@
 			buildActionMask = 2147483647;
 			files = (
 				49E0B94E15E7FEC200B7E5CC /* BrowserTest.xib in Resources */,
-				49E0B95015E7FEC200B7E5CC /* LoadFileViewController.xib in Resources */,
 				49E0BBD515E8190200B7E5CC /* Instructions.txt in Resources */,
 				49E0BBD615E8190200B7E5CC /* install.xml in Resources */,
-				49E0BCF915E822FA00B7E5CC /* .gitignore in Resources */,
-				49E0BCFA15E822FA00B7E5CC /* acoustic_bass_sample.wav in Resources */,
-				49E0BD0715E822FA00B7E5CC /* Default.png in Resources */,
-				49E0BD1115E822FA00B7E5CC /* Icon.png in Resources */,
-				49E0BD1415E822FA00B7E5CC /* piano_sample.wav in Resources */,
 				495B260715F165CC00290967 /* examples in Resources */,
-				4993E7C91627A57C0030510D /* DrawingToggle.xib in Resources */,
 				4993E7D11627A5AB0030510D /* ControlPanel.xib in Resources */,
 				4993E7D31627A5AB0030510D /* ControlPanelToggle.xib in Resources */,
-				4993E7DA1627A6180030510D /* TopButtons.xib in Resources */,
 				4993E7DB1627A6180030510D /* RecorderBellMaker.xib in Resources */,
-				4993E7EC162A4BEF0030510D /* control_panel_back.png in Resources */,
-				4993E7EE162A4C080030510D /* button2.png in Resources */,
 				49778C1D169647F3009AB6FC /* README.txt in Resources */,
 				49A4F6A516EDA68F006AD5DD /* instruments in Resources */,
+				49355B80187A192F0007DE86 /* control_panel_back.png in Resources */,
+				495CBFD31879242900BF6008 /* Images.xcassets in Resources */,
 				49E250E016F04CC70090CB7C /* bell-images in Resources */,
 				495099CB16F445AC00A16519 /* GUI in Resources */,
 				499B64A6175796980033532E /* gear.png in Resources */,
 				499B64A8175796980033532E /* rec_bell_maker.png in Resources */,
 				499B64A9175796980033532E /* rec_bell_maker_active.png in Resources */,
+				49355B7F187A192F0007DE86 /* button2.png in Resources */,
 				495D4403175D3F22005DDC58 /* NewMediaFett.ttf in Resources */,
 				49CF1BE9176001A0003D001F /* other-images in Resources */,
+				495CBFD1187923B600BF6008 /* icons in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -802,15 +765,12 @@
 				49E0B94B15E7FEC200B7E5CC /* main.mm in Sources */,
 				49E0B94C15E7FEC200B7E5CC /* testApp.mm in Sources */,
 				49E0B94D15E7FEC200B7E5CC /* BrowserTest.m in Sources */,
-				49E0B94F15E7FEC200B7E5CC /* LoadFileViewController.mm in Sources */,
 				49E0BC9415E8190200B7E5CC /* tinyxml.cpp in Sources */,
 				49E0BC9515E8190200B7E5CC /* tinyxmlerror.cpp in Sources */,
 				49E0BC9615E8190200B7E5CC /* tinyxmlparser.cpp in Sources */,
 				49E0BC9715E8190200B7E5CC /* ofxXmlSettings.cpp in Sources */,
-				4993E7C81627A57C0030510D /* DrawingToggle.mm in Sources */,
 				4993E7D01627A5AB0030510D /* ControlPanel.mm in Sources */,
 				4993E7D21627A5AB0030510D /* ControlPanelToggle.mm in Sources */,
-				4993E7D91627A6180030510D /* TopButtons.mm in Sources */,
 				49778C1E169647F3009AB6FC /* ofxCurl.cpp in Sources */,
 				49778C1F169647F3009AB6FC /* ofxCurlException.cpp in Sources */,
 				49778C20169647F3009AB6FC /* ofxCurlFileDownload.cpp in Sources */,
@@ -839,6 +799,10 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = armv7;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = iPhone_Prefix.pch;
 				INFOPLIST_FILE = "ofxiphone-Info.plist";
@@ -849,6 +813,7 @@
 				);
 				OTHER_LDFLAGS = "$(OF_CORE_LIBS)";
 				PRODUCT_NAME = MelodyMorph;
+				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
 		};
@@ -856,6 +821,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = armv7;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = iPhone_Prefix.pch;
 				INFOPLIST_FILE = "ofxiphone-Info.plist";
@@ -866,6 +835,7 @@
 				);
 				OTHER_LDFLAGS = "$(OF_CORE_LIBS)";
 				PRODUCT_NAME = MelodyMorph;
+				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
 		};
@@ -896,8 +866,8 @@
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				ONLY_ACTIVE_ARCH = NO;
-				PROVISIONING_PROFILE = "B7DE0CCA-A142-401E-AB43-7E7C16CD9232";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				PROVISIONING_PROFILE = "31602724-095B-4AA8-A2B4-7C4C6BE6C752";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "31602724-095B-4AA8-A2B4-7C4C6BE6C752";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 2;
 				WARNING_LDFLAGS = "-no_arch_warnings";
@@ -928,7 +898,7 @@
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				ONLY_ACTIVE_ARCH = NO;
-				PROVISIONING_PROFILE = "B7DE0CCA-A142-401E-AB43-7E7C16CD9232";
+				PROVISIONING_PROFILE = "ABD1689D-6821-4D2F-8F84-142A98DDFDB3";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 2;
 				WARNING_LDFLAGS = "-no_arch_warnings";
