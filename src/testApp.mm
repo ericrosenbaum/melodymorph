@@ -4,8 +4,13 @@
 // nohup python manage.py runserver 0.0.0.0:8080
 //
 // now we are on github yay
-
 /*
+
+ cd /Users/ericrosenbaum/Documents/of_0071_iOS_release/apps/myApps/melodymorph
+ git status
+ git add *
+ git commit -m ""
+ git push origin master
  
  BUGS:
  
@@ -95,18 +100,19 @@ SHOULD BE THIS
 #include "controlPanelToggle.h"
 #include "DrawingToggle.h"
 #include "utils.h"
-#include "BrowserViewController.h"
+//#include "WebView.h"
 #include "QuasiModeSelectorCanvas.h"
 #include "SegmentedControl.h"
 #include "OctaveButtons.h"
 #include "PathPlayer.h"
 #include "SelectionBox.h"
+#include "MultiSampledSoundPlayer.h"
 
 vector<Bell*> bells;
+//vector<MultiSampledSoundPlayer *> instrumentSoundPlayers;
 vector<MultiSampledSoundPlayer *> instrumentSoundPlayers;
 vector<string> instrumentNames;
 int numInstruments;
-
 int currentChannel[3];
 int currentInstrument;
 
@@ -229,7 +235,7 @@ ControlPanelToggle *controlPanelToggle;
 RecorderBellMaker *recorderBellMaker;
 LoadFileViewController *loadView;
 DrawingToggle *drawingToggle;
-BrowserViewController *browser;
+//WebView *browser;
 
 // UI mode
 // current mode of the UI (#defines are in config.h):
@@ -323,7 +329,7 @@ void testApp::setup(){
      [[[UIApplication sharedApplication] keyWindow] addSubview:controlPanel.view];
     // CGRect r = CGRectMake(ofGetHeight()-150, ofGetWidth() - 410, 140, 300);
 //     CGRect r = CGRectMake(ofGetHeight()-250, ofGetWidth() - 350, 300, 140); // apparently x and y are swapped (but not for of)
-    CGRect r = CGRectMake(ofGetHeight()-250, 250, 300, 140); // apparently x and y are swapped (but not for of)
+     CGRect r = CGRectMake(ofGetHeight()-250, 250, 300, 140); // apparently x and y are swapped (but not for of)
      controlPanel.view.frame = r;
      [controlPanel.view setHidden:YES];
      controlPanel.view.transform = CGAffineTransformMakeRotation(ofDegToRad(-90));
@@ -344,9 +350,12 @@ void testApp::setup(){
     
     
     // web view
-    
-//    browser = [[BrowserViewController alloc] initWithNibName:@"BrowserViewController" bundle:nil];
+//    browser = [[WebView alloc] initWithNibName:@"WebView" bundle:nil];
 //    [[[UIApplication sharedApplication] keyWindow] addSubview:browser.view];
+//    //browser.view.frame = CGRectMake(127, 127, 1024, 768);
+//    browser.view.transform = CGAffineTransformMakeTranslation(-137, 137); // ?????
+//    browser.view.transform = CGAffineTransformRotate(browser.view.transform, ofDegToRad(-90));
+    //[browser.view setHidden:YES];
     
     // play mode widgets
     
@@ -363,6 +372,7 @@ void testApp::setup(){
     fullScreenCanvas = new ofxUICanvas(0,0,100,100);
     fullScreenCanvas->addWidget(fullScreenToggle);
     fullScreenCanvas->setPadding(0);
+    fullScreenCanvas->setDrawBack(false);
     fullScreenCanvas->setColorFill(255);             // true
     fullScreenCanvas->setColorFillHighlight(127);    // down
     //fullScreenCanvas->setColorBack(255);              // false
@@ -493,6 +503,7 @@ void testApp::drawBells(){
     for (int i=0; i<bells.size(); i++) {
         bells[i]->draw(screenPosX, screenPosY, zoom, forceEstimate, bendAmt, showNoteNames);
     }
+    
 }
 //--------------------------------------------------------------
 void testApp::drawLines(){
@@ -865,6 +876,7 @@ void testApp::downloadFile(string remotePath){
 }
 //--------------------------------------------------------------
 void testApp::uploadMorph(MorphMetaData morph){
+    /*
     
     if (morph.title == "") {
         cout << "title was empty" << endl;
@@ -924,6 +936,7 @@ void testApp::uploadMorph(MorphMetaData morph){
     
     // Cleanup
     delete form;
+     */
 }
 //--------------------------------------------------------------
 void testApp::loadCanvas(MorphMetaData morph){
@@ -1621,7 +1634,6 @@ void testApp::touchDown(ofTouchEventArgs &touch){
         
         float touchCanvasX = screenPosX + (touch.x / zoom);
         float touchCanvasY = screenPosY + (touch.y / zoom);
-
         
         //cout << "id " + ofToString(touch.id) + " mode " + ofToString(quasiModeSelectorCanvas->getCurrentMode()) << endl;
         //cout << ofToString(touch.x) << " " << ofToString(touch.y) << endl;

@@ -14,6 +14,7 @@ class Note {
 public:
 
 	float time;
+    float duration;
 	int note;
 	int octave;
 	float velocity;

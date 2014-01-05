@@ -109,7 +109,7 @@ public:
         float w = r.width * zoom;
         float h = r.height * zoom;
         
-        // move buttons
+        // move the buttons to the top left of the selection box
         canvas->setRectParent(new ofxUIRectangle(x, y-buttonHeight, w, h));
         
         ofSetColor(SELECTION_COLOR);

@@ -66,8 +66,6 @@
 		49E0BD1115E822FA00B7E5CC /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 49E0BCED15E822FA00B7E5CC /* Icon.png */; };
 		49E0BD1415E822FA00B7E5CC /* piano_sample.wav in Resources */ = {isa = PBXBuildFile; fileRef = 49E0BCF015E822FA00B7E5CC /* piano_sample.wav */; };
 		49E250E016F04CC70090CB7C /* bell-images in Resources */ = {isa = PBXBuildFile; fileRef = 49E250DF16F04CC70090CB7C /* bell-images */; };
-		49FE3CA316E3A80E0084638B /* BrowserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 49FE3CA116E3A80E0084638B /* BrowserViewController.m */; };
-		49FE3CA416E3A80E0084638B /* BrowserViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 49FE3CA216E3A80E0084638B /* BrowserViewController.xib */; };
 		5326AEA810A23A0500278DE6 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5326AEA710A23A0500278DE6 /* CoreLocation.framework */; };
 		53F323EB10A20EDB00E0DAE4 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 53F323EA10A20EDB00E0DAE4 /* OpenAL.framework */; };
 		BB16EBD20F2B2A9500518274 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BB16EBD10F2B2A9500518274 /* OpenGLES.framework */; };
@@ -159,6 +157,7 @@
 		499B64A2175796980033532E /* gear.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gear.png; sourceTree = "<group>"; };
 		499B64A4175796980033532E /* rec_bell_maker.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = rec_bell_maker.png; sourceTree = "<group>"; };
 		499B64A5175796980033532E /* rec_bell_maker_active.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = rec_bell_maker_active.png; sourceTree = "<group>"; };
+		499EA2D117AC57B000E5FCCA /* SoundPlayerQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SoundPlayerQueue.h; sourceTree = "<group>"; };
 		49A4F6A416EDA68F006AD5DD /* instruments */ = {isa = PBXFileReference; lastKnownFileType = folder; path = instruments; sourceTree = "<group>"; };
 		49B22191176028A5008AD99F /* BoundingBoxForLine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BoundingBoxForLine.h; sourceTree = "<group>"; };
 		49CF1BDF175FE93B003D001F /* PathPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PathPlayer.h; sourceTree = "<group>"; };
@@ -239,9 +238,6 @@
 		49E0BCF015E822FA00B7E5CC /* piano_sample.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = piano_sample.wav; sourceTree = "<group>"; };
 		49E1CF8B16E910310024CA52 /* MultiSampledSoundPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MultiSampledSoundPlayer.h; sourceTree = "<group>"; };
 		49E250DF16F04CC70090CB7C /* bell-images */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "bell-images"; sourceTree = "<group>"; };
-		49FE3CA016E3A80D0084638B /* BrowserViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BrowserViewController.h; sourceTree = "<group>"; };
-		49FE3CA116E3A80E0084638B /* BrowserViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BrowserViewController.m; sourceTree = "<group>"; };
-		49FE3CA216E3A80E0084638B /* BrowserViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BrowserViewController.xib; sourceTree = "<group>"; };
 		49FE3CA516E3B4EE0084638B /* QuasiModeSelectorCanvas.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QuasiModeSelectorCanvas.h; sourceTree = "<group>"; };
 		5326AEA710A23A0500278DE6 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		53F323EA10A20EDB00E0DAE4 /* OpenAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenAL.framework; path = System/Library/Frameworks/OpenAL.framework; sourceTree = SDKROOT; };
@@ -661,12 +657,10 @@
 				49E0B93115E7FEC200B7E5CC /* testApp.mm */,
 				49E0B93215E7FEC200B7E5CC /* testApp.h */,
 				49E1CF8B16E910310024CA52 /* MultiSampledSoundPlayer.h */,
+				499EA2D117AC57B000E5FCCA /* SoundPlayerQueue.h */,
 				497C489C16CA3ACA0083E763 /* SegmentedControl.h */,
 				498F8AA716F36F2E00CC9F7C /* OctaveButtons.h */,
 				49E0B93315E7FEC200B7E5CC /* BrowserTest.h */,
-				49FE3CA016E3A80D0084638B /* BrowserViewController.h */,
-				49FE3CA116E3A80E0084638B /* BrowserViewController.m */,
-				49FE3CA216E3A80E0084638B /* BrowserViewController.xib */,
 				49E0B93415E7FEC200B7E5CC /* BrowserTest.m */,
 				49E0B93515E7FEC200B7E5CC /* BrowserTest.xib */,
 				49E0B93615E7FEC200B7E5CC /* LoadFileViewController.h */,
@@ -764,7 +758,6 @@
 				4993E7EC162A4BEF0030510D /* control_panel_back.png in Resources */,
 				4993E7EE162A4C080030510D /* button2.png in Resources */,
 				49778C1D169647F3009AB6FC /* README.txt in Resources */,
-				49FE3CA416E3A80E0084638B /* BrowserViewController.xib in Resources */,
 				49A4F6A516EDA68F006AD5DD /* instruments in Resources */,
 				49E250E016F04CC70090CB7C /* bell-images in Resources */,
 				495099CB16F445AC00A16519 /* GUI in Resources */,
@@ -826,7 +819,6 @@
 				49778C23169647F3009AB6FC /* ofxCurlFormTypeFile.cpp in Sources */,
 				49778C24169647F3009AB6FC /* ofxCurlFormTypeInput.cpp in Sources */,
 				496D86B116C0CD0900F746FA /* ofxTextBlock.cpp in Sources */,
-				49FE3CA316E3A80E0084638B /* BrowserViewController.m in Sources */,
 				49CF1BE2175FEA6C003D001F /* PathPoint.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -883,7 +875,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Eric Rosenbaum (SF692L49Z2)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COMPRESS_PNG_FILES = NO;
 				GCC_C_LANGUAGE_STANDARD = c99;
@@ -904,6 +896,7 @@
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				ONLY_ACTIVE_ARCH = NO;
+				PROVISIONING_PROFILE = "B7DE0CCA-A142-401E-AB43-7E7C16CD9232";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 2;
@@ -917,7 +910,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Eric Rosenbaum (SF692L49Z2)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COMPRESS_PNG_FILES = NO;
 				GCC_C_LANGUAGE_STANDARD = c99;
@@ -935,6 +928,7 @@
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				ONLY_ACTIVE_ARCH = NO;
+				PROVISIONING_PROFILE = "B7DE0CCA-A142-401E-AB43-7E7C16CD9232";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 2;
 				WARNING_LDFLAGS = "-no_arch_warnings";

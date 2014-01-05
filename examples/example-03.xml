@@ -1,0 +1,159 @@
+<TITLE>
+    <TEXT></TEXT>
+</TITLE>
+<AUTHOR>
+    <TEXT></TEXT>
+</AUTHOR>
+<DESCRIPTION>
+    <TEXT></TEXT>
+</DESCRIPTION>
+<THUMBPATH>
+    <LARGE>examples/example-03.png</LARGE>
+</THUMBPATH>
+<ZOOM>
+    <VALUE>0.809759</VALUE>
+</ZOOM>
+<SCREENPOS>
+    <X>-128</X>
+    <Y>-26</Y>
+</SCREENPOS>
+<BELL>
+    <X>462</X>
+    <Y>577</Y>
+    <NOTENUM>12</NOTENUM>
+    <OCTAVE>0</OCTAVE>
+    <INSTRUMENT>1</INSTRUMENT>
+</BELL>
+<BELL>
+    <X>568</X>
+    <Y>115</Y>
+    <NOTENUM>5</NOTENUM>
+    <OCTAVE>2</OCTAVE>
+    <INSTRUMENT>1</INSTRUMENT>
+</BELL>
+<BELL>
+    <X>282</X>
+    <Y>688</Y>
+    <NOTENUM>8</NOTENUM>
+    <OCTAVE>0</OCTAVE>
+    <INSTRUMENT>1</INSTRUMENT>
+</BELL>
+<BELL>
+    <X>260</X>
+    <Y>482</Y>
+    <NOTENUM>3</NOTENUM>
+    <OCTAVE>1</OCTAVE>
+    <INSTRUMENT>1</INSTRUMENT>
+</BELL>
+<BELL>
+    <X>361</X>
+    <Y>300</Y>
+    <NOTENUM>8</NOTENUM>
+    <OCTAVE>1</OCTAVE>
+    <INSTRUMENT>1</INSTRUMENT>
+</BELL>
+<BELL>
+    <X>449</X>
+    <Y>368</Y>
+    <NOTENUM>7</NOTENUM>
+    <OCTAVE>1</OCTAVE>
+    <INSTRUMENT>1</INSTRUMENT>
+</BELL>
+<BELL>
+    <X>356</X>
+    <Y>533</Y>
+    <NOTENUM>2</NOTENUM>
+    <OCTAVE>1</OCTAVE>
+    <INSTRUMENT>1</INSTRUMENT>
+</BELL>
+<BELL>
+    <X>709</X>
+    <Y>283</Y>
+    <NOTENUM>10</NOTENUM>
+    <OCTAVE>2</OCTAVE>
+    <INSTRUMENT>1</INSTRUMENT>
+</BELL>
+<BELL>
+    <X>271</X>
+    <Y>232</Y>
+    <NOTENUM>10</NOTENUM>
+    <OCTAVE>1</OCTAVE>
+    <INSTRUMENT>1</INSTRUMENT>
+</BELL>
+<BELL>
+    <X>471</X>
+    <Y>176</Y>
+    <NOTENUM>2</NOTENUM>
+    <OCTAVE>2</OCTAVE>
+    <INSTRUMENT>1</INSTRUMENT>
+</BELL>
+<BELL>
+    <X>356</X>
+    <Y>427</Y>
+    <NOTENUM>5</NOTENUM>
+    <OCTAVE>1</OCTAVE>
+    <INSTRUMENT>1</INSTRUMENT>
+</BELL>
+<BELL>
+    <X>637</X>
+    <Y>192</Y>
+    <NOTENUM>7</NOTENUM>
+    <OCTAVE>2</OCTAVE>
+    <INSTRUMENT>1</INSTRUMENT>
+</BELL>
+<BELL>
+    <X>715</X>
+    <Y>108</Y>
+    <NOTENUM>8</NOTENUM>
+    <OCTAVE>2</OCTAVE>
+    <INSTRUMENT>1</INSTRUMENT>
+</BELL>
+<BELL>
+    <X>355</X>
+    <Y>176</Y>
+    <NOTENUM>12</NOTENUM>
+    <OCTAVE>1</OCTAVE>
+    <INSTRUMENT>1</INSTRUMENT>
+</BELL>
+<BELL>
+    <X>786</X>
+    <Y>196</Y>
+    <NOTENUM>12</NOTENUM>
+    <OCTAVE>2</OCTAVE>
+    <INSTRUMENT>1</INSTRUMENT>
+</BELL>
+<BELL>
+    <X>372</X>
+    <Y>639</Y>
+    <NOTENUM>10</NOTENUM>
+    <OCTAVE>0</OCTAVE>
+    <INSTRUMENT>1</INSTRUMENT>
+</BELL>
+<BELL>
+    <X>559</X>
+    <Y>271</Y>
+    <NOTENUM>3</NOTENUM>
+    <OCTAVE>2</OCTAVE>
+    <INSTRUMENT>1</INSTRUMENT>
+</BELL>
+<BELL>
+    <X>347</X>
+    <Y>769</Y>
+    <NOTENUM>7</NOTENUM>
+    <OCTAVE>0</OCTAVE>
+    <INSTRUMENT>1</INSTRUMENT>
+</BELL>
+<LINE>
+    <P>
+        <X>272</X>
+        <Y>203</Y>
+    </P>
+    <P>
+        <X>270</X>
+        <Y>206</Y>
+    </P>
+    <P>
+        <X>268</X>
+        <Y>208</Y>
+    </P>
+</LINE>

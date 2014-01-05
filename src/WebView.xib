@@ -5,8 +5,9 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3742"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="BrowserViewController">
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="WebView">
             <connections>
+                <outlet property="browser" destination="4" id="14"/>
                 <outlet property="view" destination="2" id="3"/>
             </connections>
         </placeholder>
@@ -15,18 +16,21 @@
             <rect key="frame" x="0.0" y="0.0" width="1024" height="748"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
-                <webView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4">
-                    <rect key="frame" x="0.0" y="0.0" width="1024" height="748"/>
+                <webView contentMode="scaleToFill" scalesPageToFit="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4">
+                    <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="1024" id="15"/>
+                        <constraint firstAttribute="height" constant="768" id="17"/>
+                    </constraints>
+                    <dataDetectorType key="dataDetectorTypes"/>
                 </webView>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstItem="4" firstAttribute="trailing" secondItem="2" secondAttribute="trailing" id="9"/>
-                <constraint firstItem="4" firstAttribute="leading" secondItem="2" secondAttribute="leading" id="10"/>
-                <constraint firstItem="4" firstAttribute="top" secondItem="2" secondAttribute="top" id="11"/>
-                <constraint firstItem="4" firstAttribute="bottom" secondItem="2" secondAttribute="bottom" id="12"/>
+                <constraint firstItem="4" firstAttribute="leading" secondItem="2" secondAttribute="leading" id="9"/>
+                <constraint firstItem="4" firstAttribute="top" secondItem="2" secondAttribute="top" id="18"/>
             </constraints>
             <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
         </view>

@@ -136,8 +136,10 @@ class RecorderBell : public Bell {
 			}
             
             int inst = n->instrument;
+//            int playerNum = instrumentSoundPlayers[inst]->playNote(n->note, n->octave);
+//            instrumentSoundPlayers[inst]->setVolume(playerNum, n->velocity);
+            
             instrumentSoundPlayers[inst]->playNote(n->note, n->octave);
-            instrumentSoundPlayers[inst]->setVolume(n->velocity);
             
 			currentRadius = RECBELLRADIUS + 25;
 			
