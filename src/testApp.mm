@@ -26,7 +26,6 @@
  * recorder misses path player notes
  
  cosmetic
- * quieter pluck sound
  * make all instruments multi-sampled?
  * change to ofxui: rec button, gear, menu
  * try mode locking?
