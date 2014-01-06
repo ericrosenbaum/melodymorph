@@ -12,13 +12,13 @@
 		288765FD0DF74451002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765FC0DF74451002DB57D /* CoreGraphics.framework */; };
 		49355B7F187A192F0007DE86 /* button2.png in Resources */ = {isa = PBXBuildFile; fileRef = 49355B7D187A192F0007DE86 /* button2.png */; };
 		49355B80187A192F0007DE86 /* control_panel_back.png in Resources */ = {isa = PBXBuildFile; fileRef = 49355B7E187A192F0007DE86 /* control_panel_back.png */; };
+		493589D2187A8F1E006A2048 /* libcurl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 493589D1187A8F1E006A2048 /* libcurl.a */; };
 		495099CB16F445AC00A16519 /* GUI in Resources */ = {isa = PBXBuildFile; fileRef = 495099CA16F445AC00A16519 /* GUI */; };
 		495B260715F165CC00290967 /* examples in Resources */ = {isa = PBXBuildFile; fileRef = 495B260515F165CC00290967 /* examples */; };
 		495CBFD1187923B600BF6008 /* icons in Resources */ = {isa = PBXBuildFile; fileRef = 495CBFD0187923B600BF6008 /* icons */; };
 		495CBFD31879242900BF6008 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 495CBFD21879242900BF6008 /* Images.xcassets */; };
 		495D4403175D3F22005DDC58 /* NewMediaFett.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 495D4402175D3F22005DDC58 /* NewMediaFett.ttf */; };
 		496D86B116C0CD0900F746FA /* ofxTextBlock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 496D86AE16C0CD0900F746FA /* ofxTextBlock.cpp */; };
-		49778C18169647F3009AB6FC /* libcurl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 49778BD6169647F3009AB6FC /* libcurl.a */; };
 		49778C1D169647F3009AB6FC /* README.txt in Resources */ = {isa = PBXBuildFile; fileRef = 49778BDD169647F3009AB6FC /* README.txt */; };
 		49778C1E169647F3009AB6FC /* ofxCurl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 49778C02169647F3009AB6FC /* ofxCurl.cpp */; };
 		49778C1F169647F3009AB6FC /* ofxCurlException.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 49778C04169647F3009AB6FC /* ofxCurlException.cpp */; };
@@ -95,6 +95,7 @@
 		49280A5716C37B32003C99FD /* ofxUIMorphCanvas.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ofxUIMorphCanvas.h; path = ../ofxUI/src/ofxUIMorphCanvas.h; sourceTree = "<group>"; };
 		49355B7D187A192F0007DE86 /* button2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button2.png; sourceTree = "<group>"; };
 		49355B7E187A192F0007DE86 /* control_panel_back.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = control_panel_back.png; sourceTree = "<group>"; };
+		493589D1187A8F1E006A2048 /* libcurl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libcurl.a; sourceTree = "<group>"; };
 		495099CA16F445AC00A16519 /* GUI */ = {isa = PBXFileReference; lastKnownFileType = folder; path = GUI; sourceTree = "<group>"; };
 		495099CC16F6CD9C00A16519 /* RecorderMaker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecorderMaker.h; sourceTree = "<group>"; };
 		495B260515F165CC00290967 /* examples */ = {isa = PBXFileReference; lastKnownFileType = folder; path = examples; sourceTree = "<group>"; };
@@ -104,7 +105,6 @@
 		496D86AE16C0CD0900F746FA /* ofxTextBlock.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxTextBlock.cpp; sourceTree = "<group>"; };
 		496D86AF16C0CD0900F746FA /* ofxTextBlock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxTextBlock.h; sourceTree = "<group>"; };
 		496D86B016C0CD0900F746FA /* ofxTextSuite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxTextSuite.h; sourceTree = "<group>"; };
-		49778BD6169647F3009AB6FC /* libcurl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcurl.a; path = "ofxCurl-master/lib/mac/llvm-gcc_i386/libcurl.a"; sourceTree = SOURCE_ROOT; };
 		49778BDD169647F3009AB6FC /* README.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.txt; sourceTree = "<group>"; };
 		49778BEC169647F3009AB6FC /* curl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = curl.h; sourceTree = "<group>"; };
 		49778BED169647F3009AB6FC /* curlbuild.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = curlbuild.h; sourceTree = "<group>"; };
@@ -244,6 +244,7 @@
 				1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */,
 				1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */,
 				288765FD0DF74451002DB57D /* CoreGraphics.framework in Frameworks */,
+				493589D2187A8F1E006A2048 /* libcurl.a in Frameworks */,
 				BB16EBD20F2B2A9500518274 /* OpenGLES.framework in Frameworks */,
 				BB16EBD90F2B2AB500518274 /* QuartzCore.framework in Frameworks */,
 				BBE5EAB80F49AD8400F28951 /* AudioToolbox.framework in Frameworks */,
@@ -253,7 +254,6 @@
 				E41D400C13B39D2100A75A5D /* CoreMedia.framework in Frameworks */,
 				E41D400D13B39D2100A75A5D /* CoreVideo.framework in Frameworks */,
 				E41D400E13B39D2100A75A5D /* MapKit.framework in Frameworks */,
-				49778C18169647F3009AB6FC /* libcurl.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -365,7 +365,7 @@
 		49778BD5169647F3009AB6FC /* llvm-gcc_i386 */ = {
 			isa = PBXGroup;
 			children = (
-				49778BD6169647F3009AB6FC /* libcurl.a */,
+				493589D1187A8F1E006A2048 /* libcurl.a */,
 			);
 			path = "llvm-gcc_i386";
 			sourceTree = "<group>";
@@ -805,11 +805,17 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = iPhone_Prefix.pch;
+				GCC_PREPROCESSOR_DEFINITIONS = "";
+				"GCC_PREPROCESSOR_DEFINITIONS[arch=*]" = (
+					CURL_STATIC,
+					OFXCURL_WITH_OFXCOMMANDPATTERN,
+				);
 				INFOPLIST_FILE = "ofxiphone-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/ofxCurl-master/lib/mac/llvm-gcc_i386\"",
+					"\\\"$(SRCROOT)/ofxCurl-master/lib/mac/llvm-gcc_i386\\\"",
+					"/Users/ericrosenbaum/Documents/of_0071_iOS_release/apps/myApps/melodymorph/ofxCurl-master/lib/mac/llvm-gcc_i386",
 				);
 				OTHER_LDFLAGS = "$(OF_CORE_LIBS)";
 				PRODUCT_NAME = MelodyMorph;
@@ -827,11 +833,14 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = iPhone_Prefix.pch;
+				GCC_PREPROCESSOR_DEFINITIONS = "";
+				"GCC_PREPROCESSOR_DEFINITIONS[arch=*]" = "";
 				INFOPLIST_FILE = "ofxiphone-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/ofxCurl-master/lib/mac/llvm-gcc_i386\"",
+					"\\\"$(SRCROOT)/ofxCurl-master/lib/mac/llvm-gcc_i386\\\"",
+					"/Users/ericrosenbaum/Documents/of_0071_iOS_release/apps/myApps/melodymorph/ofxCurl-master/lib/mac/llvm-gcc_i386",
 				);
 				OTHER_LDFLAGS = "$(OF_CORE_LIBS)";
 				PRODUCT_NAME = MelodyMorph;

@@ -19,10 +19,12 @@
  
  pedadgogy
  * examples with templates
+ * examples from other people (with documentation!)
  
  functional
  * long startup loading wait times
  * lack of spinner for loading
+ * path bounding box bug
  * recorder misses path player notes
  
  cosmetic
@@ -829,6 +831,10 @@ vector<MorphMetaData> testApp::downloadPageOfSharedMorphs(int pageNum){
     
     XML.clear();
     XML.loadFromBuffer(response.data.getText());
+    
+    
+    XML.popTag();
+    
     XML.pushTag("django-objects");
     int numMorphs = XML.getNumTags("object");
     if (numMorphs > 0) {
@@ -853,7 +859,7 @@ vector<MorphMetaData> testApp::downloadPageOfSharedMorphs(int pageNum){
                     string path = XML.getValue("field", "", j);
                     vector<string> s = ofSplitString(path, "/");
                     string fileName = s.back();
-                    morph.largeThumbFilePath = fileName;
+                    morph.largeThumbFilePath = ofxiPhoneGetDocumentsDirectory() + "sharedMorphs/" + fileName;
                 }
                 if (name == "xmlFile"){
                     string path = XML.getValue("field", "", j);
@@ -883,22 +889,32 @@ void testApp::downloadFile(string remotePath){
         ofDirectory::createDirectory(sharedDirPath);
     }
     vector<string> s = ofSplitString(remotePath, "/");
-    string fileName = s[1];
-    string localPath = sharedDirPath + fileName;
+    cout << "stringlen" + ofToString(s.size()) << endl;
+    string fileName = s[s.size() - 1];
     
+
+    string localPath = sharedDirPath + fileName;
     cout << "localPath: " << localPath << endl;
     
-    // check if we already have this image locally, if not, download it
-    if (!ofFile::doesFileExist(localPath)) {
-        string fileURL = ofToString(MEDIA_URL) + "/" + remotePath;
+    string folderName;
+    vector <string> e = ofSplitString(fileName, ".");
+    string extension = e[e.size() - 1];
+    if (extension == "png") {
+        folderName = "thumb_files/";
+    } else {
+        folderName = "xml_files/";
+    }
+    
+    // check if we already have this file locally, if not, download it
+    if (!ofFile::doesFileExist(localPath)) { // this check does not seem to work
+        string fileURL = ofToString(MEDIA_URL) + "/" + folderName + fileName;
         cout << "fileURL: " << fileURL << endl;
         ofSaveURLTo(fileURL, localPath);
-        cout << "downloaded: " + fileName << endl;
     }
 }
 //--------------------------------------------------------------
 void testApp::uploadMorph(MorphMetaData morph){
-    /*
+    
     
     if (morph.title == "") {
         cout << "title was empty" << endl;
@@ -958,7 +974,7 @@ void testApp::uploadMorph(MorphMetaData morph){
     
     // Cleanup
     delete form;
-     */
+     
 }
 //--------------------------------------------------------------
 void testApp::loadCanvas(MorphMetaData morph){
@@ -970,8 +986,10 @@ void testApp::loadCanvas(MorphMetaData morph){
     if (!loaded) {
         string remotePath = ofToString(morph.xmlFilePath);
         downloadFile("xml_files/" + remotePath);
-        loaded = XML.loadFile(morph.xmlFilePath);
+        cout << "loadCanvas: sharedMorphs/" + remotePath << endl;
+        loaded = XML.loadFile(ofxiPhoneGetDocumentsDirectory() + "sharedMorphs/" + remotePath);
         if (!loaded) {
+            cout << "loadcanvas failed" << endl;
             return;
         }
     }
