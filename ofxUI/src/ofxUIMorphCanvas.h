@@ -15,7 +15,7 @@ class ofxUIMorphCanvas : public ofxUICanvas
 public:
     MorphMetaData selectedMorph;
     vector<MorphMetaData> morphs;
-    int pageNum;
+    int pageNum = 1;
     
     bool prevButtonVisible;
     bool nextButtonVisible;

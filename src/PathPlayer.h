@@ -193,6 +193,10 @@ public:
         if (dragging) {
             alpha = 200;
         }
+        if (isSelected) {
+            float brightness = ofMap(sin(ofGetElapsedTimef()*18),-1,1,0.5,1);
+            gray.setBrightness(brightness * 255);
+        }
         ofSetColor(gray, alpha);
 		
 		if (currentRadius != targetRadius) {

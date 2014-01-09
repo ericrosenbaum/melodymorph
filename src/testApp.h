@@ -12,11 +12,12 @@
 #include "Bell.mm"
 #include "ofxCurl.h"
 
-
 //#import "PGMidi.h"
 //#import "iOSVersionDetection.h"
 #import "ofxUI.h"
 #include "SegmentedControl.h"
+
+#import "TestFlight.h"
 
 class testApp : public ofxiPhoneApp {
 
@@ -49,7 +50,7 @@ public:
     MorphMetaData loadMorphMetaData(string xmlPath);
     ofxUIMorphCanvas *canvasForMenuPage(vector<MorphMetaData> morphs, string tag, int pageNum);
     MorphMetaData getSelectedMorphFromMenuCanvas(int tab);
-    void updateSharedLoadMenuCanvas();
+    void updateSharedLoadMenuCanvas(int page);
     vector<MorphMetaData> downloadPageOfSharedMorphs(int pageNum);
     void downloadFile(string remotePath);
 

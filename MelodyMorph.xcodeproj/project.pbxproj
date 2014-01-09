@@ -13,6 +13,10 @@
 		49355B7F187A192F0007DE86 /* button2.png in Resources */ = {isa = PBXBuildFile; fileRef = 49355B7D187A192F0007DE86 /* button2.png */; };
 		49355B80187A192F0007DE86 /* control_panel_back.png in Resources */ = {isa = PBXBuildFile; fileRef = 49355B7E187A192F0007DE86 /* control_panel_back.png */; };
 		493589D2187A8F1E006A2048 /* libcurl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 493589D1187A8F1E006A2048 /* libcurl.a */; };
+		493589DC187B1261006A2048 /* libTestFlight.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 493589D6187B1261006A2048 /* libTestFlight.a */; };
+		493589DD187B1261006A2048 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 493589D7187B1261006A2048 /* README.md */; };
+		493589DE187B1261006A2048 /* release_notes.md in Resources */ = {isa = PBXBuildFile; fileRef = 493589D8187B1261006A2048 /* release_notes.md */; };
+		493589E0187B12D0006A2048 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 493589DF187B12D0006A2048 /* libz.dylib */; };
 		495099CB16F445AC00A16519 /* GUI in Resources */ = {isa = PBXBuildFile; fileRef = 495099CA16F445AC00A16519 /* GUI */; };
 		495B260715F165CC00290967 /* examples in Resources */ = {isa = PBXBuildFile; fileRef = 495B260515F165CC00290967 /* examples */; };
 		495CBFD1187923B600BF6008 /* icons in Resources */ = {isa = PBXBuildFile; fileRef = 495CBFD0187923B600BF6008 /* icons */; };
@@ -96,6 +100,13 @@
 		49355B7D187A192F0007DE86 /* button2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button2.png; sourceTree = "<group>"; };
 		49355B7E187A192F0007DE86 /* control_panel_back.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = control_panel_back.png; sourceTree = "<group>"; };
 		493589D1187A8F1E006A2048 /* libcurl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libcurl.a; sourceTree = "<group>"; };
+		493589D6187B1261006A2048 /* libTestFlight.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libTestFlight.a; sourceTree = "<group>"; };
+		493589D7187B1261006A2048 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
+		493589D8187B1261006A2048 /* release_notes.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = release_notes.md; sourceTree = "<group>"; };
+		493589D9187B1261006A2048 /* TestFlight+AsyncLogging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "TestFlight+AsyncLogging.h"; sourceTree = "<group>"; };
+		493589DA187B1261006A2048 /* TestFlight+ManualSessions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "TestFlight+ManualSessions.h"; sourceTree = "<group>"; };
+		493589DB187B1261006A2048 /* TestFlight.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestFlight.h; sourceTree = "<group>"; };
+		493589DF187B12D0006A2048 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		495099CA16F445AC00A16519 /* GUI */ = {isa = PBXFileReference; lastKnownFileType = folder; path = GUI; sourceTree = "<group>"; };
 		495099CC16F6CD9C00A16519 /* RecorderMaker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecorderMaker.h; sourceTree = "<group>"; };
 		495B260515F165CC00290967 /* examples */ = {isa = PBXFileReference; lastKnownFileType = folder; path = examples; sourceTree = "<group>"; };
@@ -239,9 +250,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				493589E0187B12D0006A2048 /* libz.dylib in Frameworks */,
 				49778C281696A0F4009AB6FC /* Security.framework in Frameworks */,
 				E41D421413B3A95300A75A5D /* libofxiPhone_iphoneos_Debug.a in Frameworks */,
 				1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */,
+				493589DC187B1261006A2048 /* libTestFlight.a in Frameworks */,
 				1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */,
 				288765FD0DF74451002DB57D /* CoreGraphics.framework in Frameworks */,
 				493589D2187A8F1E006A2048 /* libcurl.a in Frameworks */,
@@ -271,6 +284,8 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
+				493589DF187B12D0006A2048 /* libz.dylib */,
+				493589D5187B1261006A2048 /* TestFlightSDK2.1.3 */,
 				495CBFD21879242900BF6008 /* Images.xcassets */,
 				49778C271696A0F4009AB6FC /* Security.framework */,
 				495B260515F165CC00290967 /* examples */,
@@ -316,6 +331,19 @@
 			);
 			name = data;
 			path = bin/data;
+			sourceTree = "<group>";
+		};
+		493589D5187B1261006A2048 /* TestFlightSDK2.1.3 */ = {
+			isa = PBXGroup;
+			children = (
+				493589D6187B1261006A2048 /* libTestFlight.a */,
+				493589D7187B1261006A2048 /* README.md */,
+				493589D8187B1261006A2048 /* release_notes.md */,
+				493589D9187B1261006A2048 /* TestFlight+AsyncLogging.h */,
+				493589DA187B1261006A2048 /* TestFlight+ManualSessions.h */,
+				493589DB187B1261006A2048 /* TestFlight.h */,
+			);
+			path = TestFlightSDK2.1.3;
 			sourceTree = "<group>";
 		};
 		496D86AD16C0CD0900F746FA /* ofxTextSuite */ = {
@@ -712,6 +740,8 @@
 				49E0B94E15E7FEC200B7E5CC /* BrowserTest.xib in Resources */,
 				49E0BBD515E8190200B7E5CC /* Instructions.txt in Resources */,
 				49E0BBD615E8190200B7E5CC /* install.xml in Resources */,
+				493589DD187B1261006A2048 /* README.md in Resources */,
+				493589DE187B1261006A2048 /* release_notes.md in Resources */,
 				495B260715F165CC00290967 /* examples in Resources */,
 				4993E7D11627A5AB0030510D /* ControlPanel.xib in Resources */,
 				4993E7D31627A5AB0030510D /* ControlPanelToggle.xib in Resources */,
@@ -816,6 +846,7 @@
 					"$(inherited)",
 					"\\\"$(SRCROOT)/ofxCurl-master/lib/mac/llvm-gcc_i386\\\"",
 					"/Users/ericrosenbaum/Documents/of_0071_iOS_release/apps/myApps/melodymorph/ofxCurl-master/lib/mac/llvm-gcc_i386",
+					/Users/ericrosenbaum/Documents/of_0071_iOS_release/apps/myApps/melodymorph/TestFlightSDK2.1.3,
 				);
 				OTHER_LDFLAGS = "$(OF_CORE_LIBS)";
 				PRODUCT_NAME = MelodyMorph;
@@ -841,6 +872,7 @@
 					"$(inherited)",
 					"\\\"$(SRCROOT)/ofxCurl-master/lib/mac/llvm-gcc_i386\\\"",
 					"/Users/ericrosenbaum/Documents/of_0071_iOS_release/apps/myApps/melodymorph/ofxCurl-master/lib/mac/llvm-gcc_i386",
+					/Users/ericrosenbaum/Documents/of_0071_iOS_release/apps/myApps/melodymorph/TestFlightSDK2.1.3,
 				);
 				OTHER_LDFLAGS = "$(OF_CORE_LIBS)";
 				PRODUCT_NAME = MelodyMorph;

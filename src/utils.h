@@ -2,6 +2,19 @@
 #define _UTILS_ER
 
 #include "Poco/UUIDGenerator.h"
+#import "TestFlight.h"
+
+static void testFlightCheckPoint(string msg) {
+    NSString *objcMsg = [NSString stringWithCString:msg.c_str()
+                                                encoding:[NSString defaultCStringEncoding]];
+    [TestFlight passCheckpoint:objcMsg];
+}
+
+static void testFlightLog(string msg) {
+    NSString *objcMsg = [NSString stringWithCString:msg.c_str()
+                                           encoding:[NSString defaultCStringEncoding]];
+    TFLog(objcMsg);
+}
 
 struct MorphMetaData {
     string author;

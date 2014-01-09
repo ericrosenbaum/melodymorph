@@ -16,6 +16,7 @@
  
  critical
  * help screens - ofxUIbuttons? way to render with code (not images)?
+ * next/prev buttons for shared menu
  
  pedadgogy
  * examples with templates
@@ -26,21 +27,26 @@
  * lack of spinner for loading
  * path bounding box bug
  * recorder misses path player notes
+ * use sprite sheets to speed up graphics
  
  cosmetic
+ *
  * make all instruments multi-sampled?
  * change to ofxui: rec button, gear, menu
  * try mode locking?
  * colors of C at octave breaks
- * use sprite sheets to speed up graphics
+ 
+ bonus!
+ * copy/paste between files
  
  long term
- * sharing
+ * sharing overhaul
  * new sound engine
  
  BUGS:
  
  * stuck in slide mode? related to count touches I think
+ * sound engine voice stealing fails for multi-sample instruments
  
  
  app
@@ -416,6 +422,10 @@ void testApp::setup(){
     // SELECTION BOX
     
     selectionBox = new SelectionBox();
+    
+    // TESTFLIGHT SDK
+    
+    [TestFlight takeOff:@"8b72647b-3fe0-425c-a518-59fee4b2107e"];
 }
 
 //--------------------------------------------------------------
@@ -727,6 +737,8 @@ void testApp::saveCanvas(bool saveToServer){
     string author = authorKeyboard->getText();
     string description = descriptionKeyboard->getText();
     
+    XML.popTag(); // prevent a bug in XML class?
+    
 	XML.clear();
     XML.setValue("TITLE:TEXT", title, 0);
     XML.setValue("AUTHOR:TEXT", author, 0);
@@ -812,19 +824,18 @@ void testApp::saveToServer(){
     saveCanvas(true);
 }
 //--------------------------------------------------------------
-void testApp::updateSharedLoadMenuCanvas() {
-    sharedMorphsMetaData = downloadPageOfSharedMorphs(1);
-    sharedLoadMenuCanvas = canvasForMenuPage(sharedMorphsMetaData, "sharedMorphButton", 1);
+void testApp::updateSharedLoadMenuCanvas(int page) {
+    sharedMorphsMetaData = downloadPageOfSharedMorphs(page);
+    sharedLoadMenuCanvas = canvasForMenuPage(sharedMorphsMetaData, "sharedMorphButton", page);
     loadMenuCanvas->addWidget(sharedLoadMenuCanvas);
     ofAddListener(sharedLoadMenuCanvas->newGUIEvent, this, &testApp::guiEvent);
-    
 }
 //--------------------------------------------------------------
 vector<MorphMetaData> testApp::downloadPageOfSharedMorphs(int pageNum){
     ofHttpResponse response = ofLoadURL(ofToString(BROWSE_URL) + "?page=" + ofToString(pageNum));
 
-    cout << "response to browse request:" << endl;
-    cout << response.data.getText() << endl;
+    //cout << "response to browse request:" << endl;
+    //cout << response.data.getText() << endl;
 
     vector<MorphMetaData> morphs;
     
@@ -832,11 +843,13 @@ vector<MorphMetaData> testApp::downloadPageOfSharedMorphs(int pageNum){
     XML.clear();
     XML.loadFromBuffer(response.data.getText());
     
-    
-    XML.popTag();
+    XML.popTag(); // this seems to prevent a bug in the XML class from causing a crash
     
     XML.pushTag("django-objects");
     int numMorphs = XML.getNumTags("object");
+    
+    testFlightLog("page contains " + ofToString(numMorphs) + " morphs");
+    
     if (numMorphs > 0) {
         for (int i=0; i<numMorphs; i++) {
             
@@ -889,12 +902,10 @@ void testApp::downloadFile(string remotePath){
         ofDirectory::createDirectory(sharedDirPath);
     }
     vector<string> s = ofSplitString(remotePath, "/");
-    cout << "stringlen" + ofToString(s.size()) << endl;
     string fileName = s[s.size() - 1];
     
 
     string localPath = sharedDirPath + fileName;
-    cout << "localPath: " << localPath << endl;
     
     string folderName;
     vector <string> e = ofSplitString(fileName, ".");
@@ -906,9 +917,9 @@ void testApp::downloadFile(string remotePath){
     }
     
     // check if we already have this file locally, if not, download it
-    if (!ofFile::doesFileExist(localPath)) { // this check does not seem to work
+    if (!ofFile::doesFileExist(localPath)) {
         string fileURL = ofToString(MEDIA_URL) + "/" + folderName + fileName;
-        cout << "fileURL: " << fileURL << endl;
+        testFlightLog("downloading file: " + fileURL);
         ofSaveURLTo(fileURL, localPath);
     }
 }
@@ -986,14 +997,19 @@ void testApp::loadCanvas(MorphMetaData morph){
     if (!loaded) {
         string remotePath = ofToString(morph.xmlFilePath);
         downloadFile("xml_files/" + remotePath);
-        cout << "loadCanvas: sharedMorphs/" + remotePath << endl;
+
+        testFlightCheckPoint("loadCanvas loading shared morph: " + remotePath);
+        
         loaded = XML.loadFile(ofxiPhoneGetDocumentsDirectory() + "sharedMorphs/" + remotePath);
         if (!loaded) {
-            cout << "loadcanvas failed" << endl;
+            testFlightCheckPoint("loadCanvas failed");
             return;
         }
     }
     
+    testFlightCheckPoint("loadCanvas loaded: " + ofToString(morph.xmlFilePath));
+    
+    // load the file
 	int numBells = XML.getNumTags("BELL");
 	if (numBells > 0) {
 		 for (int i=0; i<numBells; i++) {
@@ -1417,7 +1433,12 @@ ofxUIMorphCanvas* testApp::canvasForMenuPage(vector<MorphMetaData> morphs, strin
     int numRows = 3;
     int morphsPerPage = morphsPerRow * numRows;
     
-    int startIndex = (pageNum - 1) * morphsPerPage; //page nums are one-indexed (like in django pagination)
+    int startIndex;
+    if (tag != "sharedMorphButton") {
+        startIndex = (pageNum - 1) * morphsPerPage; //page nums are one-indexed (like in django pagination)
+    } else {
+        startIndex = 0; // shared tab always has only one page of data
+    }
     
     if (startIndex >= morphs.size()) { // if pagenum is too high, just get first page
         startIndex = 0;
@@ -1429,6 +1450,17 @@ ofxUIMorphCanvas* testApp::canvasForMenuPage(vector<MorphMetaData> morphs, strin
         numToAdd = morphs.size() - startIndex;
     } else {
         nextButtonNeeded = true;
+    }
+    if (tag == "sharedMorphButton") {
+        numToAdd = morphs.size(); // redundant?
+    }
+    
+    if (tag == "sharedMorphButton") {
+        if (morphs.size() < morphsPerPage) {
+            nextButtonNeeded = false;
+        } else {
+            nextButtonNeeded = true;
+        }
     }
     
     // add buttons to canvas in rows of 7
@@ -1504,10 +1536,10 @@ void testApp::loadMenuSwitchToTab(int tab) {
             setPrevAndNextButtonsFor(userLoadMenuCanvas);
             break;
         case SHARED_TAB:
-            updateSharedLoadMenuCanvas();
-            setPrevAndNextButtonsFor(sharedLoadMenuCanvas);
+            updateSharedLoadMenuCanvas(sharedLoadMenuCanvas->getPageNum());
             sharedTabLabelToggle->setValue(true);
             sharedLoadMenuCanvas->setVisible(true);
+            setPrevAndNextButtonsFor(sharedLoadMenuCanvas);
             break;
         default:
             break;
@@ -2052,7 +2084,10 @@ void testApp::exit() {
 
 void testApp::selectMorph(ofxUIMorphCanvas *canvas, int num) {
     
-    int morphNum = num + (canvas->getPageNum() - 1) * 21;
+    int morphNum = num;
+    if (currentLoadMenuTab != SHARED_TAB) {
+        morphNum += (canvas->getPageNum() - 1) * 21;
+    }
     vector <MorphMetaData> morphs = canvas->getMorphs();
     MorphMetaData morph = morphs[morphNum];
     
@@ -2139,6 +2174,8 @@ void testApp::gotMessage(ofMessage msg) {
                     
                     newBell->isSelected = true;
                     newBell->img->setAnchorPercent(0.5, 0.5);
+                    newBell->canvasX += 10;
+                    newBell->canvasY += 10;
                     newBells.push_back(newBell);
                     
                 // duplicate path players
@@ -2156,6 +2193,8 @@ void testApp::gotMessage(ofMessage msg) {
                     newBell->isSelected = true;
                     newBell->img->setAnchorPercent(0.5, 0.5);
                     newBell->pathHeadImg.setAnchorPercent(0.5,0.5);
+                    newBell->canvasX += 10;
+                    newBell->canvasY += 10;
                     newBells.push_back(newBell);
                     
                 // duplicate regular bells
@@ -2282,7 +2321,18 @@ void testApp::guiEvent(ofxUIEventArgs &e)
                     loadMenuCanvas->addWidget(userLoadMenuCanvas);
                     ofAddListener(userLoadMenuCanvas->newGUIEvent, this, &testApp::guiEvent);
                     loadMenuSwitchToTab(USER_TAB);
-
+                    
+                }
+                if (currentLoadMenuTab == SHARED_TAB) {
+                    int pageNum = sharedLoadMenuCanvas->getPageNum();
+                    sharedLoadMenuCanvas->setPageNum(pageNum + 1);
+//                    loadMenuCanvas->removeWidget(sharedLoadMenuCanvas);
+//                    sharedMorphsMetaData = downloadPageOfSharedMorphs(pageNum + 1);
+//                    sharedLoadMenuCanvas = canvasForMenuPage(sharedMorphsMetaData, "sharedMorphButton", pageNum + 1);
+//                    loadMenuCanvas->addWidget(sharedLoadMenuCanvas);
+//                    ofAddListener(sharedLoadMenuCanvas->newGUIEvent, this, &testApp::guiEvent);
+                    loadMenuSwitchToTab(SHARED_TAB);
+                    
                 }
             }
         }
@@ -2298,6 +2348,17 @@ void testApp::guiEvent(ofxUIEventArgs &e)
                     loadMenuCanvas->addWidget(userLoadMenuCanvas);
                     ofAddListener(userLoadMenuCanvas->newGUIEvent, this, &testApp::guiEvent);
                     loadMenuSwitchToTab(USER_TAB);
+                }
+                if (currentLoadMenuTab == SHARED_TAB) {
+                    int pageNum = sharedLoadMenuCanvas->getPageNum();
+                    sharedLoadMenuCanvas->setPageNum(pageNum - 1);
+//                    loadMenuCanvas->removeWidget(sharedLoadMenuCanvas);
+//                    cout << "downloadpage here" << endl;
+//                    sharedMorphsMetaData = downloadPageOfSharedMorphs(pageNum - 1);
+//                    sharedLoadMenuCanvas = canvasForMenuPage(sharedMorphsMetaData, "sharedMorphButton", pageNum - 1);
+//                    loadMenuCanvas->addWidget(sharedLoadMenuCanvas);
+//                    ofAddListener(sharedLoadMenuCanvas->newGUIEvent, this, &testApp::guiEvent);
+                    loadMenuSwitchToTab(SHARED_TAB);
                 }
             }
         }

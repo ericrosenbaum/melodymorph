@@ -37,6 +37,7 @@ class RecorderBell : public Bell {
 		maker = _maker;
 		
 		playing = false;
+        isSelected = false;
 		noteCounter = 0;
 		startTime = 0;
 		dragging = false;
@@ -79,6 +80,11 @@ class RecorderBell : public Bell {
         if (dragging) {
             alpha = 200;
         }
+        if (isSelected) {
+            float brightness = ofMap(sin(ofGetElapsedTimef()*18),-1,1,0.5,1);
+            gray.setBrightness(brightness * 255);
+        }
+        
         ofSetColor(gray, alpha);
 
 		if (currentRadius != targetRadius) {
