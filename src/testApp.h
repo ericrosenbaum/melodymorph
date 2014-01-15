@@ -19,6 +19,9 @@
 
 #import "TestFlight.h"
 
+#include "ofxiPhoneWebViewController.h"
+
+
 class testApp : public ofxiPhoneApp {
 
 		
@@ -37,6 +40,8 @@ public:
     void drawGrid();
     void drawLines();
     void drawBells();
+    void drawBellsForThumbnail();
+
 	void drawPalette();
     void drawSelectionBox();
 
@@ -118,6 +123,11 @@ public:
     void loadBellImages();
     
     void deleteBellNum(int num);
+    
+    ofxiPhoneWebViewController inlineWebViewController;
+    void webViewEvent(ofxiPhoneWebViewControllerEventArgs &args);
+
+
 
 };
 

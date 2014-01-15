@@ -305,7 +305,7 @@ public:
         }
     }
     
-    void dragIfSelected(ofPoint prev, int x, int y) {
+    virtual void dragIfSelected(ofPoint prev, int x, int y) {
         if (isSelected) {
             canvasX += x - prev.x;
             canvasY += y - prev.y;

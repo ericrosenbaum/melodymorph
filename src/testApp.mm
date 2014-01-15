@@ -15,8 +15,17 @@
  PRIORITIES FOR BETA
  
  critical
- * help screens - ofxUIbuttons? way to render with code (not images)?
- * next/prev buttons for shared menu
+ * help screens
+ - help button (in gear? need to make a new control panel. or above gear?)
+ - includes: 
+    demo video
+    making bells: palette, tap, move, up/down octave, instrument
+    navigate: pan and zoom
+    quasi modes
+    recorder: sequence, chord
+    stop and full screen
+    all notes, note names
+    saving and sharing
  
  pedadgogy
  * examples with templates
@@ -25,12 +34,14 @@
  functional
  * long startup loading wait times
  * lack of spinner for loading
- * path bounding box bug
+ * delete local files
+ * sound engine voice stealing fails for multi-sample instruments
  * recorder misses path player notes
  * use sprite sheets to speed up graphics
+ * notification at startup with number of new shared morphs, click to view
  
  cosmetic
- *
+ * show latest shared morphs at startup
  * make all instruments multi-sampled?
  * change to ofxui: rec button, gear, menu
  * try mode locking?
@@ -40,13 +51,16 @@
  * copy/paste between files
  
  long term
+ * link launches app with shared file download
+ * django email notification of new shared projects with links
  * sharing overhaul
  * new sound engine
- 
- BUGS:
- 
+
+ bugs:
+ * CRASH: hold the mute mode, then touch the play path control and drag toward the canvas
+    touchmoved sees it's in path player mode, tries to refer to current path, but there is none
  * stuck in slide mode? related to count touches I think
- * sound engine voice stealing fails for multi-sample instruments
+ * short pathplayer loop with overlapping bells causes it to get trapped in a while loop playing notes
  
  
  app
@@ -426,8 +440,40 @@ void testApp::setup(){
     // TESTFLIGHT SDK
     
     [TestFlight takeOff:@"8b72647b-3fe0-425c-a518-59fee4b2107e"];
-}
+    
+    // WEB VIEW FOR HELP FILES
+    inlineWebViewController.showView(ofGetWidth()-550, 150, 400, 550, YES, YES, NO, YES, YES);
+    inlineWebViewController.setOrientation(OFXIPHONE_ORIENTATION_LANDSCAPE_RIGHT);
+    inlineWebViewController.setAutoRotation(false);
+    
+    ofAddListener(inlineWebViewController.event, this, &testApp::webViewEvent);
+    
+    string fileToLoad = "demo";
+    inlineWebViewController.loadLocalFile(fileToLoad);
 
+}
+//--------------------------------------------------------------
+void testApp::webViewEvent(ofxiPhoneWebViewControllerEventArgs &args) {
+    if(args.state == ofxiPhoneWebViewStateDidStartLoading){
+        NSLog(@"Webview did start loading URL %@.", args.url);
+    }
+    else if(args.state == ofxiPhoneWebViewStateDidFinishLoading){
+        NSLog(@"Webview did finish loading URL %@.", args.url);
+    }
+    else if(args.state == ofxiPhoneWebViewStateDidFailLoading){
+        NSLog(@"Webview did fail to load the URL %@. Error: %@", args.url, args.error);
+    }
+    else if(args.state == ofxiPhoneWebViewCalledExternalFunction){
+        NSLog(@"called external function with param %@", args.param);
+        MorphMetaData morph;
+        morph.xmlFilePath = ofToString([args.param UTF8String]);
+        loadCanvas(morph);
+        
+    } else {
+        NSLog(@"we're here");
+        
+    }
+}
 //--------------------------------------------------------------
 void testApp::update(){
 }
@@ -451,7 +497,7 @@ void testApp::draw(){
     // so do not draw the palette, grid, or selection
     if (UIMode == PRE_SAVE_MODE) {
         drawLines();
-        drawBells();
+        drawBellsForThumbnail();
         
         // create the thumbnails, then switch to save dialog mode
         largeThumbImageForSaving.grabScreen(0,0,ofGetWidth(),ofGetHeight());
@@ -536,6 +582,25 @@ void testApp::drawBells(){
     // some way to bind an unbind textures, but this requires looping through one image at a time
     for (int i=0; i<bells.size(); i++) {
         bells[i]->draw(screenPosX, screenPosY, zoom, forceEstimate, bendAmt, showNoteNames);
+    }
+    
+}
+//--------------------------------------------------------------
+void testApp::drawBellsForThumbnail(){
+    
+    // is there are way to optimize the drawing here?
+    // some way to bind an unbind textures, but this requires looping through one image at a time
+    for (int i=0; i<bells.size(); i++) {
+        
+        bells[i]->draw(screenPosX, screenPosY, zoom, forceEstimate, bend(), showNoteNames);
+
+        // for path players, make the path line light up for the thumbnail
+        if (bells[i]->isPathPlayer()) {
+            ((PathPlayer *)bells[i])->playing = true;
+            ((PathPlayer *)bells[i])->drawPath();
+            ((PathPlayer *)bells[i])->playing = false;
+        }
+        
     }
     
 }
@@ -803,6 +868,7 @@ void testApp::saveCanvas(bool saveToServer){
 	}
     	
 	XML.saveFile(XMLFilePath);
+    testFlightCheckPoint("saved a morph locally");
     
     // upload 
     if (saveToServer) {
@@ -825,6 +891,9 @@ void testApp::saveToServer(){
 }
 //--------------------------------------------------------------
 void testApp::updateSharedLoadMenuCanvas(int page) {
+    
+    testFlightLog("updateSharedLoadMenuCanvas page " + ofToString(page));
+    
     sharedMorphsMetaData = downloadPageOfSharedMorphs(page);
     sharedLoadMenuCanvas = canvasForMenuPage(sharedMorphsMetaData, "sharedMorphButton", page);
     loadMenuCanvas->addWidget(sharedLoadMenuCanvas);
@@ -928,15 +997,15 @@ void testApp::uploadMorph(MorphMetaData morph){
     
     
     if (morph.title == "") {
-        cout << "title was empty" << endl;
+        testFlightLog("title was empty");
         morph.title = "untitled";
     }
     if (morph.author == "") {
-        cout << "author was empty" << endl;
+        testFlightLog("author was empty");
         morph.author = "anonymous";
     }
     if (morph.description == "") {
-        cout << "description was empty" << endl;
+        testFlightLog("description was empty");
         morph.description = "---";
     }
     
@@ -950,28 +1019,31 @@ void testApp::uploadMorph(MorphMetaData morph){
     
     form->setTimeout(10000);
     
+    testFlightLog("attempting upload");
+    
     try {
         form->post();
     }
     catch(...) {
         // put an alert box for the user here!
-        cout << "OOPS.. something went wrong while posting" << endl;
+        testFlightLog("error while uploading morph");
     }
     
     // get the response from the post.
     vector<char> response_buf = form->getPostResponseAsBuffer();
     string response_str = form->getPostResponseAsString();
     
-    cout << "Response string:" << endl;
-    cout << response_str <<endl;
-    cout << "-----------------" << endl;
+    testFlightLog("Response string: " + response_str);
     
     // create an alert box to report success or failure
     string ofMessage;
     if (response_str == "success") {
         ofMessage = "Your Morph was successfully shared. Press the Open button and go to the Shared tab to see all the shared Morphs.";
+        testFlightLog("morph uploaded: " + morph.xmlFilePath);
+        testFlightCheckPoint("uploaded a morph");
     } else {
         ofMessage = "Something went wrong and I couldn't upload your Morph, sorry. Try checking your internet connection.";
+        testFlightLog("morph upload failed: " + morph.xmlFilePath);
     }
     NSString *objcMessage = [NSString stringWithCString:ofMessage.c_str()
                                               encoding:[NSString defaultCStringEncoding]];
@@ -995,19 +1067,27 @@ void testApp::loadCanvas(MorphMetaData morph){
     bool loaded = XML.loadFile(morph.xmlFilePath);
 
     if (!loaded) {
-        string remotePath = ofToString(morph.xmlFilePath);
-        downloadFile("xml_files/" + remotePath);
-
-        testFlightCheckPoint("loadCanvas loading shared morph: " + remotePath);
         
-        loaded = XML.loadFile(ofxiPhoneGetDocumentsDirectory() + "sharedMorphs/" + remotePath);
+        ///
+        vector<string> s = ofSplitString(morph.xmlFilePath, "/");
+        string fileName = s[s.size() - 1];
+        downloadFile("xml_files/" + fileName);
+        ///
+        
+        //string remotePath = ofToString(morph.xmlFilePath);
+        //downloadFile("xml_files/" + remotePath);
+
+        //testFlightLog("loadCanvas loading shared morph: " + remotePath);
+        
+        //loaded = XML.loadFile(ofxiPhoneGetDocumentsDirectory() + "sharedMorphs/" + remotePath);
+        loaded = XML.loadFile(ofxiPhoneGetDocumentsDirectory() + "sharedMorphs/" + fileName);
         if (!loaded) {
-            testFlightCheckPoint("loadCanvas failed");
+            testFlightLog("loadCanvas failed");
             return;
         }
     }
     
-    testFlightCheckPoint("loadCanvas loaded: " + ofToString(morph.xmlFilePath));
+    testFlightLog("loadCanvas loaded: " + ofToString(morph.xmlFilePath));
     
     // load the file
 	int numBells = XML.getNumTags("BELL");
@@ -1095,6 +1175,9 @@ void testApp::loadCanvas(MorphMetaData morph){
 }
 //--------------------------------------------------------------
 void testApp::clearCanvas(){
+    
+    testFlightLog("clearing canvas");
+    
 	for (int i=0; i<bells.size(); i++) {
 		if (bells[i]->isRecorderBell()) {
 			for(int j=0; j<bells[i]->notes.size(); j++) {
@@ -1265,6 +1348,8 @@ void testApp::makeRecBell(vector<Note*> notes){
 	RecorderBell *b = new RecorderBell(x, y, notes, &recBellImage, recorderBellMaker);
     b->setPlayers(instrumentSoundPlayers);
 	bells.push_back(b);
+    
+    testFlightLog("created a rec bell with " + ofToString(notes.size()) + " notes");
 
 //    b->setMidi(midi);
 //    bells[bells.size()-1]->setMidi(midi);
@@ -1731,6 +1816,7 @@ void testApp::touchDown(ofTouchEventArgs &touch){
                         b->playNote();
                     }
                     bells.push_back(b);
+                    testFlightLog("took a bell from the palette");
                 }
                 return;
             }
@@ -1739,6 +1825,9 @@ void testApp::touchDown(ofTouchEventArgs &touch){
         // drawing and erasing
         //if (touch.id == 1) {
             if (quasiModeSelectorCanvas->getCurrentMode() == DRAW_MODE) {
+
+                testFlightLog("tool: draw");
+
                 drawingLines.push_back(new DrawingLine());
                 int canvasX = int (screenPosX + (touch.x / zoom));
                 int canvasY = int (screenPosY + (touch.y / zoom));
@@ -1746,6 +1835,9 @@ void testApp::touchDown(ofTouchEventArgs &touch){
                 return;
             }
             if (quasiModeSelectorCanvas->getCurrentMode() == ERASE_MODE) {
+                
+                testFlightLog("tool: erase");
+                
                 // erase lines
                 int canvasX = int (screenPosX + (touch.x / zoom));
                 int canvasY = int (screenPosY + (touch.y / zoom));
@@ -1766,6 +1858,9 @@ void testApp::touchDown(ofTouchEventArgs &touch){
         if (quasiModeSelectorCanvas->getCurrentMode() == SELECT_MODE) {
             if (quasiModeSelectorCanvas->getSelectionState() == SELECT_DRAWING) {
                 if (touch.id == 1) {
+                    
+                    testFlightLog("tool: select");
+                    
                     for (int i=0; i<bells.size(); i++) {
                         bells[i]->deselect();               // deselect all bells since we're starting a new selection
                     }
@@ -1792,6 +1887,9 @@ void testApp::touchDown(ofTouchEventArgs &touch){
         if (quasiModeSelectorCanvas->getCurrentMode() == PATH_MODE) {
             if (touch.id == 1) {
                 // make a pathplayer
+                
+                testFlightLog("tool: path maker");
+                
                 int x = (touch.x / zoom + screenPosX);
                 int y =  (touch.y / zoom + screenPosY);// + (BELLRADIUS * zoom);
                 PathPlayer *p = new PathPlayer(x, y, &pathPlayerImage, pathHeadImage, &bells);
@@ -1894,8 +1992,10 @@ void testApp::touchMoved(ofTouchEventArgs &touch){
             if (touch.id==1) {
                 int canvasX = int (screenPosX + (touch.x / zoom));
                 int canvasY = int (screenPosY + (touch.y / zoom));
-                currentlyDrawingPath->addPoint(canvasX, canvasY);
                 
+                if (currentlyDrawingPath != NULL) {
+                    currentlyDrawingPath->addPoint(canvasX, canvasY);
+                }
                 for (int i=0; i<bells.size(); i++) {
                     bells[i]->slide(touch.x, touch.y, touch.id);
                 }
@@ -1995,7 +2095,8 @@ void testApp::touchMoved(ofTouchEventArgs &touch){
             }
         }
         // drag the canvas
-        if (quasiModeSelectorCanvas->getCurrentMode() == NONE) {
+        int mode = quasiModeSelectorCanvas->getCurrentMode();
+        if (mode == NONE || mode == MUTE_MODE) {
             if (draggingCanvas && touch.id == draggingCanvasId && numTouches == 1) {
                 screenPosX += (touchPrevX - touch.x) / zoom;
                 screenPosY += (touchPrevY - touch.y) / zoom;
@@ -2119,6 +2220,7 @@ void testApp::gotMessage(ofMessage msg) {
     for (int i=0; i<instrumentNames.size(); i++) {
         if (msg.message == instrumentNames[i]) {
             setInstrument(i);
+            testFlightLog("set instrument: " + instrumentNames[i]);
         }
     }
     
@@ -2133,6 +2235,9 @@ void testApp::gotMessage(ofMessage msg) {
         selectionBox->reset();
     }
     if (msg.message == "pitch +") {
+
+        testFlightLog("pitch + button pressed");
+
         for (int i=0; i<bells.size(); i++) {
             if (bells[i]->getIsSelected()) {
                 if (!bells[i]->isRecorderBell() && !bells[i]->isPathPlayer()) {
@@ -2142,6 +2247,9 @@ void testApp::gotMessage(ofMessage msg) {
         }
     }
     if (msg.message == "pitch -") {
+        
+        testFlightLog("pitch - button pressed");
+
         for (int i=0; i<bells.size(); i++) {
             if (bells[i]->getIsSelected()) {
                 if (!bells[i]->isRecorderBell() && !bells[i]->isPathPlayer()) {
@@ -2151,6 +2259,9 @@ void testApp::gotMessage(ofMessage msg) {
         }
     }
     if (msg.message == "duplicate") {
+        
+        testFlightLog("duplicate button pressed");
+        
         vector <Bell *> newBells;
         for (int i=0; i<bells.size(); i++) {
             if (bells[i]->getIsSelected()) {
@@ -2182,19 +2293,24 @@ void testApp::gotMessage(ofMessage msg) {
                 } else if (b->isPathPlayer()) {
                     PathPlayer *newBell = new PathPlayer(*(PathPlayer*)bells[i]);
                     
+                    newBell->isSelected = true;
+                    newBell->img->setAnchorPercent(0.5, 0.5);
+                    newBell->pathHeadImg.setAnchorPercent(0.5,0.5);
+                    newBell->canvasX += 10;
+                    newBell->canvasY += 10;
+                    
+                    newBell->initializeBoundingBox(); // must init box before adding path points
+
                     vector<PathPoint *> points = newBell->getPathPoints();
                     newBell->pathPoints.clear();
                     for(int i=0; i<points.size(); i++) {
                         PathPoint p = *points[i];
                         PathPoint *newPoint = new PathPoint(p);
                         newBell->pathPoints.push_back(newPoint);
+                        newBell->box->update(p.x, p.y);
                     }
-                    
-                    newBell->isSelected = true;
-                    newBell->img->setAnchorPercent(0.5, 0.5);
-                    newBell->pathHeadImg.setAnchorPercent(0.5,0.5);
-                    newBell->canvasX += 10;
-                    newBell->canvasY += 10;
+                    //cout << "duplicate: moveAnchorPointTo " + ofToString(newBell->canvasX) + " " + ofToString(newBell->canvasY) << endl;
+                    newBell->box->moveAnchorPointTo(newBell->canvasX, newBell->canvasY);
                     newBells.push_back(newBell);
                     
                 // duplicate regular bells

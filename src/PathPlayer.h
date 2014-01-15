@@ -9,15 +9,6 @@
 #ifndef MelodyMorph_PathPlayer_h
 #define MelodyMorph_PathPlayer_h
 
-/*
-  things to fix
-
- box update on load
- not playing the last one or two pathpoints?
- 
- */
-
-
 #include "Bell.mm"
 #include "PathPoint.cpp"
 #include "BoundingBoxForLine.h"
@@ -46,7 +37,6 @@ public:
     
     vector <Bell *> *bells;
     Bell *BellTheHeadIsTouching;
-    Bell *myself;
     
     int screenPosX, screenPosY;
     
@@ -55,7 +45,6 @@ public:
     PathPlayer(int _canvasX, int _canvasY, ofImage *_img, ofImage _pathHeadImg, vector <Bell *> *_bells) {
         bells = _bells;
         BellTheHeadIsTouching = nil;
-        myself = this;
         
         playing = false;
         
@@ -77,25 +66,7 @@ public:
         
         tempoInterval = 0.5;
         
-        // set up bounding box
-        // in this case bounding box coordinates are stored as
-        // relative canvas coordinates: the distance in canvas units from the anchor point
-        box = new BoundingBoxForLine();
-        
-        // initial update sets the anchor point for the bounding box (the center of the path player)
-        // which is used to recalculate the bounding box if the path player is dragged
-        box->update(canvasX, canvasY);
-        
-        // update bounding box to include the path player object
-        float r = PATHPLAYERRADIUS;
-        
-        int topLeftX = canvasX - r;
-        int topLeftY = canvasY - r;
-        box->update(topLeftX, topLeftY);
-
-        int bottomRightX = canvasX + r;
-        int bottomRightY = canvasY + r;
-        box->update(bottomRightX, bottomRightY);
+        initializeBoundingBox();
         
         // other init stuff
         dragging = false;
@@ -114,6 +85,31 @@ public:
         
         isSelected = false;
 
+    }
+    
+    void initializeBoundingBox() {
+
+        // in this case bounding box coordinates are stored as
+        // relative canvas coordinates: the distance in canvas units from the anchor point
+        box = new BoundingBoxForLine();
+        
+        // initial update sets the anchor point for the bounding box (the center of the path player)
+        // which is used to recalculate the bounding box if the path player is dragged
+        box->update(canvasX, canvasY);
+        
+        // update bounding box to include the path player object
+        float r = PATHPLAYERRADIUS;
+        
+        int topLeftX = canvasX - r;
+        int topLeftY = canvasY - r;
+        box->update(topLeftX, topLeftY);
+        
+        int bottomRightX = canvasX + r;
+        int bottomRightY = canvasY + r;
+        box->update(bottomRightX, bottomRightY);
+        
+        box->moveAnchorPointTo(canvasX, canvasY);
+        
     }
     
     void draw(float _screenPosX, float _screenPosY, float _zoom, float force, float _bend, bool showNoteNames) {
@@ -141,6 +137,14 @@ public:
         
     }
     
+    void dragIfSelected(ofPoint prev, int x, int y) {
+        if (isSelected) {
+            canvasX += x - prev.x;
+            canvasY += y - prev.y;
+            box->moveAnchorPointTo(canvasX, canvasY);
+        }
+    }
+
     void drawPath() {
 
         if (pathPoints.size() == 0) {
@@ -204,7 +208,6 @@ public:
 		}
         
         float r = currentRadius * 2 * zoom;
-//		img.draw(screenX, screenY, r, r);
         
         if (pathPoints.size() > 1 && !imgAngleSet) {
             int x1 = pathPoints[0]->x;
@@ -270,13 +273,13 @@ public:
             while (t > nextTime) {
                 playBells();
                 
-                if (BellTheHeadIsTouching == myself) {
+                if (BellTheHeadIsTouching == this) {
                     return; // otherwise we get trapped in this loop
                 }
                 
                 pathPointsIndex++;
                                 
-                if (pathPointsIndex >= pathPoints.size() - 1) {
+                if (pathPointsIndex > pathPoints.size() - 1) {
                     playing = false;
                     return;
                 }
@@ -322,8 +325,8 @@ public:
                 touchFlag = true;
                 
                 // prevent triggering right away if the head starts on the player
-                if (((*bells)[i] == myself) && pathPointsIndex == 0) {
-                    BellTheHeadIsTouching = myself;
+                if (((*bells)[i] == this) && pathPointsIndex == 0) {
+                    BellTheHeadIsTouching = this;
                 }
                 
                 // if we're not already touching this one, play it
@@ -333,7 +336,7 @@ public:
                 }
                 
                 // if it's us, trigger again since we just toggled ourself off
-                if (BellTheHeadIsTouching == myself) {
+                if (BellTheHeadIsTouching == this) {
                     playNote();
                 }
             }
@@ -375,10 +378,11 @@ public:
     void playNote() {
 		currentRadius = RECBELLRADIUS + 25;
 
+        pathPointsIndex = 0;
+
         if (!playing) {
             playing = true;
             playBackStartTime = ofGetElapsedTimef();
-            pathPointsIndex = 0;
             pathHeadAngle = 0;
             targetPathHeadAngle = 0;
         } else {

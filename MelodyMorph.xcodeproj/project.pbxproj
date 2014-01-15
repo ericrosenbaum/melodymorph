@@ -10,6 +10,12 @@
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
 		288765FD0DF74451002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765FC0DF74451002DB57D /* CoreGraphics.framework */; };
+		492E04541885C57D0092084A /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 492E04461885C57D0092084A /* README.md */; };
+		492E04551885C57D0092084A /* ofxiPhoneWebViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 492E04491885C57D0092084A /* ofxiPhoneWebViewController.mm */; };
+		492E045A1885C9FC0092084A /* www in Resources */ = {isa = PBXBuildFile; fileRef = 492E04591885C9FC0092084A /* www */; };
+		492E045C1885F7640092084A /* gear.png in Resources */ = {isa = PBXBuildFile; fileRef = 492E045B1885F7640092084A /* gear.png */; };
+		492E045F1886680A0092084A /* rec_bell_maker_active.png in Resources */ = {isa = PBXBuildFile; fileRef = 492E045D1886680A0092084A /* rec_bell_maker_active.png */; };
+		492E04601886680A0092084A /* rec_bell_maker.png in Resources */ = {isa = PBXBuildFile; fileRef = 492E045E1886680A0092084A /* rec_bell_maker.png */; };
 		49355B7F187A192F0007DE86 /* button2.png in Resources */ = {isa = PBXBuildFile; fileRef = 49355B7D187A192F0007DE86 /* button2.png */; };
 		49355B80187A192F0007DE86 /* control_panel_back.png in Resources */ = {isa = PBXBuildFile; fileRef = 49355B7E187A192F0007DE86 /* control_panel_back.png */; };
 		493589D2187A8F1E006A2048 /* libcurl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 493589D1187A8F1E006A2048 /* libcurl.a */; };
@@ -37,9 +43,6 @@
 		4993E7D21627A5AB0030510D /* ControlPanelToggle.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4993E7CE1627A5AB0030510D /* ControlPanelToggle.mm */; };
 		4993E7D31627A5AB0030510D /* ControlPanelToggle.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4993E7CF1627A5AB0030510D /* ControlPanelToggle.xib */; };
 		4993E7DB1627A6180030510D /* RecorderBellMaker.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4993E7D81627A6180030510D /* RecorderBellMaker.xib */; };
-		499B64A6175796980033532E /* gear.png in Resources */ = {isa = PBXBuildFile; fileRef = 499B64A2175796980033532E /* gear.png */; };
-		499B64A8175796980033532E /* rec_bell_maker.png in Resources */ = {isa = PBXBuildFile; fileRef = 499B64A4175796980033532E /* rec_bell_maker.png */; };
-		499B64A9175796980033532E /* rec_bell_maker_active.png in Resources */ = {isa = PBXBuildFile; fileRef = 499B64A5175796980033532E /* rec_bell_maker_active.png */; };
 		49A4F6A516EDA68F006AD5DD /* instruments in Resources */ = {isa = PBXBuildFile; fileRef = 49A4F6A416EDA68F006AD5DD /* instruments */; };
 		49CF1BE2175FEA6C003D001F /* PathPoint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 49CF1BE0175FEA6C003D001F /* PathPoint.cpp */; };
 		49CF1BE9176001A0003D001F /* other-images in Resources */ = {isa = PBXBuildFile; fileRef = 49CF1BE8176001A0003D001F /* other-images */; };
@@ -97,6 +100,13 @@
 		288765FC0DF74451002DB57D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		32CA4F630368D1EE00C91783 /* iPhone_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iPhone_Prefix.pch; sourceTree = "<group>"; };
 		49280A5716C37B32003C99FD /* ofxUIMorphCanvas.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ofxUIMorphCanvas.h; path = ../ofxUI/src/ofxUIMorphCanvas.h; sourceTree = "<group>"; };
+		492E04461885C57D0092084A /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
+		492E04481885C57D0092084A /* ofxiPhoneWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxiPhoneWebViewController.h; sourceTree = "<group>"; };
+		492E04491885C57D0092084A /* ofxiPhoneWebViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ofxiPhoneWebViewController.mm; sourceTree = "<group>"; };
+		492E04591885C9FC0092084A /* www */ = {isa = PBXFileReference; lastKnownFileType = folder; path = www; sourceTree = "<group>"; };
+		492E045B1885F7640092084A /* gear.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gear.png; sourceTree = "<group>"; };
+		492E045D1886680A0092084A /* rec_bell_maker_active.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = rec_bell_maker_active.png; sourceTree = "<group>"; };
+		492E045E1886680A0092084A /* rec_bell_maker.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = rec_bell_maker.png; sourceTree = "<group>"; };
 		49355B7D187A192F0007DE86 /* button2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button2.png; sourceTree = "<group>"; };
 		49355B7E187A192F0007DE86 /* control_panel_back.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = control_panel_back.png; sourceTree = "<group>"; };
 		493589D1187A8F1E006A2048 /* libcurl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libcurl.a; sourceTree = "<group>"; };
@@ -152,9 +162,6 @@
 		4993E7CF1627A5AB0030510D /* ControlPanelToggle.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ControlPanelToggle.xib; sourceTree = "<group>"; };
 		4993E7D71627A6180030510D /* RecorderBellMaker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecorderBellMaker.h; sourceTree = "<group>"; };
 		4993E7D81627A6180030510D /* RecorderBellMaker.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RecorderBellMaker.xib; sourceTree = "<group>"; };
-		499B64A2175796980033532E /* gear.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gear.png; sourceTree = "<group>"; };
-		499B64A4175796980033532E /* rec_bell_maker.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = rec_bell_maker.png; sourceTree = "<group>"; };
-		499B64A5175796980033532E /* rec_bell_maker_active.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = rec_bell_maker_active.png; sourceTree = "<group>"; };
 		499EA2D117AC57B000E5FCCA /* SoundPlayerQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SoundPlayerQueue.h; sourceTree = "<group>"; };
 		49A4F6A416EDA68F006AD5DD /* instruments */ = {isa = PBXFileReference; lastKnownFileType = folder; path = instruments; sourceTree = "<group>"; };
 		49B22191176028A5008AD99F /* BoundingBoxForLine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BoundingBoxForLine.h; sourceTree = "<group>"; };
@@ -320,9 +327,29 @@
 			name = "core frameworks";
 			sourceTree = "<group>";
 		};
+		492E04311885C57C0092084A /* ofxiPhoneWebViewController-2 */ = {
+			isa = PBXGroup;
+			children = (
+				492E04461885C57D0092084A /* README.md */,
+				492E04471885C57D0092084A /* src */,
+			);
+			name = "ofxiPhoneWebViewController-2";
+			path = "../../../addons/ofxiPhoneWebViewController-2";
+			sourceTree = "<group>";
+		};
+		492E04471885C57D0092084A /* src */ = {
+			isa = PBXGroup;
+			children = (
+				492E04481885C57D0092084A /* ofxiPhoneWebViewController.h */,
+				492E04491885C57D0092084A /* ofxiPhoneWebViewController.mm */,
+			);
+			path = src;
+			sourceTree = "<group>";
+		};
 		4932CFB915EA07E400D9B5C2 /* data */ = {
 			isa = PBXGroup;
 			children = (
+				492E04591885C9FC0092084A /* www */,
 				49CF1BE8176001A0003D001F /* other-images */,
 				499B64A1175796980033532E /* native */,
 				49E250DF16F04CC70090CB7C /* bell-images */,
@@ -448,12 +475,12 @@
 		499B64A1175796980033532E /* native */ = {
 			isa = PBXGroup;
 			children = (
+				492E045D1886680A0092084A /* rec_bell_maker_active.png */,
+				492E045E1886680A0092084A /* rec_bell_maker.png */,
+				492E045B1885F7640092084A /* gear.png */,
 				49355B7D187A192F0007DE86 /* button2.png */,
 				49355B7E187A192F0007DE86 /* control_panel_back.png */,
 				495D4402175D3F22005DDC58 /* NewMediaFett.ttf */,
-				499B64A2175796980033532E /* gear.png */,
-				499B64A4175796980033532E /* rec_bell_maker.png */,
-				499B64A5175796980033532E /* rec_bell_maker_active.png */,
 			);
 			path = native;
 			sourceTree = "<group>";
@@ -578,6 +605,7 @@
 		BB16F26B0F2B646B00518274 /* addons */ = {
 			isa = PBXGroup;
 			children = (
+				492E04311885C57C0092084A /* ofxiPhoneWebViewController-2 */,
 				496D86AD16C0CD0900F746FA /* ofxTextSuite */,
 				49778BC6169647F3009AB6FC /* ofxCurl-master */,
 				49E0BA0C15E8190100B7E5CC /* ofxDirList */,
@@ -737,24 +765,26 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				492E045A1885C9FC0092084A /* www in Resources */,
 				49E0B94E15E7FEC200B7E5CC /* BrowserTest.xib in Resources */,
+				492E045C1885F7640092084A /* gear.png in Resources */,
 				49E0BBD515E8190200B7E5CC /* Instructions.txt in Resources */,
 				49E0BBD615E8190200B7E5CC /* install.xml in Resources */,
+				492E04541885C57D0092084A /* README.md in Resources */,
 				493589DD187B1261006A2048 /* README.md in Resources */,
 				493589DE187B1261006A2048 /* release_notes.md in Resources */,
 				495B260715F165CC00290967 /* examples in Resources */,
 				4993E7D11627A5AB0030510D /* ControlPanel.xib in Resources */,
 				4993E7D31627A5AB0030510D /* ControlPanelToggle.xib in Resources */,
 				4993E7DB1627A6180030510D /* RecorderBellMaker.xib in Resources */,
+				492E04601886680A0092084A /* rec_bell_maker.png in Resources */,
 				49778C1D169647F3009AB6FC /* README.txt in Resources */,
 				49A4F6A516EDA68F006AD5DD /* instruments in Resources */,
 				49355B80187A192F0007DE86 /* control_panel_back.png in Resources */,
+				492E045F1886680A0092084A /* rec_bell_maker_active.png in Resources */,
 				495CBFD31879242900BF6008 /* Images.xcassets in Resources */,
 				49E250E016F04CC70090CB7C /* bell-images in Resources */,
 				495099CB16F445AC00A16519 /* GUI in Resources */,
-				499B64A6175796980033532E /* gear.png in Resources */,
-				499B64A8175796980033532E /* rec_bell_maker.png in Resources */,
-				499B64A9175796980033532E /* rec_bell_maker_active.png in Resources */,
 				49355B7F187A192F0007DE86 /* button2.png in Resources */,
 				495D4403175D3F22005DDC58 /* NewMediaFett.ttf in Resources */,
 				49CF1BE9176001A0003D001F /* other-images in Resources */,
@@ -807,6 +837,7 @@
 				49778C21169647F3009AB6FC /* ofxCurlForm.cpp in Sources */,
 				49778C22169647F3009AB6FC /* ofxCurlFormType.cpp in Sources */,
 				49778C23169647F3009AB6FC /* ofxCurlFormTypeFile.cpp in Sources */,
+				492E04551885C57D0092084A /* ofxiPhoneWebViewController.mm in Sources */,
 				49778C24169647F3009AB6FC /* ofxCurlFormTypeInput.cpp in Sources */,
 				496D86B116C0CD0900F746FA /* ofxTextBlock.cpp in Sources */,
 				49CF1BE2175FEA6C003D001F /* PathPoint.cpp in Sources */,
@@ -831,8 +862,9 @@
 				ARCHS = armv7;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Eric Rosenbaum (SF692L49Z2)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = iPhone_Prefix.pch;
 				GCC_PREPROCESSOR_DEFINITIONS = "";
@@ -850,7 +882,8 @@
 				);
 				OTHER_LDFLAGS = "$(OF_CORE_LIBS)";
 				PRODUCT_NAME = MelodyMorph;
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "A8F63DCC-A5EA-4E44-965F-4997CBF96C61";
+				STRIP_INSTALLED_PRODUCT = NO;
 			};
 			name = Debug;
 		};
@@ -860,8 +893,9 @@
 				ARCHS = armv7;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Eric Rosenbaum (J9PZ7YAHSY)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = iPhone_Prefix.pch;
 				GCC_PREPROCESSOR_DEFINITIONS = "";
@@ -876,7 +910,8 @@
 				);
 				OTHER_LDFLAGS = "$(OF_CORE_LIBS)";
 				PRODUCT_NAME = MelodyMorph;
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "7AE8494D-2213-47AA-A732-E3DF2FBC2DAE";
+				STRIP_INSTALLED_PRODUCT = NO;
 			};
 			name = Release;
 		};
@@ -907,7 +942,7 @@
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				ONLY_ACTIVE_ARCH = NO;
-				PROVISIONING_PROFILE = "31602724-095B-4AA8-A2B4-7C4C6BE6C752";
+				PROVISIONING_PROFILE = "A8F63DCC-A5EA-4E44-965F-4997CBF96C61";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "31602724-095B-4AA8-A2B4-7C4C6BE6C752";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 2;
@@ -921,7 +956,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				CODE_SIGN_IDENTITY = "iPhone Developer: Eric Rosenbaum (SF692L49Z2)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Eric Rosenbaum (J9PZ7YAHSY)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COMPRESS_PNG_FILES = NO;
 				GCC_C_LANGUAGE_STANDARD = c99;
@@ -939,7 +974,7 @@
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				ONLY_ACTIVE_ARCH = NO;
-				PROVISIONING_PROFILE = "ABD1689D-6821-4D2F-8F84-142A98DDFDB3";
+				PROVISIONING_PROFILE = "7AE8494D-2213-47AA-A732-E3DF2FBC2DAE";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 2;
 				WARNING_LDFLAGS = "-no_arch_warnings";
