@@ -462,16 +462,27 @@ void testApp::webViewEvent(ofxiPhoneWebViewControllerEventArgs &args) {
     }
     else if(args.state == ofxiPhoneWebViewStateDidFailLoading){
         NSLog(@"Webview did fail to load the URL %@. Error: %@", args.url, args.error);
+        
+        // either call a function on the browser (???) to show an error, or put in an alert
+        
+        UIAlertView *alertUploadComplete = [[UIAlertView alloc] initWithTitle:@""
+                                                                      message:args.error.localizedDescription
+                                                                     delegate:nil
+                                                            cancelButtonTitle:@"Okay"
+                                                            otherButtonTitles:nil, nil];
+        [alertUploadComplete show];
+        [alertUploadComplete release];
+        
+        // load a different page
+        string fileToLoad = "demo-no-wifi";
+        inlineWebViewController.loadLocalFile(fileToLoad);
+        
     }
     else if(args.state == ofxiPhoneWebViewCalledExternalFunction){
         NSLog(@"called external function with param %@", args.param);
         MorphMetaData morph;
         morph.xmlFilePath = ofToString([args.param UTF8String]);
         loadCanvas(morph);
-        
-    } else {
-        NSLog(@"we're here");
-        
     }
 }
 //--------------------------------------------------------------
@@ -869,6 +880,7 @@ void testApp::saveCanvas(bool saveToServer){
     	
 	XML.saveFile(XMLFilePath);
     testFlightCheckPoint("saved a morph locally");
+    testFlightLog("saved morph locally: " + XMLFilePath);
     
     // upload 
     if (saveToServer) {
