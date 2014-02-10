@@ -234,6 +234,8 @@ ofxUIImageToggle *fullScreenToggle;
 ofxUICanvas *fullScreenCanvas;
 ofxUIImageButton *stopAllButton;
 ofxUICanvas *stopAllCanvas;
+ofxUIImageButton *helpButton;
+ofxUICanvas *helpCanvas;
 
 // load menu
 
@@ -433,6 +435,17 @@ void testApp::setup(){
     
     ofAddListener(stopAllCanvas->newGUIEvent, this, &testApp::guiEvent);
     
+    helpButton = new ofxUIImageButton(100,100,true,"GUI/help_button.png","helpButton");
+    helpButton->setColorFillHighlight(127);
+    helpButton->setColorBack(255);
+    helpCanvas = new ofxUICanvas(ofGetWidth()-110,ofGetHeight()-360,100,100);
+    helpCanvas->addWidget(helpButton);
+    helpCanvas->setPadding(0);
+    helpCanvas->setColorFill(255);             // true
+    helpCanvas->setColorFillHighlight(127);    // down
+    helpCanvas->setDrawBack(false);
+    ofAddListener(helpCanvas->newGUIEvent, this, &testApp::guiEvent);
+    
     // SELECTION BOX
     
     selectionBox = new SelectionBox();
@@ -442,7 +455,7 @@ void testApp::setup(){
     [TestFlight takeOff:@"8b72647b-3fe0-425c-a518-59fee4b2107e"];
     
     // WEB VIEW FOR HELP FILES
-    inlineWebViewController.showView(ofGetWidth()-550, 150, 400, 550, YES, YES, NO, YES, YES);
+    inlineWebViewController.showView(ofGetWidth()-550, 150, 400, 550);
     inlineWebViewController.setOrientation(OFXIPHONE_ORIENTATION_LANDSCAPE_RIGHT);
     inlineWebViewController.setAutoRotation(false);
     
@@ -459,11 +472,18 @@ void testApp::webViewEvent(ofxiPhoneWebViewControllerEventArgs &args) {
     }
     else if(args.state == ofxiPhoneWebViewStateDidFinishLoading){
         NSLog(@"Webview did finish loading URL %@.", args.url);
+        // can call javascript here?
+//        string js = "insertString('openframeworksss')";
+        
+        string pngURL = userMorphsMetaData[0].largeThumbFilePath;
+        string xmlURL = userMorphsMetaData[0].xmlFilePath;
+        string js = "insertThumb('" + pngURL + "','" + xmlURL  + "')";
+        
+        NSString *objcString = [NSString stringWithCString:js.c_str() encoding:[NSString defaultCStringEncoding]];
+        [inlineWebViewController._webView stringByEvaluatingJavaScriptFromString:objcString];
     }
     else if(args.state == ofxiPhoneWebViewStateDidFailLoading){
         NSLog(@"Webview did fail to load the URL %@. Error: %@", args.url, args.error);
-        
-        // either call a function on the browser (???) to show an error, or put in an alert
         
         UIAlertView *alertUploadComplete = [[UIAlertView alloc] initWithTitle:@""
                                                                       message:args.error.localizedDescription
@@ -478,11 +498,15 @@ void testApp::webViewEvent(ofxiPhoneWebViewControllerEventArgs &args) {
         inlineWebViewController.loadLocalFile(fileToLoad);
         
     }
+    else if(args.state == ofxiPhoneWebViewDidCloseWindow){
+        NSLog(@"ofxiPhoneWebViewDidCloseWindow");
+    }
     else if(args.state == ofxiPhoneWebViewCalledExternalFunction){
         NSLog(@"called external function with param %@", args.param);
         MorphMetaData morph;
         morph.xmlFilePath = ofToString([args.param UTF8String]);
         loadCanvas(morph);
+        [inlineWebViewController._view setHidden:YES];
     }
 }
 //--------------------------------------------------------------
@@ -1233,12 +1257,12 @@ void testApp::toggleControlPanel(){
 	[controlPanel.view setHidden:!controlPanel.view.hidden];
 }
 //--------------------------------------------------------------
-void testApp::toggleAllNotes(){
-	showAllNotes = !showAllNotes;
+void testApp::toggleAllNotes(bool val){
+	showAllNotes = val;
 }
 //--------------------------------------------------------------
-void testApp::toggleNoteNames(){
-	showNoteNames = !showNoteNames;
+void testApp::toggleNoteNames(bool val){
+	showNoteNames = val;
 }
 //--------------------------------------------------------------
 void testApp::setDrawingOn(){
@@ -1764,6 +1788,7 @@ void testApp::playModeSetVisible(bool visible) {
     quasiModeSelectorCanvas->setVisible(visible);
     fullScreenCanvas->setVisible(visible);
     stopAllCanvas->setVisible(visible);
+    helpCanvas->setVisible(visible);
     
     //special case- we close the control panel when returning to play mode
     [controlPanel.view setHidden:YES];
@@ -2236,6 +2261,11 @@ void testApp::gotMessage(ofMessage msg) {
         }
     }
     
+    // the toggleCanvas sends button messages
+    if (msg.message == "help button pressed") {
+        cout << "help button press" << endl;
+    }
+    
     // quasimode selector sends a message when we press or release the select button
     if (msg.message == "select_button_pressed") {
         selectionBox->reset();
@@ -2246,6 +2276,8 @@ void testApp::gotMessage(ofMessage msg) {
         }
         selectionBox->reset();
     }
+    
+    // quasimode selector sends a message when we press duplicate, pitch +, pitch -
     if (msg.message == "pitch +") {
 
         testFlightLog("pitch + button pressed");
@@ -2366,6 +2398,15 @@ void testApp::guiEvent(ofxUIEventArgs &e)
             }
             if (bells[i]->isPathPlayer()) {
                 ((PathPlayer *)bells[i])->playing = false;
+            }
+        }
+    }
+    if (name == "helpButton") {
+        ofxUIImageButton *btn = (ofxUIImageButton *) e.widget;
+        if (!btn->getValue()) { // touch up
+            if (btn->isHit(touchUpX, touchUpY)) { // prevent triggering on touch up outside
+                // toggle visibility of help browser
+                cout << "helpButton pressed" << endl;
             }
         }
     }

@@ -7,6 +7,14 @@
                 color:white;
             }
 		</style>
+        <script type="text/javascript">
+            function insertThumb(pngURL, xmlURL) {
+                thumbHTML = "<a href='of://callOFfunction/?=" + xmlURL + "'>";
+                thumbHTML += "<img src=" + pngURL + ">";
+                thumbHTML += "</a>";
+                document.getElementById('contentFromOF').innerHTML = thumbHTML;
+            }
+        </script>
 	</head>
 	<body style="background-color:#777777;">
         <div width=400>
@@ -23,7 +31,11 @@
 
             <p>Some text here.</p>
 
-            <p>Some text here.</p>
+            <p>hmmm</p>
+            
+            <p><a href="http://melodymorph2.xvm.mit.edu:8080/shared_page.html">SHARED MORPHS</a></p>
+            
+            <div id="contentFromOF">nothing here yet</div>
 
         </div>
 	</body>

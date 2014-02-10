@@ -162,6 +162,7 @@
 		4993E7CF1627A5AB0030510D /* ControlPanelToggle.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ControlPanelToggle.xib; sourceTree = "<group>"; };
 		4993E7D71627A6180030510D /* RecorderBellMaker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecorderBellMaker.h; sourceTree = "<group>"; };
 		4993E7D81627A6180030510D /* RecorderBellMaker.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RecorderBellMaker.xib; sourceTree = "<group>"; };
+		4994C42018A40BF600A17130 /* ToggleCanvas.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ToggleCanvas.h; sourceTree = "<group>"; };
 		499EA2D117AC57B000E5FCCA /* SoundPlayerQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SoundPlayerQueue.h; sourceTree = "<group>"; };
 		49A4F6A416EDA68F006AD5DD /* instruments */ = {isa = PBXFileReference; lastKnownFileType = folder; path = instruments; sourceTree = "<group>"; };
 		49B22191176028A5008AD99F /* BoundingBoxForLine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BoundingBoxForLine.h; sourceTree = "<group>"; };
@@ -649,6 +650,7 @@
 				49DD7DDD176E01E1007586B6 /* SelectionBox.h */,
 				49280A5716C37B32003C99FD /* ofxUIMorphCanvas.h */,
 				49FE3CA516E3B4EE0084638B /* QuasiModeSelectorCanvas.h */,
+				4994C42018A40BF600A17130 /* ToggleCanvas.h */,
 				49E0B91515E7FEC200B7E5CC /* DrawingLine.cpp */,
 				49B22191176028A5008AD99F /* BoundingBoxForLine.h */,
 				4993E7CA1627A5AB0030510D /* ControlPanel.h */,

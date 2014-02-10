@@ -41,10 +41,10 @@
 	 myApp->clearCanvas();
  }
 -(IBAction)toggleAllNotes {
-	myApp->toggleAllNotes();
+	myApp->toggleAllNotes([self.allNotesSwitch isOn]);
 }
 -(IBAction)toggleNoteNames {
-	myApp->toggleNoteNames();
+	myApp->toggleNoteNames([self.noteNamesSwitch isOn]);
 }
  
  - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {

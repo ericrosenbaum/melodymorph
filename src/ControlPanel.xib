@@ -7,6 +7,8 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ControlPanel">
             <connections>
+                <outlet property="allNotesSwitch" destination="4" id="qi8-rl-5sc"/>
+                <outlet property="noteNamesSwitch" destination="5" id="2jj-Xi-hoR"/>
                 <outlet property="view" destination="2" id="3"/>
             </connections>
         </placeholder>
@@ -19,14 +21,14 @@
                     <rect key="frame" x="0.0" y="0.0" width="309" height="140"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 </imageView>
-                <switch opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" id="4">
+                <switch opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" id="4" userLabel="allNotesSwitch">
                     <rect key="frame" x="23" y="56" width="51" height="31"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <connections>
                         <action selector="toggleAllNotes" destination="-1" eventType="valueChanged" id="14"/>
                     </connections>
                 </switch>
-                <switch opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" id="5">
+                <switch opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" id="5" userLabel="noteNamesSwitch">
                     <rect key="frame" x="23" y="91" width="51" height="31"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <connections>

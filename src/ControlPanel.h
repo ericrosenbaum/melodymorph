@@ -14,7 +14,14 @@
 
 @interface ControlPanel : UIViewController {
 	testApp *myApp;
+    
+    IBOutlet UISwitch *allNotesSwitch;
+    IBOutlet UISwitch *noteNamesSwitch;
+
 }
+
+@property (nonatomic, retain) UISwitch *allNotesSwitch;
+@property (nonatomic, retain) UISwitch *noteNamesSwitch;
 
 -(IBAction)saveCanvas;
 -(IBAction)loadCanvas;

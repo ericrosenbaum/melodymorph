@@ -83,8 +83,8 @@ public:
 	
 	void toggleControlPanel();
 	
-	void toggleAllNotes();
-	void toggleNoteNames();
+	void toggleAllNotes(bool val);
+	void toggleNoteNames(bool val);
 	
 	void countTouches();
 	float pinchDist();
