@@ -124,7 +124,7 @@ public:
     
     void deleteBellNum(int num);
     
-    ofxiPhoneWebViewController inlineWebViewController;
+    ofxiPhoneWebViewController helpViewer;
     void webViewEvent(ofxiPhoneWebViewControllerEventArgs &args);
 
 

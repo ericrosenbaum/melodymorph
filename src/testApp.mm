@@ -16,16 +16,30 @@
  
  critical
  * help screens
- - help button (in gear? need to make a new control panel. or above gear?)
- - includes: 
-    demo video
-    making bells: palette, tap, move, up/down octave, instrument
-    navigate: pan and zoom
-    quasi modes
-    recorder: sequence, chord
-    stop and full screen
-    all notes, note names
-    saving and sharing
+ 
+ drag a note from the palette and tap to play it
+    drag a note to move it
+    shift the palette up and down
+    change instruments
+    
+    drag across the canvas to move around
+    pinch the canvas to zoom in and out
+    
+    tap the record button, play notes, then tap it again to make a recording
+    record and play a single chord
+    
+    hold down the strum button with one finger, and strum notes with another finger
+    draw and erase
+    select notes to move, copy and change them
+    record and play a path
+    paths can trigger themselves and each other
+ 
+    stop recordings and paths
+    use full screen mode to get more space
+ 
+    press the gear for more options
+ 
+    sharing
  
  pedadgogy
  * examples with templates
@@ -38,11 +52,9 @@
  * sound engine voice stealing fails for multi-sample instruments
  * recorder misses path player notes
  * use sprite sheets to speed up graphics
- * notification at startup with number of new shared morphs, click to view
  
  cosmetic
  * show latest shared morphs at startup
- * make all instruments multi-sampled?
  * change to ofxui: rec button, gear, menu
  * try mode locking?
  * colors of C at octave breaks
@@ -57,8 +69,6 @@
  * new sound engine
 
  bugs:
- * CRASH: hold the mute mode, then touch the play path control and drag toward the canvas
-    touchmoved sees it's in path player mode, tries to refer to current path, but there is none
  * stuck in slide mode? related to count touches I think
  * short pathplayer loop with overlapping bells causes it to get trapped in a while loop playing notes
  
@@ -390,15 +400,7 @@ void testApp::setup(){
      r = CGRectMake(ofGetHeight() - 130, 10, 130, 130);
      recorderBellMaker.view.frame = r;
     
-    
-    // web view
-//    browser = [[WebView alloc] initWithNibName:@"WebView" bundle:nil];
-//    [[[UIApplication sharedApplication] keyWindow] addSubview:browser.view];
-//    //browser.view.frame = CGRectMake(127, 127, 1024, 768);
-//    browser.view.transform = CGAffineTransformMakeTranslation(-137, 137); // ?????
-//    browser.view.transform = CGAffineTransformRotate(browser.view.transform, ofDegToRad(-90));
-    //[browser.view setHidden:YES];
-    
+        
     // play mode widgets
     
     quasiModeSelectorCanvas = new QuasiModeSelectorCanvas(0, 100, 100, 400);
@@ -455,14 +457,12 @@ void testApp::setup(){
     [TestFlight takeOff:@"8b72647b-3fe0-425c-a518-59fee4b2107e"];
     
     // WEB VIEW FOR HELP FILES
-    inlineWebViewController.showView(ofGetWidth()-550, 150, 400, 550);
-    inlineWebViewController.setOrientation(OFXIPHONE_ORIENTATION_LANDSCAPE_RIGHT);
-    inlineWebViewController.setAutoRotation(false);
-    
-    ofAddListener(inlineWebViewController.event, this, &testApp::webViewEvent);
-    
-    string fileToLoad = "demo";
-    inlineWebViewController.loadLocalFile(fileToLoad);
+    helpViewer.showView(ofGetWidth()-550, 150, 400, 550);
+    helpViewer.setOrientation(OFXIPHONE_ORIENTATION_LANDSCAPE_RIGHT);
+    helpViewer.setAutoRotation(false);
+    ofAddListener(helpViewer.event, this, &testApp::webViewEvent);
+    string fileToLoad = "help";
+    helpViewer.loadLocalFile(fileToLoad);
 
 }
 //--------------------------------------------------------------
@@ -480,7 +480,7 @@ void testApp::webViewEvent(ofxiPhoneWebViewControllerEventArgs &args) {
         string js = "insertThumb('" + pngURL + "','" + xmlURL  + "')";
         
         NSString *objcString = [NSString stringWithCString:js.c_str() encoding:[NSString defaultCStringEncoding]];
-        [inlineWebViewController._webView stringByEvaluatingJavaScriptFromString:objcString];
+        [helpViewer._webView stringByEvaluatingJavaScriptFromString:objcString];
     }
     else if(args.state == ofxiPhoneWebViewStateDidFailLoading){
         NSLog(@"Webview did fail to load the URL %@. Error: %@", args.url, args.error);
@@ -494,8 +494,8 @@ void testApp::webViewEvent(ofxiPhoneWebViewControllerEventArgs &args) {
         [alertUploadComplete release];
         
         // load a different page
-        string fileToLoad = "demo-no-wifi";
-        inlineWebViewController.loadLocalFile(fileToLoad);
+//        string fileToLoad = "demo-no-wifi";
+//        helpViewer.loadLocalFile(fileToLoad);
         
     }
     else if(args.state == ofxiPhoneWebViewDidCloseWindow){
@@ -506,7 +506,7 @@ void testApp::webViewEvent(ofxiPhoneWebViewControllerEventArgs &args) {
         MorphMetaData morph;
         morph.xmlFilePath = ofToString([args.param UTF8String]);
         loadCanvas(morph);
-        [inlineWebViewController._view setHidden:YES];
+        [helpViewer._view setHidden:YES];
     }
 }
 //--------------------------------------------------------------
@@ -1790,8 +1790,10 @@ void testApp::playModeSetVisible(bool visible) {
     stopAllCanvas->setVisible(visible);
     helpCanvas->setVisible(visible);
     
-    //special case- we close the control panel when returning to play mode
+    //special cases- we close the control panel and help viewer when returning to play mode
     [controlPanel.view setHidden:YES];
+    [helpViewer._view setHidden:YES];
+
 }
 //--------------------------------------------------------------
 void testApp::saveDialogModeSetVisible(bool visible) {
@@ -2389,6 +2391,7 @@ void testApp::guiEvent(ofxUIEventArgs &e)
         instrumentSelector->setVisible(visible);
         quasiModeSelectorCanvas->setVisibilityOfEditModesOnly(visible);
         octaveButtons->setVisible(visible);
+        helpCanvas->setVisible(visible);
     }
     
     if (name == "stopAllButton") {
@@ -2404,10 +2407,8 @@ void testApp::guiEvent(ofxUIEventArgs &e)
     if (name == "helpButton") {
         ofxUIImageButton *btn = (ofxUIImageButton *) e.widget;
         if (!btn->getValue()) { // touch up
-            if (btn->isHit(touchUpX, touchUpY)) { // prevent triggering on touch up outside
-                // toggle visibility of help browser
-                cout << "helpButton pressed" << endl;
-            }
+            // toggle help browser
+            [helpViewer._view setHidden:!helpViewer._view.hidden];
         }
     }
     

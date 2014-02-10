@@ -18,8 +18,8 @@
 #define ERASE_MODE                  2
 #define SELECT_MODE                 3
 #define PATH_MODE                   4
-#define SLIDE_MODE                  5
-#define MUTE_MODE                   6
+#define MUTE_MODE                   5
+#define SLIDE_MODE                  6
 
 // selection mode states
 #define SELECT_DRAWING              0
@@ -35,7 +35,7 @@ public:
     int selectionState;
     
     // icon image file names
-    string names[NUM_MODES] = {"pencil_button", "eraser_button", "select_button", "path_button", "slide_button", "mute_button"};
+    string names[NUM_MODES] = {"pencil_button", "eraser_button", "select_button", "path_button", "mute_button", "slide_button"};
         
     QuasiModeSelectorCanvas(int x,int y,int w,int h) : ofxUICanvas(x,y,w,h)
     {
@@ -50,7 +50,7 @@ public:
             addWidgetDown(b);
             
             // add a spacer between edit-modes and play modes
-            if (i==3) {
+            if (i==4) {
                 ofxUISpacer *spacer = new ofxUISpacer(100,30);
                 spacer->setVisible(false);
                 addWidgetDown(spacer);
@@ -81,7 +81,7 @@ public:
     
     void setVisibilityOfEditModesOnly(bool visible) {
         vector<ofxUIWidget *> w = getWidgets();
-        for (int i=0; i<4; i++) {
+        for (int i=0; i<5; i++) {
             w[i]->setVisible(visible);
         }
     }
@@ -98,9 +98,9 @@ public:
             if (w[NUM_MODES-1]->isHit(x, y)) {
                 return true;
             }
-            if (w[NUM_MODES-2]->isHit(x, y)) {
-                return true;
-            }
+//            if (w[NUM_MODES-2]->isHit(x, y)) {
+//                return true;
+//            }
         }
         return false;
     }
