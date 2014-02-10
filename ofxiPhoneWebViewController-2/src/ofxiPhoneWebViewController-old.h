@@ -69,8 +69,7 @@ class ofxiPhoneWebViewController {
     
 public:
 
-    void showView(int _x, int _y, int _w, int _h);
-
+    void showView(int frameWidth, int frameHeight,  BOOL animated, BOOL addToolbar, BOOL transparent, BOOL scroll, BOOL useTransitionMoveIn);
     void hideView(BOOL animated);
     //void reOpenView(BOOL animated, NSString *newurl);
     
@@ -97,18 +96,15 @@ public:
     
     void callExternalFunction(string &functionName, NSString *param);
     
-    UIView *_view;
-    UIWebView *_webView;
-
 private:
     
     void createView(BOOL withToolbar, CGRect frame, BOOL transparent, BOOL scroll);
-
+    UIView *_view;
+    UIWebView *_webView;
     ofxiPhoneWebViewDelegate *_delegate;
     
     bool isRetina();
     
-    int x, y, w, h;
 };
 
 ///-------------------------------------------------

@@ -11,7 +11,6 @@
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
 		288765FD0DF74451002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765FC0DF74451002DB57D /* CoreGraphics.framework */; };
 		492E04541885C57D0092084A /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 492E04461885C57D0092084A /* README.md */; };
-		492E04551885C57D0092084A /* ofxiPhoneWebViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 492E04491885C57D0092084A /* ofxiPhoneWebViewController.mm */; };
 		492E045A1885C9FC0092084A /* www in Resources */ = {isa = PBXBuildFile; fileRef = 492E04591885C9FC0092084A /* www */; };
 		492E045C1885F7640092084A /* gear.png in Resources */ = {isa = PBXBuildFile; fileRef = 492E045B1885F7640092084A /* gear.png */; };
 		492E045F1886680A0092084A /* rec_bell_maker_active.png in Resources */ = {isa = PBXBuildFile; fileRef = 492E045D1886680A0092084A /* rec_bell_maker_active.png */; };
@@ -43,6 +42,7 @@
 		4993E7D21627A5AB0030510D /* ControlPanelToggle.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4993E7CE1627A5AB0030510D /* ControlPanelToggle.mm */; };
 		4993E7D31627A5AB0030510D /* ControlPanelToggle.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4993E7CF1627A5AB0030510D /* ControlPanelToggle.xib */; };
 		4993E7DB1627A6180030510D /* RecorderBellMaker.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4993E7D81627A6180030510D /* RecorderBellMaker.xib */; };
+		4994C42518A893B000A17130 /* ofxiPhoneWebViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4994C42418A893B000A17130 /* ofxiPhoneWebViewController.mm */; };
 		49A4F6A516EDA68F006AD5DD /* instruments in Resources */ = {isa = PBXBuildFile; fileRef = 49A4F6A416EDA68F006AD5DD /* instruments */; };
 		49CF1BE2175FEA6C003D001F /* PathPoint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 49CF1BE0175FEA6C003D001F /* PathPoint.cpp */; };
 		49CF1BE9176001A0003D001F /* other-images in Resources */ = {isa = PBXBuildFile; fileRef = 49CF1BE8176001A0003D001F /* other-images */; };
@@ -101,8 +101,6 @@
 		32CA4F630368D1EE00C91783 /* iPhone_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iPhone_Prefix.pch; sourceTree = "<group>"; };
 		49280A5716C37B32003C99FD /* ofxUIMorphCanvas.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ofxUIMorphCanvas.h; path = ../ofxUI/src/ofxUIMorphCanvas.h; sourceTree = "<group>"; };
 		492E04461885C57D0092084A /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
-		492E04481885C57D0092084A /* ofxiPhoneWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxiPhoneWebViewController.h; sourceTree = "<group>"; };
-		492E04491885C57D0092084A /* ofxiPhoneWebViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ofxiPhoneWebViewController.mm; sourceTree = "<group>"; };
 		492E04591885C9FC0092084A /* www */ = {isa = PBXFileReference; lastKnownFileType = folder; path = www; sourceTree = "<group>"; };
 		492E045B1885F7640092084A /* gear.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gear.png; sourceTree = "<group>"; };
 		492E045D1886680A0092084A /* rec_bell_maker_active.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = rec_bell_maker_active.png; sourceTree = "<group>"; };
@@ -163,6 +161,8 @@
 		4993E7D71627A6180030510D /* RecorderBellMaker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecorderBellMaker.h; sourceTree = "<group>"; };
 		4993E7D81627A6180030510D /* RecorderBellMaker.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RecorderBellMaker.xib; sourceTree = "<group>"; };
 		4994C42018A40BF600A17130 /* ToggleCanvas.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ToggleCanvas.h; sourceTree = "<group>"; };
+		4994C42318A893B000A17130 /* ofxiPhoneWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ofxiPhoneWebViewController.h; path = "ofxiPhoneWebViewController-2/src/ofxiPhoneWebViewController.h"; sourceTree = SOURCE_ROOT; };
+		4994C42418A893B000A17130 /* ofxiPhoneWebViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = ofxiPhoneWebViewController.mm; path = "ofxiPhoneWebViewController-2/src/ofxiPhoneWebViewController.mm"; sourceTree = SOURCE_ROOT; };
 		499EA2D117AC57B000E5FCCA /* SoundPlayerQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SoundPlayerQueue.h; sourceTree = "<group>"; };
 		49A4F6A416EDA68F006AD5DD /* instruments */ = {isa = PBXFileReference; lastKnownFileType = folder; path = instruments; sourceTree = "<group>"; };
 		49B22191176028A5008AD99F /* BoundingBoxForLine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BoundingBoxForLine.h; sourceTree = "<group>"; };
@@ -341,8 +341,8 @@
 		492E04471885C57D0092084A /* src */ = {
 			isa = PBXGroup;
 			children = (
-				492E04481885C57D0092084A /* ofxiPhoneWebViewController.h */,
-				492E04491885C57D0092084A /* ofxiPhoneWebViewController.mm */,
+				4994C42318A893B000A17130 /* ofxiPhoneWebViewController.h */,
+				4994C42418A893B000A17130 /* ofxiPhoneWebViewController.mm */,
 			);
 			path = src;
 			sourceTree = "<group>";
@@ -839,7 +839,7 @@
 				49778C21169647F3009AB6FC /* ofxCurlForm.cpp in Sources */,
 				49778C22169647F3009AB6FC /* ofxCurlFormType.cpp in Sources */,
 				49778C23169647F3009AB6FC /* ofxCurlFormTypeFile.cpp in Sources */,
-				492E04551885C57D0092084A /* ofxiPhoneWebViewController.mm in Sources */,
+				4994C42518A893B000A17130 /* ofxiPhoneWebViewController.mm in Sources */,
 				49778C24169647F3009AB6FC /* ofxCurlFormTypeInput.cpp in Sources */,
 				496D86B116C0CD0900F746FA /* ofxTextBlock.cpp in Sources */,
 				49CF1BE2175FEA6C003D001F /* PathPoint.cpp in Sources */,
@@ -893,9 +893,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Eric Rosenbaum (J9PZ7YAHSY)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Eric Rosenbaum (J9PZ7YAHSY)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Eric Rosenbaum (SF692L49Z2)";
 				COPY_PHASE_STRIP = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = iPhone_Prefix.pch;
 				GCC_PREPROCESSOR_DEFINITIONS = "";
@@ -908,9 +908,10 @@
 					"/Users/ericrosenbaum/Documents/of_0071_iOS_release/apps/myApps/melodymorph/ofxCurl-master/lib/mac/llvm-gcc_i386",
 					/Users/ericrosenbaum/Documents/of_0071_iOS_release/apps/myApps/melodymorph/TestFlightSDK2.1.3,
 				);
+				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "$(OF_CORE_LIBS)";
 				PRODUCT_NAME = MelodyMorph;
-				PROVISIONING_PROFILE = "0367DFC3-BD3E-46DE-867C-6A1D9EDB8F65";
+				PROVISIONING_PROFILE = "7B0DE7AE-2080-486F-A12B-09BE438644B5";
 				STRIP_INSTALLED_PRODUCT = NO;
 			};
 			name = Release;
@@ -920,7 +921,7 @@
 			baseConfigurationReference = E41D3ED613B38FB500A75A5D /* Project.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Eric Rosenbaum (SF692L49Z2)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COMPRESS_PNG_FILES = NO;
 				GCC_C_LANGUAGE_STANDARD = c99;
@@ -945,6 +946,7 @@
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "31602724-095B-4AA8-A2B4-7C4C6BE6C752";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 2;
+				VALID_ARCHS = "arm64 armv7";
 				WARNING_LDFLAGS = "-no_arch_warnings";
 			};
 			name = Debug;
@@ -955,11 +957,11 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Eric Rosenbaum (J9PZ7YAHSY)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Eric Rosenbaum (J9PZ7YAHSY)";
 				COMPRESS_PNG_FILES = NO;
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_DYNAMIC_NO_PIC = YES;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_OPTIMIZATION_LEVEL = 3;
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_THUMB_SUPPORT = NO;
@@ -971,10 +973,11 @@
 					"../../../addons_diederick/ofxCurl/lib/mac/\n",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
-				ONLY_ACTIVE_ARCH = NO;
-				PROVISIONING_PROFILE = "7AE8494D-2213-47AA-A732-E3DF2FBC2DAE";
+				ONLY_ACTIVE_ARCH = YES;
+				PROVISIONING_PROFILE = "7B0DE7AE-2080-486F-A12B-09BE438644B5";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 2;
+				VALID_ARCHS = "arm64 armv7";
 				WARNING_LDFLAGS = "-no_arch_warnings";
 			};
 			name = Release;

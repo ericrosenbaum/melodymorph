@@ -15,34 +15,46 @@
 #pragma mark - C++ OF class
 
 //--------------------------------------------------------------
-void ofxiPhoneWebViewController::showView(int _x, int _y, int _w, int _h) {
+void ofxiPhoneWebViewController::showView(int frameWidth, int frameHeight, BOOL animated, BOOL addToolbar, BOOL transparent, BOOL scroll, BOOL useTransitionMoveIn) {
     
     // init delegate
     _delegate = [[ofxiPhoneWebViewDelegate alloc] init];
     _delegate.delegate = this;
     bIsDelegateActive = true;
     
-    // OH MY GOD
-    // I do not have a theory that explains why the following abomination is correct
-    x = _y - _w/2 + _h/2;
-    y = ofGetWidth() - _x - _h/2 - _w/2;
-    w = _w;
-    h = _h;
-        
-    CGRect frame = CGRectMake(x, y, w, h);
-    createView(YES, frame, NO, YES);
+    // create the view
+    if(isRetina()) {
+        frameWidth = frameWidth/2;
+        frameHeight = frameHeight/2;
+    }
+    CGRect frame = CGRectMake(0, 0, frameWidth, frameHeight);
+    createView(addToolbar, frame, transparent, scroll);
   
     // add to glView
-    [ofxiPhoneGetGLView() addSubview:_view];
+    [ofxiPhoneGetGLParentView() addSubview:_view];
+    
+    if(animated){
+        if(!useTransitionMoveIn) {
+            CATransition *applicationLoadViewIn =[CATransition animation];
+            [applicationLoadViewIn setDuration:4.5];
+            [applicationLoadViewIn setType:kCATransitionReveal];
+            [applicationLoadViewIn setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn]];
+            [[_view layer]addAnimation:applicationLoadViewIn forKey:kCATransitionReveal];
+        } else {
+            CATransition *applicationLoadViewIn =[CATransition animation];
+            [applicationLoadViewIn setDuration:1.0];
+            [applicationLoadViewIn setType:kCATransitionMoveIn];
+            [applicationLoadViewIn setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut]];
+            [[_view layer]addAnimation:applicationLoadViewIn forKey:kCATransitionMoveIn];
+        }
+    }
     
 }
 
 //--------------------------------------------------------------
 void ofxiPhoneWebViewController::hideView(BOOL animated){
     
-    _view.hidden = true;
-    
-/*    if(animated){
+    if(animated){
         [UIView animateWithDuration:0.5 animations:^{
             _view.alpha = 0;
             // TODO: Choose between slide view & alpha.
@@ -81,7 +93,7 @@ void ofxiPhoneWebViewController::hideView(BOOL animated){
         }
         
     }
-    */
+    
 }
 
 //--------------------------------------------------------------
@@ -97,11 +109,13 @@ void ofxiPhoneWebViewController::setOrientation(ofOrientation orientation){
     if(!bIsViewActive) return;
     
     float rotation = 0;
+    int screenWidth = ofGetWindowWidth();
+    int screenHeight = ofGetWindowHeight();
     
-//    if(isRetina()) {
-//        screenWidth = screenWidth/2;
-//        screenHeight = screenHeight/2;
-//    }
+    if(isRetina()) {
+        screenWidth = screenWidth/2;
+        screenHeight = screenHeight/2;
+    }
     
     if(orientation == OFXIPHONE_ORIENTATION_UPSIDEDOWN) {
         rotation = PI;
@@ -113,19 +127,15 @@ void ofxiPhoneWebViewController::setOrientation(ofOrientation orientation){
         rotation = -PI / 2.0;
     }
 
-    _view.frame = CGRectMake(x, y, w, h);
-
     // Set thenchor point top-left and center
     //_view.layer.anchorPoint = CGPointMake(0.0, 0.0);
     //_view.center = CGPointMake(CGRectGetWidth(_view.bounds), 0.0);
     // Rotate
-    
     CGAffineTransform rotationTransform = CGAffineTransformIdentity;
     rotationTransform = CGAffineTransformRotate(rotationTransform, rotation);
     _view.transform = rotationTransform;
-    
     // Resize
-//    _view.frame = CGRectMake(0, 0, screenWidth, screenHeight);
+    _view.frame = CGRectMake(0, 0, screenWidth, screenHeight);
     
 }
 
@@ -184,25 +194,16 @@ void ofxiPhoneWebViewController::createView(BOOL withToolbar, CGRect frame, BOOL
     if(withToolbar){
         UIToolbar *toolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, _view.bounds.size.width, 44)];
         UIBarButtonItem *spacer = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
-        UIBarButtonItem *title = [[UIBarButtonItem alloc] initWithTitle:@"Help" style:UIBarButtonItemStylePlain target:nil action:nil];
-        UIBarButtonItem *closeButton = [[UIBarButtonItem alloc] initWithTitle:@"X" style:UIBarButtonItemStylePlain target:_delegate action:@selector(closeButtonTapped)];
+        UIBarButtonItem *title = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
+        UIBarButtonItem *closeButton = [[UIBarButtonItem alloc] initWithTitle:@"Close" style:UIBarButtonItemStyleDone target:_delegate action:@selector(closeButtonTapped)];
         NSMutableArray *items = [[NSMutableArray alloc] init];
-        [items addObject:[title autorelease]];
         [items addObject:[spacer autorelease]];
+        [items addObject:[title autorelease]];
         [items addObject:[closeButton autorelease]];
         [toolbar setItems:items];
         [toolbar setAutoresizesSubviews:YES];
         [toolbar setAutoresizingMask:
          UIViewAutoresizingFlexibleWidth ];
-        
-        [toolbar setBackgroundImage:[UIImage new]
-                      forToolbarPosition:UIToolbarPositionAny
-                              barMetrics:UIBarMetricsDefault];
-        [toolbar setBackgroundColor:[UIColor lightGrayColor]];
-
-        [title setTintColor:[UIColor blackColor]];
-        [closeButton setTintColor:[UIColor blackColor]];
-        
         [_view addSubview:toolbar];
     }
     ///////////////////////////////////////////////////////////////////

@@ -473,14 +473,12 @@ void testApp::webViewEvent(ofxiPhoneWebViewControllerEventArgs &args) {
     else if(args.state == ofxiPhoneWebViewStateDidFinishLoading){
         NSLog(@"Webview did finish loading URL %@.", args.url);
         // can call javascript here?
-//        string js = "insertString('openframeworksss')";
-        
-        string pngURL = userMorphsMetaData[0].largeThumbFilePath;
-        string xmlURL = userMorphsMetaData[0].xmlFilePath;
-        string js = "insertThumb('" + pngURL + "','" + xmlURL  + "')";
-        
-        NSString *objcString = [NSString stringWithCString:js.c_str() encoding:[NSString defaultCStringEncoding]];
-        [helpViewer._webView stringByEvaluatingJavaScriptFromString:objcString];
+//        string pngURL = userMorphsMetaData[0].largeThumbFilePath; // crash if we have none!
+//        string xmlURL = userMorphsMetaData[0].xmlFilePath;
+//        string js = "insertThumb('" + pngURL + "','" + xmlURL  + "')";
+//        
+//        NSString *objcString = [NSString stringWithCString:js.c_str() encoding:[NSString defaultCStringEncoding]];
+//        [helpViewer._webView stringByEvaluatingJavaScriptFromString:objcString];
     }
     else if(args.state == ofxiPhoneWebViewStateDidFailLoading){
         NSLog(@"Webview did fail to load the URL %@. Error: %@", args.url, args.error);
