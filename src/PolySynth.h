@@ -22,17 +22,23 @@ class PolySynth {
         float speed;
         bool noteOn;
         int sampleNum;
+        float amplitude;
+        int ageSamples;
         Voice(std::tr1::shared_ptr<ofxMaxiSample> _sample){
             sample = _sample;
             sampleNum = 0;
             speed = 1;
             noteOn = false;
+            amplitude = 1;
+            ageSamples = 0;
         }
         Voice () {
         }
         void play(float _speed, int _sampleNum, int _length) {
             noteOn = true;
             speed = _speed;
+            amplitude = 1;
+            ageSamples = 0;
             sampleNum = _sampleNum;
             sample->length = _length;
             sample->trigger();
@@ -40,16 +46,17 @@ class PolySynth {
     };
     
 #define MULTI_SAMPLES_NUM 6
-    int numVoices = 8;
     
     bool multiSample;   // we have either one sample (false), or MULTI_SAMPLES_NUM samples (true)
     
+    int numVoices = 8;
+
     vector<Voice> voices;
     
     ofxMaxiSample *theSamples[MULTI_SAMPLES_NUM];
     
-    int sustainSamples = 10000;
-    float amplitude = 1;
+    int sustainSamples = 44100;
+    float decayMultiplier = .9999;
     
     convert mtof;
     maxiDyn compressor;
@@ -121,7 +128,7 @@ public:
                 voices[i].noteOn = false;
             } else {
                 // find the voice that has been playing longest, to use if all voices are in use
-                if (voices[i].sample->position > voices[indexOfOldest].sample->position) {
+                if (voices[i].ageSamples > voices[indexOfOldest].ageSamples) {
                     indexOfOldest = i;
                 }
             }
@@ -139,10 +146,16 @@ public:
     
     float sampleRequested(){
         float sum = 0;
-        for (auto it = voices.begin(); it!=voices.end(); it++) {
-            if (it->noteOn) {
-                int sampleNum = it->sampleNum;
-                sum += it->sample->playOnceFromSamp(theSamples[sampleNum]->temp, it->speed);
+        for (int i=0; i<numVoices; i++) {
+            if (voices[i].noteOn) {
+                voices[i].ageSamples++;
+                int sampleNum = voices[i].sampleNum;
+                float s = voices[i].sample->playOnceFromSamp(theSamples[sampleNum]->temp, voices[i].speed);
+                if (voices[i].ageSamples > sustainSamples) {
+                    voices[i].amplitude *= decayMultiplier;
+                    s *= voices[i].amplitude;
+                }
+                sum += s;
             }
         }
         return sum;

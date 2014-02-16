@@ -308,8 +308,7 @@ int currentLoadMenuTab;
 
 #include "ofxMaxim.h"
 maxiDyn compressor;
-
-
+maxiDelayline delay;
 
 ////////////////
 // OF events
@@ -1834,9 +1833,10 @@ void testApp::audioRequested(float * output, int bufferSize, int nChannels){
             samp += instrumentSoundPlayers[i]->sampleRequested();
         }
         
+        //samp+=delay.dl(samp, 11000, 0.8);
+        
         samp = compressor.compressor(samp,1,0.25,0.0001,0.9999);
         samp = waveshape_distort(samp);
-
         
         output[i * 2] = samp;
         output[i * 2 + 1] = samp;
