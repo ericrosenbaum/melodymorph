@@ -11,13 +11,13 @@
  */
 
 #include "ofMain.h"
-#include "ofxOpenALSoundPlayer.h"
+//#include "ofxOpenALSoundPlayer.h"
 #include "config.h"
 #include "utils.h"
 #include "Note.cpp"
-#include "MultiSampledSoundPlayer.h"
+//#include "MultiSampledSoundPlayer.h"
 #include "SelectionBox.h"
-#include "MultiSampledSoundPlayer.h"
+#include "PolySynth.h"
 
 class Bell {
 		
@@ -54,7 +54,8 @@ public:
     bool slideFlags[MAXTOUCHES]; 
     //PGMidi	*midi;
     //int midiNoteNum;
-    MultiSampledSoundPlayer *playerQueue;
+//    MultiSampledSoundPlayer *playerQueue;
+    PolySynth *player;
     float volume;
     float noteStartTime;
 	
@@ -121,8 +122,9 @@ public:
 	Bell() {
 	}
     
-    void setPlayer(MultiSampledSoundPlayer *p) {
-        playerQueue = p;
+//    void setPlayer(MultiSampledSoundPlayer *p) {
+    void setPlayer(PolySynth *p) {
+        player = p;
         volume = 1;
     }
 //    void setImageTriplet(vector<ofImage> bellImages) {
@@ -232,7 +234,8 @@ public:
 	}
 	virtual void playNote() {
 //        currentPlayerId = playerQueue->playNote(noteNum, octave);
-        playerQueue->playNote(noteNum, octave);
+//        playerQueue->playNote(noteNum, octave);
+        player->playNote(noteNum, octave);
         
 		currentRadius = BELLRADIUS + 25;
         noteStartTime = ofGetElapsedTimef();

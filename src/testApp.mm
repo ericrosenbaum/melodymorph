@@ -17,10 +17,11 @@
  critical
  * help screens
  
- drag a note from the palette and tap to play it
+    * drag a note from the palette and tap to play it
     drag a note to move it
-    shift the palette up and down
-    change instruments
+    * shift the palette up and down
+
+    * change instruments
     
     drag across the canvas to move around
     pinch the canvas to zoom in and out
@@ -29,7 +30,8 @@
     record and play a single chord
     
     hold down the strum button with one finger, and strum notes with another finger
-    draw and erase
+    * draw
+    erase
     select notes to move, copy and change them
     record and play a path
     paths can trigger themselves and each other
@@ -46,10 +48,12 @@
  * examples from other people (with documentation!)
  
  functional
+ * pitch +/- is diatonic if you're in !allnotes mode
+ * select mode buttons for instrument +/-
+ * delete local files
  * long startup loading wait times
  * lack of spinner for loading
- * delete local files
- * sound engine voice stealing fails for multi-sample instruments
+ * sound engine voice stealing fails for multi-sample instruments (posted to of forum)
  * recorder misses path player notes
  * use sprite sheets to speed up graphics
  
@@ -58,6 +62,7 @@
  * change to ofxui: rec button, gear, menu
  * try mode locking?
  * colors of C at octave breaks
+ * don't allow orphan path players (too few path points)
  
  bonus!
  * copy/paste between files
@@ -71,6 +76,7 @@
  bugs:
  * stuck in slide mode? related to count touches I think
  * short pathplayer loop with overlapping bells causes it to get trapped in a while loop playing notes
+    try replacing while loop with a large for loop that can break early (e.g. up to 1000 times)
  
  
  app
@@ -156,11 +162,12 @@ SHOULD BE THIS
 #include "OctaveButtons.h"
 #include "PathPlayer.h"
 #include "SelectionBox.h"
-#include "MultiSampledSoundPlayer.h"
+//#include "MultiSampledSoundPlayer.h"
+#include "PolySynth.h"
 
 vector<Bell*> bells;
 //vector<MultiSampledSoundPlayer *> instrumentSoundPlayers;
-vector<MultiSampledSoundPlayer *> instrumentSoundPlayers;
+vector<PolySynth *> instrumentSoundPlayers;
 vector<string> instrumentNames;
 int numInstruments;
 int currentChannel[3];
@@ -297,6 +304,12 @@ int UIMode;
 // which of the tabs in the load menu is currently open:
 // EXAMPLES_TAB, USER_TAB, SHARED_TAB
 int currentLoadMenuTab;
+
+
+#include "ofxMaxim.h"
+maxiDyn compressor;
+
+
 
 ////////////////
 // OF events
@@ -758,12 +771,17 @@ void testApp::quadraticBezierVertex(float cpx, float cpy, float x, float y, floa
 //--------------------------------------------------------------
 void testApp::setupInstruments() {
     
+    int sampleRate 			= 44100;
+    int initialBufferSize	= 512;
+    ofSoundStreamSetup(2,0, sampleRate, initialBufferSize, 4);
+    
     ofDirectory instrumentPaths = *new ofDirectory();
     numInstruments = instrumentPaths.listDir("instruments");
     instrumentPaths.sort();
     
     for (int i=0; i<numInstruments; i++) {
-        MultiSampledSoundPlayer *inst = new MultiSampledSoundPlayer();
+//        MultiSampledSoundPlayer *inst = new MultiSampledSoundPlayer();
+        PolySynth *inst = new PolySynth();
         string path = instrumentPaths.getPath(i);
         inst->loadSamples(path);
         instrumentSoundPlayers.push_back(inst);
@@ -1808,8 +1826,32 @@ void testApp::saveDialogModeSetVisible(bool visible) {
     }
     
 }
+//--------------------------------------------------------------
+void testApp::audioRequested(float * output, int bufferSize, int nChannels){
+    for (int i=0; i<bufferSize; i++) {
+        float samp = 0;
+        for (int i=0; i<instrumentSoundPlayers.size(); i++) {
+            samp += instrumentSoundPlayers[i]->sampleRequested();
+        }
+        
+        samp = compressor.compressor(samp,1,0.25,0.0001,0.9999);
+        samp = waveshape_distort(samp);
 
+        
+        output[i * 2] = samp;
+        output[i * 2 + 1] = samp;
+    }
+}
 
+float testApp::waveshape_distort( float in ) {
+    if(in <= -1.25f) {
+        return -0.984375;
+    } else if(in >= 1.25f) {
+        return 0.984375;
+    } else {
+        return 1.1f * in - 0.2f * in * in * in;
+    }
+}
 
 //--------------------------------------------------------------
 void testApp::touchDown(ofTouchEventArgs &touch){

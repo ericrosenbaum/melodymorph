@@ -14,7 +14,8 @@ class RecorderBell : public Bell {
 
 	public:
 	
-    vector<MultiSampledSoundPlayer *> instrumentSoundPlayers;
+//    vector<MultiSampledSoundPlayer *> instrumentSoundPlayers;
+    vector<PolySynth *> instrumentSoundPlayers;
 	int *currentChannel;
 	bool playing;
 	int noteCounter;
@@ -48,7 +49,8 @@ class RecorderBell : public Bell {
 		touchMovedFlag = false;
     };
     
-    void setPlayers(vector<MultiSampledSoundPlayer *> _p) {
+//    void setPlayers(vector<MultiSampledSoundPlayer *> _p) {
+    void setPlayers(vector<PolySynth *> _p) {
         instrumentSoundPlayers = _p;
     }
 	

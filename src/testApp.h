@@ -127,6 +127,9 @@ public:
     ofxiPhoneWebViewController helpViewer;
     void webViewEvent(ofxiPhoneWebViewControllerEventArgs &args);
 
+    void audioRequested(float * output, int bufferSize, int nChannels);
+    float waveshape_distort( float in );
+
 
 
 };
