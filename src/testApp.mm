@@ -469,12 +469,12 @@ void testApp::setup(){
     [TestFlight takeOff:@"8b72647b-3fe0-425c-a518-59fee4b2107e"];
     
     // WEB VIEW FOR HELP FILES
-    helpViewer.showView(ofGetWidth()-550, 150, 400, 550);
-    helpViewer.setOrientation(OFXIPHONE_ORIENTATION_LANDSCAPE_RIGHT);
-    helpViewer.setAutoRotation(false);
-    ofAddListener(helpViewer.event, this, &testApp::webViewEvent);
-    string fileToLoad = "help";
-    helpViewer.loadLocalFile(fileToLoad);
+//    helpViewer.showView(ofGetWidth()-550, 150, 400, 550);
+//    helpViewer.setOrientation(OFXIPHONE_ORIENTATION_LANDSCAPE_RIGHT);
+//    helpViewer.setAutoRotation(false);
+//    ofAddListener(helpViewer.event, this, &testApp::webViewEvent);
+//    string fileToLoad = "help";
+//    helpViewer.loadLocalFile(fileToLoad);
 
 }
 //--------------------------------------------------------------
@@ -516,7 +516,7 @@ void testApp::webViewEvent(ofxiPhoneWebViewControllerEventArgs &args) {
         MorphMetaData morph;
         morph.xmlFilePath = ofToString([args.param UTF8String]);
         loadCanvas(morph);
-        [helpViewer._view setHidden:YES];
+//        [helpViewer._view setHidden:YES];
     }
 }
 //--------------------------------------------------------------
@@ -1807,7 +1807,7 @@ void testApp::playModeSetVisible(bool visible) {
     
     //special cases- we close the control panel and help viewer when returning to play mode
     [controlPanel.view setHidden:YES];
-    [helpViewer._view setHidden:YES];
+//    [helpViewer._view setHidden:YES];
 
 }
 //--------------------------------------------------------------
@@ -1827,22 +1827,47 @@ void testApp::saveDialogModeSetVisible(bool visible) {
 }
 //--------------------------------------------------------------
 void testApp::audioRequested(float * output, int bufferSize, int nChannels){
+//    bool clipping = false;
+    
     for (int i=0; i<bufferSize; i++) {
         float samp = 0;
-        for (int i=0; i<instrumentSoundPlayers.size(); i++) {
-            samp += instrumentSoundPlayers[i]->sampleRequested();
+        for (int j=0; j<instrumentSoundPlayers.size(); j++) {
+            samp += instrumentSoundPlayers[j]->sampleRequested();
         }
         
-        //samp+=delay.dl(samp, 11000, 0.8);
+        //samp+=delay.dl(samp, 11000, 0.8); // fun! sounds cool! not that useful
         
-        samp = compressor.compressor(samp,1,0.25,0.0001,0.9999);
-        samp = waveshape_distort(samp);
+        //samp = compressor.compressor(samp,5,0.25,0.0001,0.9999); // works okay
+        //samp = waveshape_distort(samp); // too distorted
+        
+//        if (absf(samp) > 1) {
+//            cout << "clip" << endl;
+//            clipping = true;
+//        }
+        
+        samp *= 0.3;
         
         output[i * 2] = samp;
         output[i * 2 + 1] = samp;
     }
+ 
+//  normalize- not good
+//    if (clipping) {
+//        float maxValue = 0;
+//        for(int i=0; i < bufferSize*2; i++) {
+//            if (absf(output[i]) > maxValue) {
+//                maxValue = absf(output[i]);
+//            }
+//        }
+//        for(int i=0; i < bufferSize*2; i++) {
+//            output[i] = output[i] / maxValue;
+//        }
+//    }
+     
+
 }
 
+//--------------------------------------------------------------
 float testApp::waveshape_distort( float in ) {
     if(in <= -1.25f) {
         return -0.984375;
@@ -2448,7 +2473,7 @@ void testApp::guiEvent(ofxUIEventArgs &e)
         ofxUIImageButton *btn = (ofxUIImageButton *) e.widget;
         if (!btn->getValue()) { // touch up
             // toggle help browser
-            [helpViewer._view setHidden:!helpViewer._view.hidden];
+//            [helpViewer._view setHidden:!helpViewer._view.hidden];
         }
     }
     

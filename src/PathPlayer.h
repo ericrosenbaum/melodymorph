@@ -267,10 +267,13 @@ public:
             float t = ofGetElapsedTimef() - playBackStartTime;
             float nextTime = pathPoints[pathPointsIndex]->t;
             
-            // the do while loop advances the path head until it reaches the current time
+            // the loop advances the path head until it reaches the current time
             // this is necessary so that it can catch up if the framerate at playback is
             // lower than at the time it was recorded (prevents laggy playback)
-            while (t > nextTime) {
+            if (t < nextTime) {
+                return;
+            }
+            for (int i=0; i<1000; i++) {
                 playBells();
                 
                 if (BellTheHeadIsTouching == this) {
@@ -281,6 +284,10 @@ public:
                                 
                 if (pathPointsIndex > pathPoints.size() - 1) {
                     playing = false;
+                    return;
+                }
+                
+                if (t < nextTime) {
                     return;
                 }
 

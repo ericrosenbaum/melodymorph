@@ -1,0 +1,53 @@
+<html>
+	<head>
+		<title>MelodyMorph Help</title>
+		<style type="text/css">
+            * {
+                font-family: sans-serif;
+                color:white;
+            }
+		</style>
+        <script type="text/javascript">
+            var numPics = 5;
+            var descriptions = new Array(
+                    "Drag a note from the palette and tap to play it",
+                    "Shift the palette up and down",
+                    "Use the tabs to change instruments",
+                    "Hold down the pencil button and draw",
+                    "Hold down the slide button and strum"
+            );
+            var picNum = 0;
+
+            function resetImage() {
+                picNum = 0;
+                document.getElementById("pic").src="gifs/help1.gif";
+                document.getElementById("description").innerHTML = descriptions[0];
+            }
+            function nextImage() {
+                picNum++;
+                picNum %= numPics;
+                document.getElementById("pic").src="gifs/help" + (picNum+1) + ".gif";
+                document.getElementById("description").innerHTML = descriptions[picNum];
+            }
+        </script>
+	</head>
+	<body style="background-color:#777777;" onload="resetImage()">
+        <div width=400>
+            
+            <div style="text-align:center">
+                <div id="description"></div>
+                <img src="" id="pic" onclick="nextImage()">
+            </div>
+            
+        </div>
+	</body>
+</html>
+
+
+
+
+
+
+
+
+

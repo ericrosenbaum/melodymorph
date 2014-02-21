@@ -29,7 +29,7 @@ public:
         string name = e.widget->getName();
         ofxUIImageButton *btn = (ofxUIImageButton *) e.widget;
         if (!btn->getValue()) { // touch up (can't do touch up inside since we don't know the touch coords here)
-            ofSendMessage("help button pressed");
+            ofSendMessage("help button pressed"); // not used- we listen in the gui event in testapp
         }
     }
 
