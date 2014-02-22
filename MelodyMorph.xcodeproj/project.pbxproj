@@ -18,6 +18,12 @@
 		4903EA1E18B0A9DF0028C7FB /* maxiMFCC.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4903EA1018B0A9DF0028C7FB /* maxiMFCC.cpp */; };
 		4903EA1F18B0A9DF0028C7FB /* maximilian.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4903EA1218B0A9DF0028C7FB /* maximilian.cpp */; };
 		4903EA2018B0A9DF0028C7FB /* stb_vorbis.c in Sources */ = {isa = PBXBuildFile; fileRef = 4903EA1518B0A9DF0028C7FB /* stb_vorbis.c */; };
+		4914E4FE18B8366C007DDA53 /* CollageTexture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4914E4F218B8366C007DDA53 /* CollageTexture.cpp */; };
+		4914E4FF18B8366C007DDA53 /* LinearTexture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4914E4F418B8366C007DDA53 /* LinearTexture.cpp */; };
+		4914E50018B8366C007DDA53 /* ofxSpriteSheet.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4914E4F718B8366C007DDA53 /* ofxSpriteSheet.mm */; };
+		4914E50118B8366C007DDA53 /* ofxSpriteSheetLoader.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4914E4F918B8366C007DDA53 /* ofxSpriteSheetLoader.mm */; };
+		4914E50218B8366C007DDA53 /* ofxSpriteSheetRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4914E4FA18B8366C007DDA53 /* ofxSpriteSheetRenderer.cpp */; };
+		4914E50318B8366C007DDA53 /* PixelTexture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4914E4FC18B8366C007DDA53 /* PixelTexture.cpp */; };
 		492E04541885C57D0092084A /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 492E04461885C57D0092084A /* README.md */; };
 		492E045A1885C9FC0092084A /* www in Resources */ = {isa = PBXBuildFile; fileRef = 492E04591885C9FC0092084A /* www */; };
 		492E045C1885F7640092084A /* gear.png in Resources */ = {isa = PBXBuildFile; fileRef = 492E045B1885F7640092084A /* gear.png */; };
@@ -124,6 +130,18 @@
 		4903EA1518B0A9DF0028C7FB /* stb_vorbis.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = stb_vorbis.c; sourceTree = "<group>"; };
 		4903EA1618B0A9DF0028C7FB /* stb_vorbis.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = stb_vorbis.h; sourceTree = "<group>"; };
 		4903EA1818B0A9DF0028C7FB /* ofxMaxim.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxMaxim.h; sourceTree = "<group>"; };
+		4914E4F218B8366C007DDA53 /* CollageTexture.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CollageTexture.cpp; sourceTree = "<group>"; };
+		4914E4F318B8366C007DDA53 /* CollageTexture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollageTexture.h; sourceTree = "<group>"; };
+		4914E4F418B8366C007DDA53 /* LinearTexture.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LinearTexture.cpp; sourceTree = "<group>"; };
+		4914E4F518B8366C007DDA53 /* LinearTexture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LinearTexture.h; sourceTree = "<group>"; };
+		4914E4F618B8366C007DDA53 /* ofxSpriteSheet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxSpriteSheet.h; sourceTree = "<group>"; };
+		4914E4F718B8366C007DDA53 /* ofxSpriteSheet.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ofxSpriteSheet.mm; sourceTree = "<group>"; };
+		4914E4F818B8366C007DDA53 /* ofxSpriteSheetLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxSpriteSheetLoader.h; sourceTree = "<group>"; };
+		4914E4F918B8366C007DDA53 /* ofxSpriteSheetLoader.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ofxSpriteSheetLoader.mm; sourceTree = "<group>"; };
+		4914E4FA18B8366C007DDA53 /* ofxSpriteSheetRenderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxSpriteSheetRenderer.cpp; sourceTree = "<group>"; };
+		4914E4FB18B8366C007DDA53 /* ofxSpriteSheetRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxSpriteSheetRenderer.h; sourceTree = "<group>"; };
+		4914E4FC18B8366C007DDA53 /* PixelTexture.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PixelTexture.cpp; sourceTree = "<group>"; };
+		4914E4FD18B8366C007DDA53 /* PixelTexture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PixelTexture.h; sourceTree = "<group>"; };
 		49280A5716C37B32003C99FD /* ofxUIMorphCanvas.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ofxUIMorphCanvas.h; path = ../ofxUI/src/ofxUIMorphCanvas.h; sourceTree = "<group>"; };
 		492E04461885C57D0092084A /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
 		492E04591885C9FC0092084A /* www */ = {isa = PBXFileReference; lastKnownFileType = folder; path = www; sourceTree = "<group>"; };
@@ -392,6 +410,25 @@
 				4903EA1818B0A9DF0028C7FB /* ofxMaxim.h */,
 			);
 			path = src;
+			sourceTree = "<group>";
+		};
+		4914E4F118B8366C007DDA53 /* ofxSpriteSheetRenderer */ = {
+			isa = PBXGroup;
+			children = (
+				4914E4F218B8366C007DDA53 /* CollageTexture.cpp */,
+				4914E4F318B8366C007DDA53 /* CollageTexture.h */,
+				4914E4F418B8366C007DDA53 /* LinearTexture.cpp */,
+				4914E4F518B8366C007DDA53 /* LinearTexture.h */,
+				4914E4F618B8366C007DDA53 /* ofxSpriteSheet.h */,
+				4914E4F718B8366C007DDA53 /* ofxSpriteSheet.mm */,
+				4914E4F818B8366C007DDA53 /* ofxSpriteSheetLoader.h */,
+				4914E4F918B8366C007DDA53 /* ofxSpriteSheetLoader.mm */,
+				4914E4FA18B8366C007DDA53 /* ofxSpriteSheetRenderer.cpp */,
+				4914E4FB18B8366C007DDA53 /* ofxSpriteSheetRenderer.h */,
+				4914E4FC18B8366C007DDA53 /* PixelTexture.cpp */,
+				4914E4FD18B8366C007DDA53 /* PixelTexture.h */,
+			);
+			path = ofxSpriteSheetRenderer;
 			sourceTree = "<group>";
 		};
 		492E04311885C57C0092084A /* ofxiPhoneWebViewController-2 */ = {
@@ -672,6 +709,7 @@
 		BB16F26B0F2B646B00518274 /* addons */ = {
 			isa = PBXGroup;
 			children = (
+				4914E4F118B8366C007DDA53 /* ofxSpriteSheetRenderer */,
 				4903EA0518B0A9DF0028C7FB /* ofxMaxim */,
 				492E04311885C57C0092084A /* ofxiPhoneWebViewController-2 */,
 				496D86AD16C0CD0900F746FA /* ofxTextSuite */,
@@ -893,6 +931,7 @@
 				49E0B94815E7FEC200B7E5CC /* Bell.mm in Sources */,
 				49E0B94915E7FEC200B7E5CC /* RecorderBell.mm in Sources */,
 				49E0B94A15E7FEC200B7E5CC /* Note.cpp in Sources */,
+				4914E50218B8366C007DDA53 /* ofxSpriteSheetRenderer.cpp in Sources */,
 				4903EA1E18B0A9DF0028C7FB /* maxiMFCC.cpp in Sources */,
 				4903EA1F18B0A9DF0028C7FB /* maximilian.cpp in Sources */,
 				49E0B94B15E7FEC200B7E5CC /* main.mm in Sources */,
@@ -903,15 +942,20 @@
 				49E0BC9515E8190200B7E5CC /* tinyxmlerror.cpp in Sources */,
 				49E0BC9615E8190200B7E5CC /* tinyxmlparser.cpp in Sources */,
 				4903EA1B18B0A9DF0028C7FB /* maxiAtoms.cpp in Sources */,
+				4914E4FF18B8366C007DDA53 /* LinearTexture.cpp in Sources */,
 				49E0BC9715E8190200B7E5CC /* ofxXmlSettings.cpp in Sources */,
 				4993E7D01627A5AB0030510D /* ControlPanel.mm in Sources */,
 				4993E7D21627A5AB0030510D /* ControlPanelToggle.mm in Sources */,
 				49778C1E169647F3009AB6FC /* ofxCurl.cpp in Sources */,
+				4914E50018B8366C007DDA53 /* ofxSpriteSheet.mm in Sources */,
+				4914E4FE18B8366C007DDA53 /* CollageTexture.cpp in Sources */,
 				49778C1F169647F3009AB6FC /* ofxCurlException.cpp in Sources */,
 				49778C20169647F3009AB6FC /* ofxCurlFileDownload.cpp in Sources */,
 				49778C21169647F3009AB6FC /* ofxCurlForm.cpp in Sources */,
 				4903EA1C18B0A9DF0028C7FB /* maxiFFT.cpp in Sources */,
 				49778C22169647F3009AB6FC /* ofxCurlFormType.cpp in Sources */,
+				4914E50318B8366C007DDA53 /* PixelTexture.cpp in Sources */,
+				4914E50118B8366C007DDA53 /* ofxSpriteSheetLoader.mm in Sources */,
 				4903EA1A18B0A9DF0028C7FB /* fft.cpp in Sources */,
 				4903EA2018B0A9DF0028C7FB /* stb_vorbis.c in Sources */,
 				49778C23169647F3009AB6FC /* ofxCurlFormTypeFile.cpp in Sources */,

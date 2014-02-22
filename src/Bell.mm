@@ -19,6 +19,8 @@
 #include "SelectionBox.h"
 #include "PolySynth.h"
 
+#include "ofxSpriteSheetRenderer.h"
+
 class Bell {
 		
 public:
@@ -64,9 +66,13 @@ public:
     bool isSelected;
     
     int currentPlayerId;
-    	
-	Bell(int _canvasX, int _canvasY, int _noteNum, int _octave, int _inst) {
+    
+    ofxSpriteSheetRenderer *renderer;
+    
+	Bell(int _canvasX, int _canvasY, int _noteNum, int _octave, int _inst, ofxSpriteSheetRenderer *_renderer) {
 			
+         renderer = _renderer;
+        
 		// 0 = triad, 1 = scale, 2 = out
 		int j=0;
 		noteFunctions[j++] = 0;
@@ -212,8 +218,19 @@ public:
 			ofSetColor(rgb[0], rgb[1], rgb[2], 200);
 		}
         
-		img->draw(screenX, screenY, currentRadius * 2 * zoom, currentRadius * 2 * zoom);
+        // old style slower drawing using ofImages
+		//img->draw(screenX, screenY, currentRadius * 2 * zoom, currentRadius * 2 * zoom);
 		
+        // new style faster drawing using sprite sheet!
+
+        renderer->addCenteredTile(noteFunctions[noteNum] + instrument * 8,
+                                        0,
+                                        screenX,screenY,
+                                        0,1,1,F_NONE,
+                                        currentRadius / BELLRADIUS * zoom,
+                                        rgb[0],rgb[1],rgb[2],255);
+
+        
 		// draw note names
 		if (showNoteNames) {
 			ofSetHexColor(0x000000);

@@ -21,6 +21,8 @@
 
 #include "ofxiPhoneWebViewController.h"
 
+#import "ofxSpriteSheetRenderer.h"
+
 
 class testApp : public ofxiPhoneApp {
 

@@ -165,6 +165,7 @@ SHOULD BE THIS
 //#include "MultiSampledSoundPlayer.h"
 #include "PolySynth.h"
 
+
 vector<Bell*> bells;
 //vector<MultiSampledSoundPlayer *> instrumentSoundPlayers;
 vector<PolySynth *> instrumentSoundPlayers;
@@ -309,6 +310,8 @@ int currentLoadMenuTab;
 #include "ofxMaxim.h"
 maxiDyn compressor;
 maxiDelayline delay;
+
+ofxSpriteSheetRenderer *spriteRenderer;
 
 ////////////////
 // OF events
@@ -469,12 +472,22 @@ void testApp::setup(){
     [TestFlight takeOff:@"8b72647b-3fe0-425c-a518-59fee4b2107e"];
     
     // WEB VIEW FOR HELP FILES
-//    helpViewer.showView(ofGetWidth()-550, 150, 400, 550);
-//    helpViewer.setOrientation(OFXIPHONE_ORIENTATION_LANDSCAPE_RIGHT);
-//    helpViewer.setAutoRotation(false);
-//    ofAddListener(helpViewer.event, this, &testApp::webViewEvent);
-//    string fileToLoad = "help";
-//    helpViewer.loadLocalFile(fileToLoad);
+    // this seems to use a lot of memory...
+    // also it causes a few fps slowdown
+    //    helpViewer.showView(ofGetWidth()-550, 150, 400, 550);
+    helpViewer.showView(ofGetWidth()-550, 400, 400, 300);
+    helpViewer.setOrientation(OFXIPHONE_ORIENTATION_LANDSCAPE_RIGHT);
+    helpViewer.setAutoRotation(false);
+    ofAddListener(helpViewer.event, this, &testApp::webViewEvent);
+    string fileToLoad = "help-pages";
+    helpViewer.loadLocalFile(fileToLoad);
+    
+    // sprite sheet renderer
+    //declare a new renderer with 1 layer, 10000 tiles per layer, default layer of 0, tile size of 128
+    spriteRenderer = new ofxSpriteSheetRenderer(1, 10000, 0, 128);
+	spriteRenderer->loadTexture("other-images/bell_spritesheet.png", 1024, GL_NEAREST);
+	ofEnableAlphaBlending(); // turn on alpha blending. important!
+
 
 }
 //--------------------------------------------------------------
@@ -516,7 +529,7 @@ void testApp::webViewEvent(ofxiPhoneWebViewControllerEventArgs &args) {
         MorphMetaData morph;
         morph.xmlFilePath = ofToString([args.param UTF8String]);
         loadCanvas(morph);
-//        [helpViewer._view setHidden:YES];
+        [helpViewer._view setHidden:YES];
     }
 }
 //--------------------------------------------------------------
@@ -625,16 +638,18 @@ void testApp::drawBells(){
     
     // is there are way to optimize the drawing here?
     // some way to bind an unbind textures, but this requires looping through one image at a time
+
+    spriteRenderer->clear();
     for (int i=0; i<bells.size(); i++) {
         bells[i]->draw(screenPosX, screenPosY, zoom, forceEstimate, bendAmt, showNoteNames);
     }
+    spriteRenderer->draw();
     
 }
 //--------------------------------------------------------------
 void testApp::drawBellsForThumbnail(){
     
-    // is there are way to optimize the drawing here?
-    // some way to bind an unbind textures, but this requires looping through one image at a time
+    spriteRenderer->clear();
     for (int i=0; i<bells.size(); i++) {
         
         bells[i]->draw(screenPosX, screenPosY, zoom, forceEstimate, bend(), showNoteNames);
@@ -647,6 +662,7 @@ void testApp::drawBellsForThumbnail(){
         }
         
     }
+    spriteRenderer->draw();
     
 }
 //--------------------------------------------------------------
@@ -1149,7 +1165,7 @@ void testApp::loadCanvas(MorphMetaData morph){
 			 int newNoteNum = XML.getValue("BELL:NOTENUM", 0, i);
 			 int newOctave  = XML.getValue("BELL:OCTAVE", 1, i);
 			 int newInst = XML.getValue("BELL:INSTRUMENT", 2, i);
-			 Bell *b = new Bell(newX, newY, newNoteNum, newOctave, newInst);
+			 Bell *b = new Bell(newX, newY, newNoteNum, newOctave, newInst, spriteRenderer);
              b->setPlayer(instrumentSoundPlayers[newInst]);
              b->setImageTriplet(bellImageTripletPtrs[newInst]);
              bells.push_back(b);
@@ -1807,7 +1823,7 @@ void testApp::playModeSetVisible(bool visible) {
     
     //special cases- we close the control panel and help viewer when returning to play mode
     [controlPanel.view setHidden:YES];
-//    [helpViewer._view setHidden:YES];
+    [helpViewer._view setHidden:YES];
 
 }
 //--------------------------------------------------------------
@@ -1912,7 +1928,7 @@ void testApp::touchDown(ofTouchEventArgs &touch){
                 if (noteNum != -1) {
                     int x = (touch.x / zoom + screenPosX);
                     int y =  (touch.y / zoom + screenPosY) + (BELLRADIUS * zoom);
-                    Bell *b = new Bell(x, y, noteNum, octaveButtons->getOctave(), currentInstrument);
+                    Bell *b = new Bell(x, y, noteNum, octaveButtons->getOctave(), currentInstrument, spriteRenderer);
                     b->setPlayer(instrumentSoundPlayers[currentInstrument]);
                     b->setImageTriplet(bellImageTripletPtrs[currentInstrument]);
                     b->startDrag(touch.id, 0, BELLRADIUS * zoom);
@@ -2473,7 +2489,7 @@ void testApp::guiEvent(ofxUIEventArgs &e)
         ofxUIImageButton *btn = (ofxUIImageButton *) e.widget;
         if (!btn->getValue()) { // touch up
             // toggle help browser
-//            [helpViewer._view setHidden:!helpViewer._view.hidden];
+            [helpViewer._view setHidden:!helpViewer._view.hidden];
         }
     }
     
