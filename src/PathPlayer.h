@@ -20,6 +20,8 @@ public:
     vector<PathPoint *> pathPoints;
     BoundingBoxForLine *box;
     
+    ofPolyline line;
+    
     float drawingStartTime;
     
     bool playing;
@@ -151,39 +153,24 @@ public:
             return;
         }
         
-        int prevX = pathPoints[0]->x + canvasX;
-        int prevY = pathPoints[0]->y + canvasY;
-        prevX = (prevX - screenPosX) * zoom;
-		prevY = (prevY - screenPosY) * zoom;
-        
         ofColor pink;
         pink.setHsb(220,255,255);
         if (!playing) {
-            pink.setBrightness(75);
+            pink.setBrightness(90);
         }
+        ofSetColor(pink);
         
-        ofColor white;
-        white.setHsb(0, 0, 255);
-        if (!playing) {
-            white.setBrightness(75);
-        }
-        
-		for (int i=1; i<pathPoints.size(); i++) {
-            if ((i%2)==0) {
-                ofSetColor(pink);
-            } else {
-                ofSetColor(white);
-            }
+		for (int i=0; i<pathPoints.size(); i++) {
             
             int x = pathPoints[i]->x + canvasX;
             int y = pathPoints[i]->y + canvasY;
             x = (x - screenPosX) * zoom;
             y = (y - screenPosY) * zoom;
-			ofLine(prevX, prevY, x, y);
-			prevX = x;
-			prevY = y;
+			
+            line[i] = ofPoint(x,y);
 		}
-
+        
+        line.draw();
     }
     
     void drawImage() {
@@ -380,6 +367,8 @@ public:
         PathPoint *p = new PathPoint(x, y, t);
         pathPoints.push_back(p);
         box->update(_x, _y); // update bounding box using canvas coords
+        
+        line.addVertex(ofPoint(x,y));
     }
     
     void playNote() {
@@ -413,6 +402,8 @@ public:
             
             PathPoint *p = new PathPoint(x, y, t);
             pathPoints.push_back(p);
+            
+            line.addVertex(ofPoint(x,y));
             
             box->update(canvasX + x, canvasY + y); // we store relative coords, but update box using canvas coords
         }

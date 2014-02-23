@@ -472,17 +472,19 @@ void testApp::setup(){
     [TestFlight takeOff:@"8b72647b-3fe0-425c-a518-59fee4b2107e"];
     
     // WEB VIEW FOR HELP FILES
+    
     // this seems to use a lot of memory...
     // also it causes a few fps slowdown
     //    helpViewer.showView(ofGetWidth()-550, 150, 400, 550);
-    helpViewer.showView(ofGetWidth()-550, 400, 400, 300);
+    helpViewer.showView(ofGetWidth()-550, 400, 400, 330);
     helpViewer.setOrientation(OFXIPHONE_ORIENTATION_LANDSCAPE_RIGHT);
     helpViewer.setAutoRotation(false);
     ofAddListener(helpViewer.event, this, &testApp::webViewEvent);
     string fileToLoad = "help-pages";
     helpViewer.loadLocalFile(fileToLoad);
     
-    // sprite sheet renderer
+    // SPRITE SHEET RENDERER FOR BELL IMAGES
+    
     //declare a new renderer with 1 layer, 10000 tiles per layer, default layer of 0, tile size of 128
     spriteRenderer = new ofxSpriteSheetRenderer(1, 10000, 0, 128);
 	spriteRenderer->loadTexture("other-images/bell_spritesheet.png", 1024, GL_NEAREST);
@@ -2239,12 +2241,13 @@ void testApp::touchUp(ofTouchEventArgs &touch){
         touchesDown[touch.id] = false;
         countTouches();
         
+        // SELECT MODE
         if (quasiModeSelectorCanvas->getCurrentMode() == SELECT_MODE) {
             if (touch.id == 1) {
                 quasiModeSelectorCanvas->setSelectionState(SELECT_DONE_DRAWING);
             }
         }
-
+        
         // delete bells when you drag to the palette (obsolete now that we have eraser tool?)
         if (touch.y < 90 && fullScreenToggle->getValue()) {
             for (int i=0; i<bells.size(); i++) {

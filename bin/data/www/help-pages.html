@@ -18,27 +18,37 @@
             );
             var picNum = 0;
 
-            function resetImage() {
-                picNum = 0;
-                document.getElementById("pic").src="gifs/help1.gif";
-                document.getElementById("description").innerHTML = descriptions[0];
+            function updateImage() {
+                document.getElementById("pic").src="gifs/help" + (picNum+1) + ".gif";
+                document.getElementById("description").innerHTML = descriptions[picNum];
+                document.getElementById("page-counter").innerHTML = (picNum + 1) + " / " + numPics;
             }
             function nextImage() {
                 picNum++;
                 picNum %= numPics;
-                document.getElementById("pic").src="gifs/help" + (picNum+1) + ".gif";
-                document.getElementById("description").innerHTML = descriptions[picNum];
+                updateImage();
+            }
+            function prevImage() {
+                if (picNum > 1) {
+                    picNum--;
+                }
+                picNum %= numPics;
+                updateImage();
             }
         </script>
 	</head>
-	<body style="background-color:#777777;" onload="resetImage()">
+	<body style="background-color:#777777;" onload="updateImage()">
         <div width=400>
             
             <div style="text-align:center">
                 <div id="description"></div>
                 <img src="" id="pic" onclick="nextImage()">
             </div>
-            
+            <div style="text-align:center;">
+                <span style="float:left;"><img src="buttons/prev.png" onclick="prevImage()"></span>
+                <span id="page-counter" style="margin:auto; text-align:center; color:#3f3f3f"></span>
+                <span style="float:right;"><img src="buttons/next.png" onclick="nextImage()"></span>
+            </div>
         </div>
 	</body>
 </html>

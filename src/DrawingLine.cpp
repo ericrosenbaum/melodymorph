@@ -18,6 +18,8 @@ public:
 	vector<Point2D*> points;
     BoundingBoxForLine *boundingBox;
     
+    ofPolyline line;
+    
     DrawingLine() {
         boundingBox = new BoundingBoxForLine();
     };
@@ -25,6 +27,8 @@ public:
 	void addPoint(int x, int y) {
 		points.push_back(new Point2D(x, y));
 		boundingBox->update(x,y);
+
+        line.addVertex(ofPoint(x,y));
 	}
 	
 	void draw(int screenPosX, int screenPosY, float zoom){
@@ -34,17 +38,13 @@ public:
 		}
 		
 		ofSetHexColor(0xffffff);
-		
-		int prevX = (points[0]->x - screenPosX) * zoom;
-		int prevY = (points[0]->y - screenPosY) * zoom;
-		
-		for (int i=1; i<points.size(); i++) {
+        
+        for (int i=0; i<points.size(); i++) {
 			int x = (points[i]->x - screenPosX) * zoom;
 			int y = (points[i]->y - screenPosY) * zoom;
-			ofLine(prevX, prevY, x, y);
-			prevX = x;
-			prevY = y;
-		}
+            line[i] = ofPoint(x,y);
+        }
+        line.draw();
 
         // draw the corners, for debugging
 //      ofCircle((boundingBox->left - screenPosX) * zoom, (boundingBox->top - screenPosY) * zoom, 1.0);
