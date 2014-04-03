@@ -74,10 +74,11 @@
  * new sound engine
 
  bugs:
+ * clipping
+ * audio engine randomly drops notes...
  * stuck in slide mode? related to count touches I think
- * short pathplayer loop with overlapping bells causes it to get trapped in a while loop playing notes
-    try replacing while loop with a large for loop that can break early (e.g. up to 1000 times)
- 
+ * path player still get stuck in its loop- need to store more state info about multiple bells it's touching
+    or a different model? just need edges...
  
  app
  
@@ -310,8 +311,13 @@ int currentLoadMenuTab;
 #include "ofxMaxim.h"
 maxiDyn compressor;
 maxiDelayline delay;
+float currentAudioLevel;
+float maxIntensity;
 
 ofxSpriteSheetRenderer *spriteRenderer;
+
+bool noteFlag = false;
+float prevAudioLevel = 0;
 
 ////////////////
 // OF events
@@ -327,6 +333,7 @@ void testApp::setup(){
 	ofEnableAlphaBlending();
     
     setupInstruments();
+    maxIntensity = sqrt(512);
     
 	// compute palette positions
 	float inc = (768 - 100) / (float)(NUMNOTES+1);
@@ -482,14 +489,15 @@ void testApp::setup(){
     ofAddListener(helpViewer.event, this, &testApp::webViewEvent);
     string fileToLoad = "help-pages";
     helpViewer.loadLocalFile(fileToLoad);
+    [helpViewer._view setHidden:YES]; // starts up hidden
+
     
     // SPRITE SHEET RENDERER FOR BELL IMAGES
     
     //declare a new renderer with 1 layer, 10000 tiles per layer, default layer of 0, tile size of 128
     spriteRenderer = new ofxSpriteSheetRenderer(1, 10000, 0, 128);
-	spriteRenderer->loadTexture("other-images/bell_spritesheet.png", 1024, GL_NEAREST);
+	spriteRenderer->loadTexture("other-images/bell_spritesheet.png", 1024, GL_LINEAR);
 	ofEnableAlphaBlending(); // turn on alpha blending. important!
-
 
 }
 //--------------------------------------------------------------
@@ -551,6 +559,12 @@ void testApp::draw(){
         drawLines();
         drawBells();
         drawPalette();
+        
+        // audio level meter for debugging
+        ofSetColor(255,0,0);
+        ofRect(100, 100, 50, currentAudioLevel);
+        
+        
     }
     
     // if we are in pre-save mode, we are about to create the thumbnail
@@ -610,6 +624,7 @@ void testApp::calculateForce(){
 	//forceEstimate = ((max - min) + .9*forceEstimate)/1.9;
 	//forceEstimate = (((max - min) * .1) + (forceEstimate * 0.9)) / 2.0f;  
 	//forceEstimate *= forceEstimate;
+    
 }
 //--------------------------------------------------------------
 void testApp::drawGrid(){
@@ -1845,7 +1860,9 @@ void testApp::saveDialogModeSetVisible(bool visible) {
 }
 //--------------------------------------------------------------
 void testApp::audioRequested(float * output, int bufferSize, int nChannels){
-//    bool clipping = false;
+    
+    float sumOfSquares = 0; // estimate of current loudness in this buffer, elsewhere used to scale down amplitude of new notes
+    bool clipped = false;
     
     for (int i=0; i<bufferSize; i++) {
         float samp = 0;
@@ -1853,36 +1870,49 @@ void testApp::audioRequested(float * output, int bufferSize, int nChannels){
             samp += instrumentSoundPlayers[j]->sampleRequested();
         }
         
-        //samp+=delay.dl(samp, 11000, 0.8); // fun! sounds cool! not that useful
+//        samp *= 0.25;
+        samp *= 0.75;
         
-        //samp = compressor.compressor(samp,5,0.25,0.0001,0.9999); // works okay
-        //samp = waveshape_distort(samp); // too distorted
+        // hard clipping
+        // this makes sure we avoid a "wrapping" distortion
+        if (absf(samp) >= 1) {
+            clipped = true;
+            if (samp > 1) {
+                samp = 1;
+            }
+            if (samp < -1) {
+                samp = -1;
+            }
+        }
         
-//        if (absf(samp) > 1) {
-//            cout << "clip" << endl;
-//            clipping = true;
-//        }
-        
-        samp *= 0.3;
-        
+        // copy to both channels (left and right)
         output[i * 2] = samp;
         output[i * 2 + 1] = samp;
+        
+        sumOfSquares += samp * samp;
     }
- 
-//  normalize- not good
-//    if (clipping) {
-//        float maxValue = 0;
-//        for(int i=0; i < bufferSize*2; i++) {
-//            if (absf(output[i]) > maxValue) {
-//                maxValue = absf(output[i]);
-//            }
-//        }
-//        for(int i=0; i < bufferSize*2; i++) {
-//            output[i] = output[i] / maxValue;
-//        }
-//    }
-     
-
+    
+    // currentAudioLevel ranges from 0 to 100
+    // we take the square root of the sum of squares for the samples in this buffer
+    // which is (proportional to the) RMS intensity
+    // the max possible intensity is maxIntensity - the square root of the buffer size (should be 512)
+    // the currentAudio level is this intensity mapped over its range to 0-100
+    // clipping appears to happen above about audioLevel 28 (???)
+    currentAudioLevel = ofMap(sqrt(sumOfSquares), 0, maxIntensity, 0, 100);
+    if (clipped) {
+        cout << "clip w/ audiolevel: " << currentAudioLevel << endl;
+    }
+    
+    if (noteFlag) {
+        if (currentAudioLevel > prevAudioLevel) {
+            cout << "okay" << endl;
+        } else {
+            cout << "MISSED A NOTE?" << endl;
+        }
+        noteFlag = false;
+    }
+    prevAudioLevel = currentAudioLevel;
+    
 }
 
 //--------------------------------------------------------------
@@ -2029,6 +2059,7 @@ void testApp::touchDown(ofTouchEventArgs &touch){
                 int mode = quasiModeSelectorCanvas->getCurrentMode();
                 if ((mode != MUTE_MODE) && (mode != PATH_MODE)) {
                     bells[i]->playNote();
+                    noteFlag = true;
                     if (recording) {
                         [recorderBellMaker recordNote:bells[i]];
                     }

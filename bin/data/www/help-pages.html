@@ -8,7 +8,6 @@
             }
 		</style>
         <script type="text/javascript">
-            var numPics = 5;
             var descriptions = new Array(
                     "Drag a note from the palette and tap to play it",
                     "Shift the palette up and down",
@@ -16,7 +15,9 @@
                     "Hold down the pencil button and draw",
                     "Hold down the slide button and strum"
             );
-            var picNum = 0;
+            
+            var numPics = descriptions.length;
+            var picNum = 0; // zero-indexed
 
             function updateImage() {
                 document.getElementById("pic").src="gifs/help" + (picNum+1) + ".gif";
@@ -29,7 +30,7 @@
                 updateImage();
             }
             function prevImage() {
-                if (picNum > 1) {
+                if (picNum > 0) {
                     picNum--;
                 }
                 picNum %= numPics;

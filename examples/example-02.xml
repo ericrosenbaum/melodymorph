@@ -11,345 +11,1010 @@
     <LARGE>examples/example-02.png</LARGE>
 </THUMBPATH>
 <ZOOM>
-    <VALUE>0.984009</VALUE>
+    <VALUE>0.717612</VALUE>
 </ZOOM>
 <SCREENPOS>
-    <X>58</X>
-    <Y>2817</Y>
+    <X>-41</X>
+    <Y>-318</Y>
 </SCREENPOS>
 <BELL>
-    <X>718</X>
-    <Y>1406</Y>
-    <NOTENUM>10</NOTENUM>
-    <OCTAVE>0</OCTAVE>
-    <INSTRUMENT>3</INSTRUMENT>
-</BELL>
-<BELL>
-    <X>279</X>
-    <Y>1240</Y>
-    <NOTENUM>0</NOTENUM>
+    <X>347</X>
+    <Y>258</Y>
+    <NOTENUM>4</NOTENUM>
     <OCTAVE>1</OCTAVE>
-    <INSTRUMENT>3</INSTRUMENT>
+    <INSTRUMENT>4</INSTRUMENT>
 </BELL>
 <BELL>
-    <X>694</X>
-    <Y>925</Y>
-    <NOTENUM>3</NOTENUM>
-    <OCTAVE>2</OCTAVE>
-    <INSTRUMENT>3</INSTRUMENT>
-</BELL>
-<BELL>
-    <X>324</X>
-    <Y>1332</Y>
-    <NOTENUM>9</NOTENUM>
-    <OCTAVE>0</OCTAVE>
-    <INSTRUMENT>3</INSTRUMENT>
-</BELL>
-<BELL>
-    <X>609</X>
-    <Y>846</Y>
+    <X>582</X>
+    <Y>564</Y>
     <NOTENUM>5</NOTENUM>
-    <OCTAVE>2</OCTAVE>
-    <INSTRUMENT>3</INSTRUMENT>
-</BELL>
-<BELL>
-    <X>291</X>
-    <Y>1133</Y>
-    <NOTENUM>3</NOTENUM>
-    <OCTAVE>1</OCTAVE>
-    <INSTRUMENT>3</INSTRUMENT>
-</BELL>
-<BELL>
-    <X>627</X>
-    <Y>1488</Y>
-    <NOTENUM>7</NOTENUM>
     <OCTAVE>0</OCTAVE>
-    <INSTRUMENT>3</INSTRUMENT>
+    <INSTRUMENT>4</INSTRUMENT>
 </BELL>
 <BELL>
-    <X>775</X>
-    <Y>1090</Y>
-    <NOTENUM>9</NOTENUM>
-    <OCTAVE>1</OCTAVE>
-    <INSTRUMENT>3</INSTRUMENT>
+    <X>997</X>
+    <Y>373</Y>
+    <NOTENUM>11</NOTENUM>
+    <OCTAVE>0</OCTAVE>
+    <INSTRUMENT>4</INSTRUMENT>
 </BELL>
 <BELL>
-    <X>441</X>
-    <Y>1484</Y>
+    <X>846</X>
+    <Y>572</Y>
+    <NOTENUM>4</NOTENUM>
+    <OCTAVE>0</OCTAVE>
+    <INSTRUMENT>4</INSTRUMENT>
+</BELL>
+<BELL>
+    <X>654</X>
+    <Y>663</Y>
     <NOTENUM>2</NOTENUM>
     <OCTAVE>0</OCTAVE>
-    <INSTRUMENT>3</INSTRUMENT>
+    <INSTRUMENT>4</INSTRUMENT>
 </BELL>
 <BELL>
-    <X>763</X>
-    <Y>1207</Y>
-    <NOTENUM>5</NOTENUM>
-    <OCTAVE>1</OCTAVE>
-    <INSTRUMENT>3</INSTRUMENT>
-</BELL>
-<BELL>
-    <X>413</X>
-    <Y>850</Y>
-    <NOTENUM>2</NOTENUM>
-    <OCTAVE>2</OCTAVE>
-    <INSTRUMENT>3</INSTRUMENT>
-</BELL>
-<BELL>
-    <X>296</X>
-    <Y>1039</Y>
+    <X>292</X>
+    <Y>139</Y>
     <NOTENUM>7</NOTENUM>
     <OCTAVE>1</OCTAVE>
-    <INSTRUMENT>3</INSTRUMENT>
+    <INSTRUMENT>4</INSTRUMENT>
 </BELL>
 <BELL>
-    <X>353</X>
-    <Y>940</Y>
-    <NOTENUM>10</NOTENUM>
-    <OCTAVE>1</OCTAVE>
-    <INSTRUMENT>3</INSTRUMENT>
-</BELL>
-<BELL>
-    <X>748</X>
-    <Y>1005</Y>
-    <NOTENUM>0</NOTENUM>
-    <OCTAVE>2</OCTAVE>
-    <INSTRUMENT>3</INSTRUMENT>
-</BELL>
-<BELL>
-    <X>377</X>
-    <Y>1410</Y>
-    <NOTENUM>5</NOTENUM>
-    <OCTAVE>0</OCTAVE>
-    <INSTRUMENT>3</INSTRUMENT>
-</BELL>
-<BELL>
-    <X>742</X>
-    <Y>1310</Y>
-    <NOTENUM>2</NOTENUM>
-    <OCTAVE>1</OCTAVE>
-    <INSTRUMENT>3</INSTRUMENT>
-</BELL>
-<BELL>
-    <X>510</X>
-    <Y>2264</Y>
-    <NOTENUM>9</NOTENUM>
-    <OCTAVE>0</OCTAVE>
-    <INSTRUMENT>3</INSTRUMENT>
-</BELL>
-<BELL>
-    <X>429</X>
-    <Y>1984</Y>
-    <NOTENUM>7</NOTENUM>
-    <OCTAVE>1</OCTAVE>
-    <INSTRUMENT>3</INSTRUMENT>
-</BELL>
-<BELL>
-    <X>788</X>
-    <Y>2429</Y>
+    <X>923</X>
+    <Y>480</Y>
     <NOTENUM>7</NOTENUM>
     <OCTAVE>0</OCTAVE>
-    <INSTRUMENT>3</INSTRUMENT>
+    <INSTRUMENT>4</INSTRUMENT>
 </BELL>
 <BELL>
-    <X>495</X>
-    <Y>2055</Y>
-    <NOTENUM>3</NOTENUM>
+    <X>1056</X>
+    <Y>261</Y>
+    <NOTENUM>2</NOTENUM>
     <OCTAVE>1</OCTAVE>
-    <INSTRUMENT>3</INSTRUMENT>
+    <INSTRUMENT>4</INSTRUMENT>
 </BELL>
 <BELL>
-    <X>511</X>
-    <Y>2166</Y>
-    <NOTENUM>0</NOTENUM>
+    <X>234</X>
+    <Y>1</Y>
+    <NOTENUM>11</NOTENUM>
     <OCTAVE>1</OCTAVE>
-    <INSTRUMENT>3</INSTRUMENT>
+    <INSTRUMENT>4</INSTRUMENT>
 </BELL>
 <BELL>
-    <X>822</X>
-    <Y>1964</Y>
-    <NOTENUM>0</NOTENUM>
-    <OCTAVE>2</OCTAVE>
-    <INSTRUMENT>3</INSTRUMENT>
-</BELL>
-<BELL>
-    <X>722</X>
-    <Y>2334</Y>
-    <NOTENUM>10</NOTENUM>
-    <OCTAVE>0</OCTAVE>
-    <INSTRUMENT>3</INSTRUMENT>
-</BELL>
-<BELL>
-    <X>983</X>
-    <Y>1838</Y>
+    <X>1105</X>
+    <Y>159</Y>
     <NOTENUM>5</NOTENUM>
-    <OCTAVE>2</OCTAVE>
-    <INSTRUMENT>3</INSTRUMENT>
+    <OCTAVE>1</OCTAVE>
+    <INSTRUMENT>4</INSTRUMENT>
 </BELL>
 <BELL>
-    <X>753</X>
-    <Y>2033</Y>
+    <X>1177</X>
+    <Y>-69</Y>
+    <NOTENUM>0</NOTENUM>
+    <OCTAVE>2</OCTAVE>
+    <INSTRUMENT>4</INSTRUMENT>
+</BELL>
+<BELL>
+    <X>764</X>
+    <Y>659</Y>
+    <NOTENUM>0</NOTENUM>
+    <OCTAVE>0</OCTAVE>
+    <INSTRUMENT>4</INSTRUMENT>
+</BELL>
+<BELL>
+    <X>418</X>
+    <Y>357</Y>
+    <NOTENUM>0</NOTENUM>
+    <OCTAVE>1</OCTAVE>
+    <INSTRUMENT>4</INSTRUMENT>
+</BELL>
+<BELL>
+    <X>1142</X>
+    <Y>44</Y>
     <NOTENUM>9</NOTENUM>
     <OCTAVE>1</OCTAVE>
-    <INSTRUMENT>3</INSTRUMENT>
-</BELL>
-<BELL>
-    <X>478</X>
-    <Y>2356</Y>
-    <NOTENUM>5</NOTENUM>
-    <OCTAVE>0</OCTAVE>
-    <INSTRUMENT>3</INSTRUMENT>
-</BELL>
-<BELL>
-    <X>684</X>
-    <Y>2217</Y>
-    <NOTENUM>2</NOTENUM>
-    <OCTAVE>1</OCTAVE>
-    <INSTRUMENT>3</INSTRUMENT>
-</BELL>
-<BELL>
-    <X>349</X>
-    <Y>1904</Y>
-    <NOTENUM>10</NOTENUM>
-    <OCTAVE>1</OCTAVE>
-    <INSTRUMENT>3</INSTRUMENT>
-</BELL>
-<BELL>
-    <X>881</X>
-    <Y>1885</Y>
-    <NOTENUM>3</NOTENUM>
-    <OCTAVE>2</OCTAVE>
-    <INSTRUMENT>3</INSTRUMENT>
-</BELL>
-<BELL>
-    <X>401</X>
-    <Y>2449</Y>
-    <NOTENUM>2</NOTENUM>
-    <OCTAVE>0</OCTAVE>
-    <INSTRUMENT>3</INSTRUMENT>
-</BELL>
-<BELL>
-    <X>702</X>
-    <Y>2117</Y>
-    <NOTENUM>5</NOTENUM>
-    <OCTAVE>1</OCTAVE>
-    <INSTRUMENT>3</INSTRUMENT>
-</BELL>
-<BELL>
-    <X>222</X>
-    <Y>1862</Y>
-    <NOTENUM>2</NOTENUM>
-    <OCTAVE>2</OCTAVE>
-    <INSTRUMENT>3</INSTRUMENT>
-</BELL>
-<BELL>
-    <X>652</X>
-    <Y>3223</Y>
-    <NOTENUM>2</NOTENUM>
-    <OCTAVE>2</OCTAVE>
-    <INSTRUMENT>3</INSTRUMENT>
+    <INSTRUMENT>4</INSTRUMENT>
 </BELL>
 <BELL>
     <X>501</X>
-    <Y>3441</Y>
-    <NOTENUM>5</NOTENUM>
-    <OCTAVE>0</OCTAVE>
-    <INSTRUMENT>3</INSTRUMENT>
-</BELL>
-<BELL>
-    <X>709</X>
-    <Y>3133</Y>
-    <NOTENUM>5</NOTENUM>
-    <OCTAVE>2</OCTAVE>
-    <INSTRUMENT>3</INSTRUMENT>
-</BELL>
-<BELL>
-    <X>533</X>
-    <Y>3232</Y>
-    <NOTENUM>10</NOTENUM>
-    <OCTAVE>0</OCTAVE>
-    <INSTRUMENT>3</INSTRUMENT>
-</BELL>
-<BELL>
-    <X>369</X>
-    <Y>2991</Y>
-    <NOTENUM>2</NOTENUM>
-    <OCTAVE>1</OCTAVE>
-    <INSTRUMENT>3</INSTRUMENT>
-</BELL>
-<BELL>
-    <X>286</X>
-    <Y>2932</Y>
-    <NOTENUM>7</NOTENUM>
-    <OCTAVE>1</OCTAVE>
-    <INSTRUMENT>3</INSTRUMENT>
-</BELL>
-<BELL>
-    <X>713</X>
-    <Y>3428</Y>
-    <NOTENUM>7</NOTENUM>
-    <OCTAVE>1</OCTAVE>
-    <INSTRUMENT>3</INSTRUMENT>
-</BELL>
-<BELL>
-    <X>761</X>
-    <Y>3034</Y>
-    <NOTENUM>7</NOTENUM>
-    <OCTAVE>2</OCTAVE>
-    <INSTRUMENT>3</INSTRUMENT>
-</BELL>
-<BELL>
-    <X>540</X>
-    <Y>3342</Y>
-    <NOTENUM>7</NOTENUM>
-    <OCTAVE>0</OCTAVE>
-    <INSTRUMENT>3</INSTRUMENT>
-</BELL>
-<BELL>
-    <X>832</X>
-    <Y>2959</Y>
-    <NOTENUM>9</NOTENUM>
-    <OCTAVE>2</OCTAVE>
-    <INSTRUMENT>3</INSTRUMENT>
-</BELL>
-<BELL>
-    <X>802</X>
-    <Y>3505</Y>
-    <NOTENUM>2</NOTENUM>
-    <OCTAVE>1</OCTAVE>
-    <INSTRUMENT>3</INSTRUMENT>
-</BELL>
-<BELL>
-    <X>657</X>
-    <Y>3337</Y>
-    <NOTENUM>10</NOTENUM>
-    <OCTAVE>1</OCTAVE>
-    <INSTRUMENT>3</INSTRUMENT>
-</BELL>
-<BELL>
-    <X>905</X>
-    <Y>2899</Y>
-    <NOTENUM>10</NOTENUM>
-    <OCTAVE>2</OCTAVE>
-    <INSTRUMENT>3</INSTRUMENT>
-</BELL>
-<BELL>
-    <X>488</X>
-    <Y>3144</Y>
+    <Y>458</Y>
     <NOTENUM>9</NOTENUM>
     <OCTAVE>0</OCTAVE>
-    <INSTRUMENT>3</INSTRUMENT>
+    <INSTRUMENT>4</INSTRUMENT>
 </BELL>
-<BELL>
-    <X>442</X>
-    <Y>3062</Y>
-    <NOTENUM>0</NOTENUM>
-    <OCTAVE>1</OCTAVE>
-    <INSTRUMENT>3</INSTRUMENT>
-</BELL>
-<BELL>
-    <X>425</X>
-    <Y>3511</Y>
-    <NOTENUM>2</NOTENUM>
-    <OCTAVE>0</OCTAVE>
-    <INSTRUMENT>3</INSTRUMENT>
-</BELL>
+<LINE>
+    <P>
+        <X>580</X>
+        <Y>-52</Y>
+    </P>
+    <P>
+        <X>580</X>
+        <Y>-60</Y>
+    </P>
+    <P>
+        <X>580</X>
+        <Y>-61</Y>
+    </P>
+    <P>
+        <X>579</X>
+        <Y>-61</Y>
+    </P>
+    <P>
+        <X>576</X>
+        <Y>-57</Y>
+    </P>
+    <P>
+        <X>564</X>
+        <Y>-34</Y>
+    </P>
+    <P>
+        <X>547</X>
+        <Y>-4</Y>
+    </P>
+    <P>
+        <X>527</X>
+        <Y>29</Y>
+    </P>
+    <P>
+        <X>510</X>
+        <Y>62</Y>
+    </P>
+    <P>
+        <X>495</X>
+        <Y>90</Y>
+    </P>
+    <P>
+        <X>484</X>
+        <Y>105</Y>
+    </P>
+    <P>
+        <X>480</X>
+        <Y>110</Y>
+    </P>
+    <P>
+        <X>478</X>
+        <Y>111</Y>
+    </P>
+    <P>
+        <X>478</X>
+        <Y>98</Y>
+    </P>
+    <P>
+        <X>486</X>
+        <Y>72</Y>
+    </P>
+    <P>
+        <X>500</X>
+        <Y>35</Y>
+    </P>
+    <P>
+        <X>512</X>
+        <Y>2</Y>
+    </P>
+    <P>
+        <X>524</X>
+        <Y>-26</Y>
+    </P>
+    <P>
+        <X>533</X>
+        <Y>-45</Y>
+    </P>
+    <P>
+        <X>541</X>
+        <Y>-57</Y>
+    </P>
+    <P>
+        <X>545</X>
+        <Y>-63</Y>
+    </P>
+    <P>
+        <X>548</X>
+        <Y>-63</Y>
+    </P>
+    <P>
+        <X>551</X>
+        <Y>-58</Y>
+    </P>
+    <P>
+        <X>554</X>
+        <Y>-40</Y>
+    </P>
+    <P>
+        <X>556</X>
+        <Y>-14</Y>
+    </P>
+    <P>
+        <X>559</X>
+        <Y>9</Y>
+    </P>
+    <P>
+        <X>562</X>
+        <Y>37</Y>
+    </P>
+    <P>
+        <X>570</X>
+        <Y>62</Y>
+    </P>
+    <P>
+        <X>571</X>
+        <Y>81</Y>
+    </P>
+    <P>
+        <X>574</X>
+        <Y>90</Y>
+    </P>
+    <P>
+        <X>574</X>
+        <Y>93</Y>
+    </P>
+    <P>
+        <X>573</X>
+        <Y>94</Y>
+    </P>
+    <P>
+        <X>565</X>
+        <Y>87</Y>
+    </P>
+    <P>
+        <X>554</X>
+        <Y>76</Y>
+    </P>
+    <P>
+        <X>542</X>
+        <Y>64</Y>
+    </P>
+    <P>
+        <X>533</X>
+        <Y>55</Y>
+    </P>
+    <P>
+        <X>527</X>
+        <Y>49</Y>
+    </P>
+    <P>
+        <X>524</X>
+        <Y>44</Y>
+    </P>
+    <P>
+        <X>523</X>
+        <Y>40</Y>
+    </P>
+    <P>
+        <X>521</X>
+        <Y>38</Y>
+    </P>
+    <P>
+        <X>523</X>
+        <Y>38</Y>
+    </P>
+    <P>
+        <X>533</X>
+        <Y>38</Y>
+    </P>
+    <P>
+        <X>542</X>
+        <Y>38</Y>
+    </P>
+    <P>
+        <X>553</X>
+        <Y>38</Y>
+    </P>
+    <P>
+        <X>565</X>
+        <Y>38</Y>
+    </P>
+    <P>
+        <X>576</X>
+        <Y>38</Y>
+    </P>
+</LINE>
+<LINE>
+    <P>
+        <X>622</X>
+        <Y>-49</Y>
+    </P>
+    <P>
+        <X>617</X>
+        <Y>-40</Y>
+    </P>
+    <P>
+        <X>617</X>
+        <Y>-20</Y>
+    </P>
+    <P>
+        <X>617</X>
+        <Y>9</Y>
+    </P>
+    <P>
+        <X>615</X>
+        <Y>38</Y>
+    </P>
+    <P>
+        <X>612</X>
+        <Y>67</Y>
+    </P>
+    <P>
+        <X>611</X>
+        <Y>85</Y>
+    </P>
+    <P>
+        <X>609</X>
+        <Y>98</Y>
+    </P>
+    <P>
+        <X>609</X>
+        <Y>105</Y>
+    </P>
+</LINE>
+<LINE>
+    <P>
+        <X>660</X>
+        <Y>-40</Y>
+    </P>
+    <P>
+        <X>658</X>
+        <Y>-28</Y>
+    </P>
+    <P>
+        <X>658</X>
+        <Y>-13</Y>
+    </P>
+    <P>
+        <X>658</X>
+        <Y>8</Y>
+    </P>
+    <P>
+        <X>658</X>
+        <Y>32</Y>
+    </P>
+    <P>
+        <X>658</X>
+        <Y>59</Y>
+    </P>
+    <P>
+        <X>658</X>
+        <Y>82</Y>
+    </P>
+    <P>
+        <X>658</X>
+        <Y>96</Y>
+    </P>
+    <P>
+        <X>658</X>
+        <Y>105</Y>
+    </P>
+    <P>
+        <X>658</X>
+        <Y>107</Y>
+    </P>
+</LINE>
+<LINE>
+    <P>
+        <X>652</X>
+        <Y>34</Y>
+    </P>
+    <P>
+        <X>657</X>
+        <Y>26</Y>
+    </P>
+    <P>
+        <X>667</X>
+        <Y>26</Y>
+    </P>
+    <P>
+        <X>681</X>
+        <Y>24</Y>
+    </P>
+    <P>
+        <X>696</X>
+        <Y>21</Y>
+    </P>
+    <P>
+        <X>710</X>
+        <Y>18</Y>
+    </P>
+</LINE>
+<LINE>
+    <P>
+        <X>724</X>
+        <Y>32</Y>
+    </P>
+    <P>
+        <X>721</X>
+        <Y>29</Y>
+    </P>
+    <P>
+        <X>717</X>
+        <Y>27</Y>
+    </P>
+    <P>
+        <X>716</X>
+        <Y>27</Y>
+    </P>
+    <P>
+        <X>714</X>
+        <Y>34</Y>
+    </P>
+    <P>
+        <X>711</X>
+        <Y>50</Y>
+    </P>
+    <P>
+        <X>711</X>
+        <Y>64</Y>
+    </P>
+    <P>
+        <X>711</X>
+        <Y>73</Y>
+    </P>
+    <P>
+        <X>714</X>
+        <Y>79</Y>
+    </P>
+    <P>
+        <X>719</X>
+        <Y>82</Y>
+    </P>
+    <P>
+        <X>728</X>
+        <Y>82</Y>
+    </P>
+    <P>
+        <X>733</X>
+        <Y>70</Y>
+    </P>
+    <P>
+        <X>736</X>
+        <Y>55</Y>
+    </P>
+    <P>
+        <X>736</X>
+        <Y>43</Y>
+    </P>
+    <P>
+        <X>731</X>
+        <Y>34</Y>
+    </P>
+    <P>
+        <X>719</X>
+        <Y>32</Y>
+    </P>
+    <P>
+        <X>704</X>
+        <Y>37</Y>
+    </P>
+    <P>
+        <X>692</X>
+        <Y>56</Y>
+    </P>
+</LINE>
+<LINE>
+    <P>
+        <X>561</X>
+        <Y>152</Y>
+    </P>
+    <P>
+        <X>562</X>
+        <Y>163</Y>
+    </P>
+    <P>
+        <X>562</X>
+        <Y>180</Y>
+    </P>
+    <P>
+        <X>562</X>
+        <Y>201</Y>
+    </P>
+    <P>
+        <X>562</X>
+        <Y>229</Y>
+    </P>
+    <P>
+        <X>562</X>
+        <Y>253</Y>
+    </P>
+    <P>
+        <X>562</X>
+        <Y>273</Y>
+    </P>
+    <P>
+        <X>558</X>
+        <Y>283</Y>
+    </P>
+    <P>
+        <X>556</X>
+        <Y>289</Y>
+    </P>
+    <P>
+        <X>554</X>
+        <Y>291</Y>
+    </P>
+    <P>
+        <X>554</X>
+        <Y>276</Y>
+    </P>
+    <P>
+        <X>554</X>
+        <Y>250</Y>
+    </P>
+    <P>
+        <X>561</X>
+        <Y>224</Y>
+    </P>
+    <P>
+        <X>570</X>
+        <Y>197</Y>
+    </P>
+    <P>
+        <X>579</X>
+        <Y>174</Y>
+    </P>
+    <P>
+        <X>585</X>
+        <Y>161</Y>
+    </P>
+    <P>
+        <X>588</X>
+        <Y>157</Y>
+    </P>
+    <P>
+        <X>590</X>
+        <Y>155</Y>
+    </P>
+    <P>
+        <X>590</X>
+        <Y>166</Y>
+    </P>
+    <P>
+        <X>585</X>
+        <Y>183</Y>
+    </P>
+    <P>
+        <X>579</X>
+        <Y>201</Y>
+    </P>
+    <P>
+        <X>576</X>
+        <Y>213</Y>
+    </P>
+    <P>
+        <X>574</X>
+        <Y>222</Y>
+    </P>
+    <P>
+        <X>573</X>
+        <Y>229</Y>
+    </P>
+    <P>
+        <X>574</X>
+        <Y>236</Y>
+    </P>
+    <P>
+        <X>582</X>
+        <Y>241</Y>
+    </P>
+    <P>
+        <X>593</X>
+        <Y>247</Y>
+    </P>
+    <P>
+        <X>606</X>
+        <Y>256</Y>
+    </P>
+    <P>
+        <X>620</X>
+        <Y>264</Y>
+    </P>
+    <P>
+        <X>631</X>
+        <Y>270</Y>
+    </P>
+    <P>
+        <X>641</X>
+        <Y>277</Y>
+    </P>
+</LINE>
+<LINE>
+    <P>
+        <X>666</X>
+        <Y>233</Y>
+    </P>
+    <P>
+        <X>658</X>
+        <Y>233</Y>
+    </P>
+    <P>
+        <X>652</X>
+        <Y>233</Y>
+    </P>
+    <P>
+        <X>646</X>
+        <Y>235</Y>
+    </P>
+    <P>
+        <X>641</X>
+        <Y>241</Y>
+    </P>
+    <P>
+        <X>637</X>
+        <Y>253</Y>
+    </P>
+    <P>
+        <X>637</X>
+        <Y>262</Y>
+    </P>
+    <P>
+        <X>635</X>
+        <Y>270</Y>
+    </P>
+    <P>
+        <X>635</X>
+        <Y>276</Y>
+    </P>
+    <P>
+        <X>638</X>
+        <Y>279</Y>
+    </P>
+    <P>
+        <X>644</X>
+        <Y>279</Y>
+    </P>
+    <P>
+        <X>652</X>
+        <Y>273</Y>
+    </P>
+    <P>
+        <X>658</X>
+        <Y>268</Y>
+    </P>
+    <P>
+        <X>661</X>
+        <Y>264</Y>
+    </P>
+    <P>
+        <X>666</X>
+        <Y>262</Y>
+    </P>
+    <P>
+        <X>669</X>
+        <Y>262</Y>
+    </P>
+    <P>
+        <X>673</X>
+        <Y>264</Y>
+    </P>
+    <P>
+        <X>679</X>
+        <Y>273</Y>
+    </P>
+    <P>
+        <X>684</X>
+        <Y>280</Y>
+    </P>
+</LINE>
+<LINE>
+    <P>
+        <X>690</X>
+        <Y>175</Y>
+    </P>
+    <P>
+        <X>684</X>
+        <Y>181</Y>
+    </P>
+    <P>
+        <X>684</X>
+        <Y>195</Y>
+    </P>
+    <P>
+        <X>687</X>
+        <Y>221</Y>
+    </P>
+    <P>
+        <X>690</X>
+        <Y>248</Y>
+    </P>
+    <P>
+        <X>696</X>
+        <Y>268</Y>
+    </P>
+    <P>
+        <X>698</X>
+        <Y>289</Y>
+    </P>
+    <P>
+        <X>699</X>
+        <Y>299</Y>
+    </P>
+</LINE>
+<LINE>
+    <P>
+        <X>725</X>
+        <Y>241</Y>
+    </P>
+    <P>
+        <X>725</X>
+        <Y>244</Y>
+    </P>
+    <P>
+        <X>725</X>
+        <Y>253</Y>
+    </P>
+    <P>
+        <X>727</X>
+        <Y>268</Y>
+    </P>
+</LINE>
+<LINE>
+    <P>
+        <X>762</X>
+        <Y>238</Y>
+    </P>
+    <P>
+        <X>757</X>
+        <Y>241</Y>
+    </P>
+    <P>
+        <X>757</X>
+        <Y>248</Y>
+    </P>
+    <P>
+        <X>757</X>
+        <Y>257</Y>
+    </P>
+    <P>
+        <X>759</X>
+        <Y>265</Y>
+    </P>
+    <P>
+        <X>760</X>
+        <Y>271</Y>
+    </P>
+    <P>
+        <X>760</X>
+        <Y>274</Y>
+    </P>
+    <P>
+        <X>762</X>
+        <Y>274</Y>
+    </P>
+    <P>
+        <X>762</X>
+        <Y>271</Y>
+    </P>
+    <P>
+        <X>763</X>
+        <Y>259</Y>
+    </P>
+    <P>
+        <X>765</X>
+        <Y>245</Y>
+    </P>
+    <P>
+        <X>766</X>
+        <Y>235</Y>
+    </P>
+    <P>
+        <X>768</X>
+        <Y>230</Y>
+    </P>
+    <P>
+        <X>769</X>
+        <Y>225</Y>
+    </P>
+    <P>
+        <X>774</X>
+        <Y>229</Y>
+    </P>
+    <P>
+        <X>777</X>
+        <Y>239</Y>
+    </P>
+    <P>
+        <X>781</X>
+        <Y>248</Y>
+    </P>
+    <P>
+        <X>784</X>
+        <Y>251</Y>
+    </P>
+    <P>
+        <X>789</X>
+        <Y>253</Y>
+    </P>
+    <P>
+        <X>792</X>
+        <Y>253</Y>
+    </P>
+    <P>
+        <X>792</X>
+        <Y>247</Y>
+    </P>
+    <P>
+        <X>794</X>
+        <Y>241</Y>
+    </P>
+    <P>
+        <X>795</X>
+        <Y>238</Y>
+    </P>
+    <P>
+        <X>797</X>
+        <Y>238</Y>
+    </P>
+    <P>
+        <X>800</X>
+        <Y>238</Y>
+    </P>
+    <P>
+        <X>803</X>
+        <Y>247</Y>
+    </P>
+    <P>
+        <X>807</X>
+        <Y>260</Y>
+    </P>
+    <P>
+        <X>809</X>
+        <Y>273</Y>
+    </P>
+    <P>
+        <X>812</X>
+        <Y>282</Y>
+    </P>
+</LINE>
+<LINE>
+    <P>
+        <X>839</X>
+        <Y>183</Y>
+    </P>
+    <P>
+        <X>836</X>
+        <Y>187</Y>
+    </P>
+    <P>
+        <X>836</X>
+        <Y>197</Y>
+    </P>
+    <P>
+        <X>836</X>
+        <Y>215</Y>
+    </P>
+    <P>
+        <X>838</X>
+        <Y>235</Y>
+    </P>
+    <P>
+        <X>841</X>
+        <Y>256</Y>
+    </P>
+    <P>
+        <X>844</X>
+        <Y>268</Y>
+    </P>
+    <P>
+        <X>845</X>
+        <Y>276</Y>
+    </P>
+    <P>
+        <X>848</X>
+        <Y>277</Y>
+    </P>
+    <P>
+        <X>851</X>
+        <Y>279</Y>
+    </P>
+    <P>
+        <X>856</X>
+        <Y>276</Y>
+    </P>
+    <P>
+        <X>858</X>
+        <Y>264</Y>
+    </P>
+    <P>
+        <X>859</X>
+        <Y>250</Y>
+    </P>
+    <P>
+        <X>859</X>
+        <Y>238</Y>
+    </P>
+    <P>
+        <X>858</X>
+        <Y>232</Y>
+    </P>
+    <P>
+        <X>853</X>
+        <Y>232</Y>
+    </P>
+    <P>
+        <X>850</X>
+        <Y>232</Y>
+    </P>
+    <P>
+        <X>845</X>
+        <Y>233</Y>
+    </P>
+    <P>
+        <X>844</X>
+        <Y>244</Y>
+    </P>
+</LINE>
+<LINE>
+    <P>
+        <X>909</X>
+        <Y>235</Y>
+    </P>
+    <P>
+        <X>903</X>
+        <Y>232</Y>
+    </P>
+    <P>
+        <X>902</X>
+        <Y>230</Y>
+    </P>
+    <P>
+        <X>899</X>
+        <Y>230</Y>
+    </P>
+    <P>
+        <X>896</X>
+        <Y>232</Y>
+    </P>
+    <P>
+        <X>893</X>
+        <Y>236</Y>
+    </P>
+    <P>
+        <X>888</X>
+        <Y>244</Y>
+    </P>
+    <P>
+        <X>888</X>
+        <Y>250</Y>
+    </P>
+    <P>
+        <X>887</X>
+        <Y>256</Y>
+    </P>
+    <P>
+        <X>885</X>
+        <Y>259</Y>
+    </P>
+    <P>
+        <X>885</X>
+        <Y>260</Y>
+    </P>
+    <P>
+        <X>888</X>
+        <Y>253</Y>
+    </P>
+    <P>
+        <X>891</X>
+        <Y>247</Y>
+    </P>
+    <P>
+        <X>893</X>
+        <Y>245</Y>
+    </P>
+    <P>
+        <X>896</X>
+        <Y>242</Y>
+    </P>
+    <P>
+        <X>902</X>
+        <Y>248</Y>
+    </P>
+    <P>
+        <X>908</X>
+        <Y>259</Y>
+    </P>
+    <P>
+        <X>914</X>
+        <Y>265</Y>
+    </P>
+    <P>
+        <X>923</X>
+        <Y>274</Y>
+    </P>
+</LINE>
