@@ -3,19 +3,13 @@
 
 /*
  *  Bell.cpp
- *  iPhoneAdvancedEventsExample
- *
- *  Created by England on 11/5/10.
- *  Copyright 2010 __MyCompanyName__. All rights reserved.
- *
  */
 
 #include "ofMain.h"
-//#include "ofxOpenALSoundPlayer.h"
+
 #include "config.h"
 #include "utils.h"
 #include "Note.cpp"
-//#include "MultiSampledSoundPlayer.h"
 #include "SelectionBox.h"
 #include "PolySynth.h"
 
@@ -54,18 +48,11 @@ public:
 	float bendStart;
 	vector<Note *> notes;
     bool slideFlags[MAXTOUCHES]; 
-    //PGMidi	*midi;
-    //int midiNoteNum;
-//    MultiSampledSoundPlayer *playerQueue;
     PolySynth *player;
-    float volume;
-    float noteStartTime;
 	
 	bool touchMovedFlag;
     
     bool isSelected;
-    
-    int currentPlayerId;
     
     ofxSpriteSheetRenderer *renderer;
     
@@ -119,25 +106,15 @@ public:
         }
         
         isSelected = false;
-        
-        currentPlayerId = -1;
-        
-        noteStartTime = 0;
     };
 	
 	Bell() {
 	}
     
-//    void setPlayer(MultiSampledSoundPlayer *p) {
     void setPlayer(PolySynth *p) {
         player = p;
-        volume = 1;
     }
-//    void setImageTriplet(vector<ofImage> bellImages) {
-//		int function = noteFunctions[noteNum];
-//		img = bellImages[function];
-//		img.setAnchorPercent(0.5, 0.5);        
-//    }
+
     void setImageTriplet(vector<ofImage *> _bellImages) {
         bellImages = _bellImages;
         setImg();
@@ -163,39 +140,7 @@ public:
 		}
 		
 		bend = _bend;
-		
-		if (down) {
-            
-            volume = 1;
-            
-//            downCount++;
-//			if (downCount < 10) {
-//				float vol = ofMap(force, 0, 0.5, 0.8, 1);
-//				velocity = vol;
-//                //player->setVolume(vol);
-//			}
-//            if (downCount == 10) {
-//                bendStart = bend;
-//            }
-//			if (downCount > 10 ) {
-////			if (downCount > 10 && ((downCount % 10) == 0) ) {
-////				voices[myChannel].setPitch(ratio+(bend - bendStart));
-//                //player->bendNotes(ratio * bend);
-//			}
-		}
-        
-        float elapsedDuration = ofGetElapsedTimef() - noteStartTime;
-        if (!down && elapsedDuration > 0.25) {
-            volume *= 0.9;
-            if (volume < 0.01) {
-                volume = 0;
-            }
-        }
-        if (currentPlayerId >= 0 && volume > 0) {
-            //playerQueue->setVolume(currentPlayerId, volume);
-        }
-        
-        
+		      
 		float saturation = 1;
 		float brightness = 1;
 		if (octave == 0) {
@@ -205,9 +150,6 @@ public:
 			saturation = HIGHOCTSATURATION;
 		}
         if (isSelected) {
-            //saturation = ofMap(sin(ofGetElapsedTimef()*12),-1,1,0,0.5); // slow pulsation
-            //saturation = ofMap(sin(ofGetElapsedTimef()*24),-1,1,0,0.5); // fast pulsation
-            //saturation = 0;
             brightness = ofMap(sin(ofGetElapsedTimef()*18),-1,1,0.5,1);
         }
         
@@ -218,11 +160,7 @@ public:
 			ofSetColor(rgb[0], rgb[1], rgb[2], 200);
 		}
         
-        // old style slower drawing using ofImages
-		//img->draw(screenX, screenY, currentRadius * 2 * zoom, currentRadius * 2 * zoom);
-		
         // new style faster drawing using sprite sheet!
-
         renderer->addCenteredTile(noteFunctions[noteNum] + instrument * 8,
                                         0,
                                         screenX,screenY,
@@ -240,7 +178,6 @@ public:
 		}
 		if (currentRadius != targetRadius) {
 			currentRadius += (targetRadius - currentRadius) / 10;
-			// round here?
 		}
 	}
 	void startDrag(int id, float xOffset, float yOffset) {
@@ -250,55 +187,38 @@ public:
 		dragOffsetY[id] = yOffset;
 	}
 	virtual void playNote() {
-//        currentPlayerId = playerQueue->playNote(noteNum, octave);
-//        playerQueue->playNote(noteNum, octave);
         player->playNote(noteNum, octave);
-        
 		currentRadius = BELLRADIUS + 25;
-        noteStartTime = ofGetElapsedTimef();
-        volume = 1;
     }
+
 	bool touchDown(int tx, int ty, int id) {
-		if (ofDist(tx, ty, screenX, screenY) < (currentRadius * zoom)) { // change to square hit area?
-                                                                         // probably use ofrectangle inside()
-			//playNote(); // this is now called in testApp
+		if (ofDist(tx, ty, screenX, screenY) < (currentRadius * zoom)) {
+            
 			down = true;
 			downID = id;
 			bendStart = bend;
-			//startDrag(id, (screenX-tx), (screenY-ty));
 			
 			return true;
-//		} else if (ofDist(tx, ty, screenX, screenY) < (currentRadius + DRAGZONE) * zoom) {
-//			// this is the edge of the bell so just drag, don't play
-//			startDrag(id, (screenX-tx), (screenY-ty));
-//			return true;
-//		} else if (ofDist(tx, ty, screenX, screenY + (currentRadius * zoom)) < DRAGZONE * zoom) {
-//			startDrag(id, (screenX-tx), (screenY-ty));
-//			return true;
 		} else {
 			return false;
 		}
 
 	}
 	bool touchMoved(float tx, float ty, int id) {
-		// use flag to do this only once per draw		
-	//	if (touchMovedFlag) {
-	//		touchMovedFlag = false;
 		
-			// start dragging if we've crossed the edge of a bell
-			if (down && !dragging && (id == downID)) {
-				if (ofDist(tx, ty, screenX, screenY) > (currentRadius * zoom)) {
-					startDrag(id, screenX - tx, screenY - ty);
-				}
-			}
-			if (dragging && id == dragID) {			
-				canvasX = (canvasX + (tx - screenX) + dragOffsetX[id]);
-				canvasY = (canvasY + (ty - screenY) + dragOffsetY[id]);
-				return true;
-			} else {
-				return false;
-			}
-	//	}
+        // start dragging if we've crossed the edge of a bell
+        if (down && !dragging && (id == downID)) {
+            if (ofDist(tx, ty, screenX, screenY) > (currentRadius * zoom)) {
+                startDrag(id, screenX - tx, screenY - ty);
+            }
+        }
+        if (dragging && id == dragID) {			
+            canvasX = (canvasX + (tx - screenX) + dragOffsetX[id]);
+            canvasY = (canvasY + (ty - screenY) + dragOffsetY[id]);
+            return true;
+        } else {
+            return false;
+        }
 		return false;
 
 	}

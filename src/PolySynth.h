@@ -60,10 +60,9 @@ class PolySynth {
     float prevSum;
 
     ofxMaxiSample *theSamples[MULTI_SAMPLES_NUM];
-    
-//    int sustainSamples = 44100;
+
     int sustainSamples = 44100;
-  float decayMultiplier = .9999;
+    float decayMultiplier = .9999;
     
     convert mtof;
     maxiDyn compressor;
@@ -187,9 +186,20 @@ public:
     // playnote checks: agesamples, position
     float sampleRequested(){
         
+        int numNotes = notesToPlay.size();
+        
+        // try using a vector iterator instead of indices?? this could still fail... I guess I need locking?
+        // or...
+        // make a copy of the vector before reading it? hm, not that either...
+        // need to make sure I only delete ones from the queue that i've actually played!
         for (int i=0; i<notesToPlay.size(); i++) {
             playNoteInAudioThread(notesToPlay[i]->note, notesToPlay[i]->octave);
         }
+        
+        if (notesToPlay.size() != numNotes) {
+            cout << "we must have missed a note! before: " << numNotes << " after: " << notesToPlay.size() << endl;
+        }
+        
         notesToPlay.clear();
         
         float sum = 0;

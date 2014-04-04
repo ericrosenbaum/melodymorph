@@ -1870,8 +1870,8 @@ void testApp::audioRequested(float * output, int bufferSize, int nChannels){
             samp += instrumentSoundPlayers[j]->sampleRequested();
         }
         
-//        samp *= 0.25;
-        samp *= 0.75;
+        samp *= 0.25;
+//        samp *= 0.75;
         
         // hard clipping
         // this makes sure we avoid a "wrapping" distortion
