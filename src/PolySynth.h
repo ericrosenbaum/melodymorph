@@ -13,7 +13,7 @@
 #include "Note.cpp"
 #include "ofxMaxim.h"
 
-class PolySynth {
+class PolySynth : public ofThread {
     
     struct Voice {
         std::tr1::shared_ptr<ofxMaxiSample> sample;
@@ -106,7 +106,10 @@ public:
         Note *n = new Note();
         n->note = noteNum;
         n->octave = octave;
+        
+        lock();
         notesToPlay.push_back(n);
+        unlock();
     }
     
     void playNoteInAudioThread(int noteNum, int octave) {
@@ -178,29 +181,24 @@ public:
 
     }
     
-    
-    // get an individual sample from each voice, and return the sum of all voices for this polysynth
-    // the bug where notes occasionally do not sound is probably caused by a threading problem- this function is called
-    // from testapp's audiorequested, so it is on the audio thread I think? but what exactly is happening that prevents the note from playing?
-    // what does this function modify? agesamples, position, amplitude
-    // playnote checks: agesamples, position
     float sampleRequested(){
         
-        int numNotes = notesToPlay.size();
+        lock();
         
-        // try using a vector iterator instead of indices?? this could still fail... I guess I need locking?
-        // or...
-        // make a copy of the vector before reading it? hm, not that either...
-        // need to make sure I only delete ones from the queue that i've actually played!
-        for (int i=0; i<notesToPlay.size(); i++) {
-            playNoteInAudioThread(notesToPlay[i]->note, notesToPlay[i]->octave);
+        int numNotes = notesToPlay.size();
+      
+        for (vector<Note *>::iterator it = notesToPlay.begin() ; it != notesToPlay.end(); ++it) {
+            playNoteInAudioThread((*it)->note, (*it)->octave);
         }
+
         
         if (notesToPlay.size() != numNotes) {
             cout << "we must have missed a note! before: " << numNotes << " after: " << notesToPlay.size() << endl;
         }
         
         notesToPlay.clear();
+        
+        unlock();
         
         float sum = 0;
         for (int i=0; i<numVoices; i++) {
