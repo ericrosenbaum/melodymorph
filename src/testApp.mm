@@ -316,7 +316,6 @@ float maxIntensity;
 
 ofxSpriteSheetRenderer *spriteRenderer;
 
-bool noteFlag = false;
 float prevAudioLevel = 0;
 
 ////////////////
@@ -561,8 +560,8 @@ void testApp::draw(){
         drawPalette();
         
         // audio level meter for debugging
-        ofSetColor(255,0,0);
-        ofRect(100, 100, 50, currentAudioLevel);
+//        ofSetColor(255,0,0);
+//        ofRect(100, 100, 50, currentAudioLevel);
         
         
     }
@@ -1861,7 +1860,7 @@ void testApp::saveDialogModeSetVisible(bool visible) {
 //--------------------------------------------------------------
 void testApp::audioRequested(float * output, int bufferSize, int nChannels){
     
-    float sumOfSquares = 0; // estimate of current loudness in this buffer, elsewhere used to scale down amplitude of new notes
+    //float sumOfSquares = 0; // estimate of current loudness in this buffer, elsewhere to be used to scale down amplitude of new notes
     bool clipped = false;
     
     for (int i=0; i<bufferSize; i++) {
@@ -1889,7 +1888,7 @@ void testApp::audioRequested(float * output, int bufferSize, int nChannels){
         output[i * 2] = samp;
         output[i * 2 + 1] = samp;
         
-        sumOfSquares += samp * samp;
+        //sumOfSquares += samp * samp;
     }
     
     // currentAudioLevel ranges from 0 to 100
@@ -1898,20 +1897,10 @@ void testApp::audioRequested(float * output, int bufferSize, int nChannels){
     // the max possible intensity is maxIntensity - the square root of the buffer size (should be 512)
     // the currentAudio level is this intensity mapped over its range to 0-100
     // clipping appears to happen above about audioLevel 28 (???)
-    currentAudioLevel = ofMap(sqrt(sumOfSquares), 0, maxIntensity, 0, 100);
-    if (clipped) {
-        cout << "clip w/ audiolevel: " << currentAudioLevel << endl;
-    }
-    
-    if (noteFlag) {
-        if (currentAudioLevel > prevAudioLevel) {
-            cout << "okay" << endl;
-        } else {
-            cout << "MISSED A NOTE?" << endl;
-        }
-        noteFlag = false;
-    }
-    prevAudioLevel = currentAudioLevel;
+    //currentAudioLevel = ofMap(sqrt(sumOfSquares), 0, maxIntensity, 0, 100);
+    //if (clipped) {
+        //cout << "clip w/ audiolevel: " << currentAudioLevel << endl;
+    //}
     
 }
 
@@ -2059,7 +2048,6 @@ void testApp::touchDown(ofTouchEventArgs &touch){
                 int mode = quasiModeSelectorCanvas->getCurrentMode();
                 if ((mode != MUTE_MODE) && (mode != PATH_MODE)) {
                     bells[i]->playNote();
-                    noteFlag = true;
                     if (recording) {
                         [recorderBellMaker recordNote:bells[i]];
                     }
@@ -2507,6 +2495,8 @@ void testApp::guiEvent(ofxUIEventArgs &e)
         quasiModeSelectorCanvas->setVisibilityOfEditModesOnly(visible);
         octaveButtons->setVisible(visible);
         helpCanvas->setVisible(visible);
+        
+        stopAllCanvas->setVisible(visible);
     }
     
     if (name == "stopAllButton") {

@@ -107,7 +107,7 @@ public:
         n->note = noteNum;
         n->octave = octave;
         
-        lock();
+        lock(); // lock the main thread so that we don't add notes while the audio thread tries to play them
         notesToPlay.push_back(n);
         unlock();
     }
@@ -144,15 +144,11 @@ public:
             // if this voice is not in use, play the note and return
             if (!voices[i].noteOn) {
                 voices[i].play(speed, sampleNum, theSamples[sampleNum]->length);
-//                cout << "starting voice " << i << " sample->length: " << voices[i].sample->length << " sample->position: " << voices[i].sample->position << endl;
                 return;
             }
         }
         
         // if we make it here, all notes are in use, so we "steal" the one that has been playing longest
-        //
-        // cout << "play oldest voice " << indexOfOldest << " with age " << voices[indexOfOldest].ageSamples <<endl;
-        
         // find the voice that has been playing longest, to use if all voices are in use
         int indexOfOldest = 0;
         for (int i=0; i<voices.size(); i++) {
@@ -176,25 +172,30 @@ public:
         }
         
         voices[indexOfOldest].play(speed, sampleNum, theSamples[sampleNum]->length);
-//        cout << "STEAL starting voice " << indexOfOldest << " sample->length: " << voices[indexOfOldest].sample->length << " sample->position: " << voices[indexOfOldest].sample->position << endl;
-
 
     }
     
     float sampleRequested(){
         
-        lock();
+        lock(); // lock the audio thread so that we don't play notes while the main thread tries to add them
         
-        int numNotes = notesToPlay.size();
+//        int numNotes = notesToPlay.size();
       
-        for (vector<Note *>::iterator it = notesToPlay.begin() ; it != notesToPlay.end(); ++it) {
-            playNoteInAudioThread((*it)->note, (*it)->octave);
-        }
+        // using an iterator to loop here instead of the usual array index style, because of the possilibility of adding
+        // items from the other thread during the loop- a moot point now because I'm using thread locking, I think
+        //actually the iterator seemes to have made the problem where audio totally drops out worse... not sure why. indexing is better
+//        for (vector<Note *>::iterator it = notesToPlay.begin() ; it != notesToPlay.end(); ++it) {
+//            playNoteInAudioThread((*it)->note, (*it)->octave);
+//        }
 
-        
-        if (notesToPlay.size() != numNotes) {
-            cout << "we must have missed a note! before: " << numNotes << " after: " << notesToPlay.size() << endl;
+        for (int i=0; i<notesToPlay.size(); i++) {
+              playNoteInAudioThread(notesToPlay[i]->note, notesToPlay[i]->octave);
         }
+        
+//        
+//        if (notesToPlay.size() != numNotes) {
+//            cout << "we must have missed a note! before: " << numNotes << " after: " << notesToPlay.size() << endl;
+//        }
         
         notesToPlay.clear();
         
@@ -241,6 +242,10 @@ public:
             float r = rampVoices[i].sample->playOnceFromSamp(theSamples[rampVoices[i].sampleNum]->temp, rampVoices[i].speed);
             r *= rampVoices[i].amplitude;
             sum += r;
+        }
+        
+        if (multiSample) {
+            //cout<< "break" <<endl;
         }
         
         return sum;
